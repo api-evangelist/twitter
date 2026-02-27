@@ -1,27 +1,44 @@
 aid: twitter
 name: Twitter
-description: 'Get immediate access to the X API and unlock the potential of X data '
+description: Collection of Twitter's REST and streaming APIs for accessing and integrating Twitter data
 type: Index
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://abs.twimg.com/favicons/twitter.ico
 tags:
-  - API
+- API
 created: '2025-07-29'
 modified: '2025-07-29'
-url: >-
-  https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
-  - aid: twitter:twitter
-    name: Twitter
-    description: 'Get immediate access to the X API and unlock the potential of X data '
-    humanURL: ' https://developer.x.com/en'
-    tags:
-      - API
-    properties:
-      - type: Documentation
-        url: ' https://developer.x.com/en'
+- aid: twitter:twitter
+  name: Twitter
+  description: 'Get immediate access to the X API and unlock the potential of X data '
+  humanURL: ' https://developer.x.com/en'
+  tags:
+  - API
+  properties:
+  - type: Documentation
+    url: ' https://developer.x.com/en'
 maintainers:
-  - FN: Kin Lane
-    email: info@apievangelist.com
+- FN: Kin Lane
+  email: info@apievangelist.com
+- name: Twitter
+  twitter: '@TwitterDev'
+  email:
+  - email protected
+  url: https://developer.twitter.com
+common:
+- url: https://developer.twitter.com/en/portal/dashboard
+  type: Portal
+- url: https://developer.twitter.com/en/docs/twitter-api/getting-started/guide
+  type: Getting Started
+- url: https://api.twitterstat.us/
+  type: Status
+- url: https://developer.twitter.com/en/developer-terms/agreement-and-policy
+  type: Terms of Service
+- url: https://twitter.com/en/privacy
+  type: Privacy Policy
+- url: https://developer.twitter.com/en/community
+  type: Blog
