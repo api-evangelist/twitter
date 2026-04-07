@@ -1,6 +1,8 @@
 aid: twitter
 name: Twitter
-description: Collection of Twitter's REST and streaming APIs for accessing and integrating Twitter data
+description: >-
+  Collection of Twitter's REST and streaming APIs for accessing and integrating Twitter
+  data.
 type: Index
 position: Consumer
 access: 3rd-Party
@@ -10,12 +12,14 @@ tags:
   - API
 created: '2025-07-29'
 modified: '2026-03-16'
-url: https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/apis.yml
+url: 
+  https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
   - aid: twitter:twitter
     name: Twitter API
-    description: Get immediate access to the X API and unlock the potential of X data.
+    description: Get immediate access to the X API and unlock the potential of X
+      data.
     humanURL: https://developer.x.com/en
     tags:
       - Social Media
@@ -23,7 +27,8 @@ apis:
       - type: Documentation
         url: https://developer.x.com/en
       - type: Getting Started
-        url: https://developer.twitter.com/en/docs/twitter-api/getting-started/guide
+        url: 
+          https://developer.twitter.com/en/docs/twitter-api/getting-started/guide
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
