@@ -1,0 +1,402 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "X Social Listening and Analytics"
+  description: "Unified workflow for monitoring conversations, searching posts, analyzing trends, and extracting insights from X data. Used by data analysts, brand managers, and researchers."
+  tags:
+    - X API
+    - Social Listening
+    - Analytics
+    - Search
+    - Trends
+  personas:
+    - data analysts
+    - brand managers
+    - researchers
+  created: "2026-04-17"
+  modified: "2026-04-17"
+
+binds:
+  - namespace: env
+    keys:
+      X_API_BEARER_TOKEN: X_API_BEARER_TOKEN
+
+capability:
+  consumes:
+    - import: x-posts
+      location: "./shared/posts.yaml"
+    - import: x-streaming
+      location: "./shared/streaming.yaml"
+    - import: x-users
+      location: "./shared/users.yaml"
+
+  exposes:
+    - type: rest
+      port: 8081
+      namespace: x-listening-api
+      resources:
+        - path: /v1/listening/search/recent
+          name: search-recent
+          description: "Search recent posts"
+          operations:
+            - method: POST
+              name: searchPostsRecent
+              description: "Search posts from last 7 days"
+              call: "x-listening-api.searchPostsRecent"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/listening/search/all
+          name: search-all
+          description: "Search all posts"
+          operations:
+            - method: POST
+              name: searchPostsAll
+              description: "Search full archive of posts"
+              call: "x-listening-api.searchPostsAll"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/listening/counts/recent
+          name: counts-recent
+          description: "Get recent post counts"
+          operations:
+            - method: GET
+              name: getPostsCountsRecent
+              description: "Get counts from last 7 days"
+              call: "x-listening-api.getPostsCountsRecent"
+              with:
+                query: "rest.query"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/listening/counts/all
+          name: counts-all
+          description: "Get all post counts"
+          operations:
+            - method: GET
+              name: getPostsCountsAll
+              description: "Get counts from full archive"
+              call: "x-listening-api.getPostsCountsAll"
+              with:
+                query: "rest.query"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/listening/insights/28hr
+          name: insights-28hr
+          description: "Get 28-hour post insights"
+          operations:
+            - method: GET
+              name: getInsights28Hr
+              description: "Get post insights for last 28 hours"
+              call: "x-listening-api.getInsights28Hr"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/listening/insights/historical
+          name: insights-historical
+          description: "Get historical post insights"
+          operations:
+            - method: GET
+              name: getInsightsHistorical
+              description: "Get historical post insights"
+              call: "x-listening-api.getInsightsHistorical"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/listening/streams/search
+          name: search-stream
+          description: "Filtered search stream"
+          operations:
+            - method: GET
+              name: streamPostsSearch
+              description: "Stream posts matching filter rules"
+              call: "x-listening-api.streamPostsSearch"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/listening/streams/search/rules
+          name: stream-rules
+          description: "Manage stream filter rules"
+          operations:
+            - method: POST
+              name: addSearchStreamRules
+              description: "Add or delete stream rules"
+              call: "x-listening-api.addSearchStreamRules"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: GET
+              name: getSearchStreamRules
+              description: "Get current stream rules"
+              call: "x-listening-api.getSearchStreamRules"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/listening/streams/firehose
+          name: firehose
+          description: "Full firehose stream"
+          operations:
+            - method: GET
+              name: streamPostsFirehose
+              description: "Stream all public posts"
+              call: "x-listening-api.streamPostsFirehose"
+              with:
+                partition: "rest.partition"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/listening/streams/sample10
+          name: sample10
+          description: "10% sample stream"
+          operations:
+            - method: GET
+              name: streamPostsSample10
+              description: "Stream 10% sample of posts"
+              call: "x-listening-api.streamPostsSample10"
+              with:
+                partition: "rest.partition"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/listening/users
+          name: users
+          description: "Look up users by IDs"
+          operations:
+            - method: GET
+              name: getUsersByIds
+              description: "Retrieve users by IDs"
+              call: "x-listening-api.getUsersByIds"
+              with:
+                ids: "rest.ids"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/listening/users/by
+          name: users-by-usernames
+          description: "Look up users by usernames"
+          operations:
+            - method: GET
+              name: getUsersByUsernames
+              description: "Retrieve users by usernames"
+              call: "x-listening-api.getUsersByUsernames"
+              with:
+                usernames: "rest.usernames"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/listening/users/{id}/followers
+          name: followers
+          description: "Get followers"
+          operations:
+            - method: GET
+              name: getFollowers
+              description: "Get user followers"
+              call: "x-listening-api.getFollowers"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/listening/users/{id}/following
+          name: following
+          description: "Get following"
+          operations:
+            - method: GET
+              name: getFollowing
+              description: "Get users being followed"
+              call: "x-listening-api.getFollowing"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9081
+      namespace: x-listening-mcp
+      transport: http
+      tools:
+        - name: searchPostsRecent
+          description: "Search for posts from the last 7 days"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.searchPostsRecent"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: searchPostsAll
+          description: "Search the full archive of posts"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.searchPostsAll"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getPostsCountsRecent
+          description: "Get counts of posts matching a query from last 7 days"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.getPostsCountsRecent"
+          with:
+            query: "tools.query"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getPostsCountsAll
+          description: "Get counts of posts matching a query from full archive"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.getPostsCountsAll"
+          with:
+            query: "tools.query"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getInsights28Hr
+          description: "Get post insights for the last 28 hours"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.getInsights28Hr"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getInsightsHistorical
+          description: "Get historical post insights"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.getInsightsHistorical"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: streamPostsSearch
+          description: "Stream posts matching filtered stream rules in real-time"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.streamPostsSearch"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: addSearchStreamRules
+          description: "Add or delete rules for the filtered search stream"
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "x-listening-mcp.addSearchStreamRules"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getSearchStreamRules
+          description: "Get current rules for the filtered search stream"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.getSearchStreamRules"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: streamPostsFirehose
+          description: "Stream all public posts in real-time via the firehose"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.streamPostsFirehose"
+          with:
+            partition: "tools.partition"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: streamPostsSample10
+          description: "Stream a 10% sample of all public posts in real-time"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.streamPostsSample10"
+          with:
+            partition: "tools.partition"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getUsersByIds
+          description: "Retrieve multiple users by their IDs"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.getUsersByIds"
+          with:
+            ids: "tools.ids"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getUsersByUsernames
+          description: "Retrieve multiple users by their usernames"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.getUsersByUsernames"
+          with:
+            usernames: "tools.usernames"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getUsersMe
+          description: "Retrieve the authenticated user's profile"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.getUsersMe"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getFollowers
+          description: "Get followers of a user"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.getFollowers"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getFollowing
+          description: "Get users that a user is following"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.getFollowing"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getUserTimeline
+          description: "Get posts authored by a specific user"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.getUserTimeline"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getUserMentions
+          description: "Get posts mentioning a specific user"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-listening-mcp.getUserMentions"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."

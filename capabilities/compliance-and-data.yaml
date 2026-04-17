@@ -1,0 +1,196 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "X Compliance and Data Management"
+  description: "Unified workflow for managing compliance jobs, data streams, and real-time compliance monitoring on X. Used by compliance officers, data engineers, and platform operations."
+  tags:
+    - X API
+    - Compliance
+    - Data Management
+    - Streaming
+  personas:
+    - compliance officers
+    - data engineers
+    - platform operations
+  created: "2026-04-17"
+  modified: "2026-04-17"
+
+binds:
+  - namespace: env
+    keys:
+      X_API_BEARER_TOKEN: X_API_BEARER_TOKEN
+
+capability:
+  consumes:
+    - import: x-streaming
+      location: "./shared/streaming.yaml"
+    - import: x-posts
+      location: "./shared/posts.yaml"
+
+  exposes:
+    - type: rest
+      port: 8083
+      namespace: x-compliance-api
+      resources:
+        - path: /v1/compliance/jobs
+          name: compliance-jobs
+          description: "Create and list compliance jobs"
+          operations:
+            - method: POST
+              name: createComplianceJobs
+              description: "Create a new compliance job"
+              call: "x-compliance-api.createComplianceJobs"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: GET
+              name: getComplianceJobs
+              description: "List compliance jobs"
+              call: "x-compliance-api.getComplianceJobs"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/compliance/jobs/{id}
+          name: compliance-job
+          description: "Get a specific compliance job"
+          operations:
+            - method: GET
+              name: getComplianceJobsById
+              description: "Get a compliance job by ID"
+              call: "x-compliance-api.getComplianceJobsById"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/compliance/streams/users
+          name: users-compliance
+          description: "User compliance stream"
+          operations:
+            - method: GET
+              name: streamUsersCompliance
+              description: "Stream user compliance events"
+              call: "x-compliance-api.streamUsersCompliance"
+              with:
+                partition: "rest.partition"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/compliance/streams/posts
+          name: posts-compliance
+          description: "Post compliance stream"
+          operations:
+            - method: GET
+              name: streamPostsCompliance
+              description: "Stream post compliance events"
+              call: "x-compliance-api.streamPostsCompliance"
+              with:
+                partition: "rest.partition"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/compliance/streams/likes
+          name: likes-compliance
+          description: "Likes compliance stream"
+          operations:
+            - method: GET
+              name: streamLikesCompliance
+              description: "Stream likes compliance events"
+              call: "x-compliance-api.streamLikesCompliance"
+              with:
+                partition: "rest.partition"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/compliance/streams/labels
+          name: labels-compliance
+          description: "Labels compliance stream"
+          operations:
+            - method: GET
+              name: streamLabelsCompliance
+              description: "Stream labels compliance events"
+              call: "x-compliance-api.streamLabelsCompliance"
+              with:
+                partition: "rest.partition"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9083
+      namespace: x-compliance-mcp
+      transport: http
+      tools:
+        - name: createComplianceJobs
+          description: "Create a new compliance job"
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "x-compliance-mcp.createComplianceJobs"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getComplianceJobs
+          description: "List compliance jobs"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-compliance-mcp.getComplianceJobs"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getComplianceJobsById
+          description: "Get a compliance job by its ID"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-compliance-mcp.getComplianceJobsById"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: streamUsersCompliance
+          description: "Stream user compliance events in real-time"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-compliance-mcp.streamUsersCompliance"
+          with:
+            partition: "tools.partition"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: streamPostsCompliance
+          description: "Stream post compliance events in real-time"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-compliance-mcp.streamPostsCompliance"
+          with:
+            partition: "tools.partition"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: streamLikesCompliance
+          description: "Stream likes compliance events in real-time"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-compliance-mcp.streamLikesCompliance"
+          with:
+            partition: "tools.partition"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: streamLabelsCompliance
+          description: "Stream labels compliance events in real-time"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-compliance-mcp.streamLabelsCompliance"
+          with:
+            partition: "tools.partition"
+          outputParameters:
+            - type: object
+              mapping: "$."

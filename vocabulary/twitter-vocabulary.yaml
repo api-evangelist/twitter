@@ -1,0 +1,458 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: X (Twitter)
+  description: >-
+    Vocabulary and taxonomy for the X (Twitter) API ecosystem, capturing the
+    operational dimension (3 APIs with 163 operations across posts, users, spaces,
+    direct messages, streaming, media, ads, and compliance) and capability dimension
+    (4 workflow capabilities composing 8 shared API definitions) to provide a unified
+    view of what this platform offers and how it can be used.
+  created: "2026-04-17"
+  modified: "2026-04-17"
+
+# ============================================================
+# OPERATIONAL DIMENSION (from OpenAPI)
+# ============================================================
+
+operational:
+
+  apis:
+    - name: X API v2
+      namespace: x-api
+      version: "2.161"
+      baseUrl: https://api.x.com
+      status: active
+    - name: X Ads API
+      namespace: x-ads-api
+      version: v1
+      baseUrl: https://ads-api.x.com
+      status: active
+    - name: X Activity API
+      namespace: x-activity-api
+      version: v1
+      baseUrl: https://api.x.com
+      status: active
+
+  resources:
+    - name: posts
+      description: Posts (formerly tweets) — the core content unit on X including text, media, polls, and cards.
+      apis: [x-api]
+      actions: [create, get, delete, search, list, edit, repost, quote, hide]
+    - name: users
+      description: User accounts on X with profiles, metrics, and relationship data.
+      apis: [x-api]
+      actions: [get, search, follow, unfollow, block, unblock, mute, unmute]
+    - name: timelines
+      description: Chronological or algorithmic feeds of posts for users.
+      apis: [x-api]
+      actions: [get]
+    - name: direct-messages
+      description: Private conversations between users with text and media support.
+      apis: [x-api]
+      actions: [create, get, delete]
+    - name: lists
+      description: Curated collections of users for organized content consumption.
+      apis: [x-api]
+      actions: [create, get, update, delete, follow, unfollow, pin, unpin]
+    - name: spaces
+      description: Live audio conversations with hosts, speakers, and listeners.
+      apis: [x-api]
+      actions: [get, search]
+    - name: bookmarks
+      description: User-saved posts organized into folders for later reference.
+      apis: [x-api]
+      actions: [create, get, delete]
+    - name: likes
+      description: User expressions of approval on posts.
+      apis: [x-api]
+      actions: [create, delete, get, stream]
+    - name: reposts
+      description: Amplification of posts by sharing to a user's timeline.
+      apis: [x-api]
+      actions: [create, delete, get]
+    - name: media
+      description: Images, videos, and animated GIFs attached to posts.
+      apis: [x-api]
+      actions: [upload, get, create-metadata, create-subtitles]
+    - name: streams
+      description: Real-time filtered and sampled data feeds of posts, likes, and compliance events.
+      apis: [x-api]
+      actions: [stream, add-rules, get-rules]
+    - name: trends
+      description: Trending topics by geographic location or personalized for a user.
+      apis: [x-api]
+      actions: [get]
+    - name: communities
+      description: Groups of users organized around shared interests.
+      apis: [x-api]
+      actions: [get, search]
+    - name: community-notes
+      description: Collaborative fact-checking annotations on posts.
+      apis: [x-api]
+      actions: [create, get, delete, evaluate]
+    - name: compliance-jobs
+      description: Batch compliance operations for data deletion and user protection events.
+      apis: [x-api]
+      actions: [create, get, list]
+    - name: webhooks
+      description: Webhook endpoints for receiving real-time event notifications.
+      apis: [x-api]
+      actions: [create, get, delete, validate]
+    - name: campaigns
+      description: Advertising campaigns with targeting, budgets, and scheduling.
+      apis: [x-ads-api]
+      actions: [create, get, update, delete]
+    - name: audiences
+      description: Custom audience segments for ad targeting using X, web, or mobile data.
+      apis: [x-ads-api]
+      actions: [create, get, update, delete]
+    - name: creatives
+      description: Ad creatives including draft posts, cards, and media assets.
+      apis: [x-ads-api]
+      actions: [create, get, update]
+    - name: activity-subscriptions
+      description: Real-time event subscriptions for profile updates, follows, and engagement.
+      apis: [x-activity-api]
+      actions: [create, get, update, delete]
+
+  actions:
+    - name: create
+      verb: POST
+      pattern: write
+      description: Create a new resource (post, list, bookmark, DM, etc.).
+    - name: get
+      verb: GET
+      pattern: read
+      description: Retrieve one or more resources by ID, username, or query.
+    - name: update
+      verb: PUT
+      pattern: write
+      description: Update an existing resource.
+    - name: delete
+      verb: DELETE
+      pattern: destructive
+      description: Remove a resource.
+    - name: search
+      verb: GET/POST
+      pattern: query/read
+      description: Search resources with query operators and filters.
+    - name: stream
+      verb: GET
+      pattern: read
+      description: Open a persistent connection for real-time data delivery.
+    - name: follow
+      verb: POST
+      pattern: write
+      description: Follow a user or list.
+    - name: unfollow
+      verb: DELETE
+      pattern: write
+      description: Unfollow a user or list.
+    - name: block
+      verb: POST
+      pattern: write
+      description: Block a user from interacting.
+    - name: unblock
+      verb: DELETE
+      pattern: write
+      description: Remove a user block.
+    - name: mute
+      verb: POST
+      pattern: write
+      description: Mute a user to hide their content.
+    - name: unmute
+      verb: DELETE
+      pattern: write
+      description: Remove a user mute.
+    - name: upload
+      verb: POST
+      pattern: write
+      description: Upload media files using chunked upload protocol.
+    - name: repost
+      verb: POST
+      pattern: write
+      description: Repost another user's post to your timeline.
+    - name: like
+      verb: POST
+      pattern: write
+      description: Like a post.
+    - name: pin
+      verb: POST
+      pattern: write
+      description: Pin a list to a user's profile.
+    - name: hide
+      verb: PUT
+      pattern: write
+      description: Hide a reply to a post.
+
+  parameters:
+    pagination:
+      - name: max_results
+        description: Maximum number of results per page.
+      - name: next_token
+        description: Token for retrieving the next page of results.
+      - name: pagination_token
+        description: Alternative pagination token.
+    field-selection:
+      - name: expansions
+        description: Expand related objects inline (e.g., author_id, referenced_tweets.id).
+      - name: tweet.fields
+        description: Select which tweet fields to include in the response.
+      - name: user.fields
+        description: Select which user fields to include in the response.
+      - name: media.fields
+        description: Select which media fields to include in the response.
+      - name: place.fields
+        description: Select which place fields to include in the response.
+      - name: poll.fields
+        description: Select which poll fields to include in the response.
+    time-filtering:
+      - name: start_time
+        description: Start of time range (ISO 8601).
+      - name: end_time
+        description: End of time range (ISO 8601).
+      - name: since_id
+        description: Return results after this post ID.
+      - name: until_id
+        description: Return results before this post ID.
+    identifiers:
+      - name: id
+        description: Post or user identifier.
+      - name: ids
+        description: Comma-separated list of identifiers.
+      - name: query
+        description: Search query using X query operators.
+
+  enums:
+    post-types:
+      - tweet
+      - retweet
+      - quoted_tweet
+      - reply
+    media-types:
+      - photo
+      - video
+      - animated_gif
+    space-states:
+      - live
+      - scheduled
+      - ended
+    compliance-types:
+      - tweets
+      - users
+    exclude-types:
+      - retweets
+      - replies
+
+  authentication:
+    schemes:
+      - type: bearer
+        name: BearerToken
+        description: App-only authentication using Bearer token for read-only access.
+        apis: [x-api]
+      - type: oauth2
+        name: OAuth2UserToken
+        flow: authorization_code_pkce
+        description: OAuth 2.0 with PKCE for user-context operations requiring user consent.
+        apis: [x-api, x-ads-api]
+      - type: oauth1
+        name: UserToken
+        description: OAuth 1.0a for legacy user-context authentication.
+        apis: [x-api, x-ads-api]
+
+# ============================================================
+# CAPABILITY DIMENSION (from Naftiko)
+# ============================================================
+
+capability:
+
+  workflows:
+    - name: Content Publishing and Management
+      file: capabilities/content-publishing.yaml
+      description: Create, manage, and analyze posts, media, bookmarks, and lists.
+      apis: [x-posts, x-media, x-bookmarks, x-lists]
+      tools: 20
+      personas: [social-media-manager, content-creator, marketing-team]
+      domains: [content, publishing, curation]
+    - name: Social Listening and Analytics
+      file: capabilities/social-listening.yaml
+      description: Monitor conversations, search posts, analyze trends, and extract insights.
+      apis: [x-posts, x-streaming, x-users]
+      tools: 18
+      personas: [data-analyst, brand-manager, researcher]
+      domains: [listening, analytics, search, streaming]
+    - name: Engagement and Community Management
+      file: capabilities/engagement.yaml
+      description: Manage user relationships, direct messages, spaces, and community interactions.
+      apis: [x-users, x-direct-messages, x-spaces]
+      tools: 16
+      personas: [community-manager, customer-support, engagement-specialist]
+      domains: [engagement, messaging, community]
+    - name: Compliance and Data Management
+      file: capabilities/compliance-and-data.yaml
+      description: Manage compliance jobs, data streams, and real-time compliance monitoring.
+      apis: [x-streaming, x-posts]
+      tools: 7
+      personas: [compliance-officer, data-engineer, platform-operations]
+      domains: [compliance, data-management]
+
+  personas:
+    - id: social-media-manager
+      name: Social Media Manager
+      description: Creates, schedules, and analyzes social media content across platforms.
+      workflows: [Content Publishing and Management]
+    - id: content-creator
+      name: Content Creator
+      description: Produces original posts, threads, and media content on X.
+      workflows: [Content Publishing and Management]
+    - id: marketing-team
+      name: Marketing Team
+      description: Manages brand presence, campaigns, and content strategy.
+      workflows: [Content Publishing and Management]
+    - id: data-analyst
+      name: Data Analyst
+      description: Extracts insights from social data through search, streaming, and analytics.
+      workflows: [Social Listening and Analytics]
+    - id: brand-manager
+      name: Brand Manager
+      description: Monitors brand mentions, sentiment, and competitive landscape.
+      workflows: [Social Listening and Analytics]
+    - id: researcher
+      name: Researcher
+      description: Conducts academic or market research using X data archives.
+      workflows: [Social Listening and Analytics]
+    - id: community-manager
+      name: Community Manager
+      description: Builds and maintains communities through engagement and moderation.
+      workflows: [Engagement and Community Management]
+    - id: customer-support
+      name: Customer Support
+      description: Handles customer inquiries and issues via direct messages and replies.
+      workflows: [Engagement and Community Management]
+    - id: engagement-specialist
+      name: Engagement Specialist
+      description: Manages user relationships, follows, and interaction strategies.
+      workflows: [Engagement and Community Management]
+    - id: compliance-officer
+      name: Compliance Officer
+      description: Ensures data handling meets regulatory and platform compliance requirements.
+      workflows: [Compliance and Data Management]
+    - id: data-engineer
+      name: Data Engineer
+      description: Manages data pipelines, streaming ingestion, and compliance data flows.
+      workflows: [Compliance and Data Management]
+
+  domains:
+    - name: content
+      description: Post creation, editing, media management, and content analytics.
+      resources: [posts, media, bookmarks, lists]
+      workflows: [Content Publishing and Management]
+    - name: listening
+      description: Social monitoring, search, trending topics, and sentiment analysis.
+      resources: [posts, streams, trends, users]
+      workflows: [Social Listening and Analytics]
+    - name: engagement
+      description: User relationships, direct messaging, spaces, and community interaction.
+      resources: [users, direct-messages, spaces, communities]
+      workflows: [Engagement and Community Management]
+    - name: compliance
+      description: Data compliance, deletion tracking, and regulatory event monitoring.
+      resources: [compliance-jobs, streams]
+      workflows: [Compliance and Data Management]
+
+  namespaces:
+    consumed:
+      - x-posts
+      - x-users
+      - x-streaming
+      - x-direct-messages
+      - x-lists
+      - x-spaces
+      - x-media
+      - x-bookmarks
+    rest:
+      - namespace: x-content-api
+        port: 8080
+        workflow: Content Publishing and Management
+      - namespace: x-listening-api
+        port: 8081
+        workflow: Social Listening and Analytics
+      - namespace: x-engagement-api
+        port: 8082
+        workflow: Engagement and Community Management
+      - namespace: x-compliance-api
+        port: 8083
+        workflow: Compliance and Data Management
+    mcp:
+      - namespace: x-content-mcp
+        port: 9080
+        workflow: Content Publishing and Management
+      - namespace: x-listening-mcp
+        port: 9081
+        workflow: Social Listening and Analytics
+      - namespace: x-engagement-mcp
+        port: 9082
+        workflow: Engagement and Community Management
+      - namespace: x-compliance-mcp
+        port: 9083
+        workflow: Compliance and Data Management
+
+  binds:
+    - name: X_API_BEARER_TOKEN
+      description: Bearer token for app-only X API authentication.
+      workflows: [Content Publishing and Management, Social Listening and Analytics, Engagement and Community Management, Compliance and Data Management]
+
+# ============================================================
+# CROSS-REFERENCE
+# ============================================================
+
+crossReference:
+  - resource: posts
+    operations: [create, get, delete, search, edit, repost, quote, hide]
+    workflows: [Content Publishing and Management, Social Listening and Analytics, Compliance and Data Management]
+    personas: [social-media-manager, content-creator, data-analyst, researcher]
+  - resource: users
+    operations: [get, search, follow, unfollow, block, unblock, mute, unmute]
+    workflows: [Social Listening and Analytics, Engagement and Community Management]
+    personas: [community-manager, engagement-specialist, data-analyst]
+  - resource: timelines
+    operations: [get]
+    workflows: [Content Publishing and Management, Social Listening and Analytics]
+    personas: [social-media-manager, data-analyst]
+  - resource: direct-messages
+    operations: [create, get, delete]
+    workflows: [Engagement and Community Management]
+    personas: [community-manager, customer-support]
+  - resource: lists
+    operations: [create, get, update, delete, follow, unfollow, pin, unpin]
+    workflows: [Content Publishing and Management]
+    personas: [social-media-manager, content-creator]
+  - resource: spaces
+    operations: [get, search]
+    workflows: [Engagement and Community Management]
+    personas: [community-manager, engagement-specialist]
+  - resource: bookmarks
+    operations: [create, get, delete]
+    workflows: [Content Publishing and Management]
+    personas: [social-media-manager, content-creator]
+  - resource: media
+    operations: [upload, get, create-metadata]
+    workflows: [Content Publishing and Management]
+    personas: [social-media-manager, content-creator]
+  - resource: streams
+    operations: [stream, add-rules, get-rules]
+    workflows: [Social Listening and Analytics, Compliance and Data Management]
+    personas: [data-analyst, researcher, data-engineer, compliance-officer]
+  - resource: compliance-jobs
+    operations: [create, get, list]
+    workflows: [Compliance and Data Management]
+    personas: [compliance-officer, data-engineer]
+  - resource: campaigns
+    operations: [create, get, update, delete]
+    workflows: []
+    personas: [marketing-team]
+  - resource: audiences
+    operations: [create, get, update, delete]
+    workflows: []
+    personas: [marketing-team]

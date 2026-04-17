@@ -1,0 +1,391 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "X Content Publishing and Management"
+  description: "Unified workflow for creating, managing, and analyzing posts, media, bookmarks, and lists on X. Used by social media managers, content creators, and marketing teams."
+  tags:
+    - X API
+    - Content
+    - Publishing
+    - Posts
+    - Media
+    - Marketing
+  personas:
+    - social media managers
+    - content creators
+    - marketing teams
+  created: "2026-04-17"
+  modified: "2026-04-17"
+
+binds:
+  - namespace: env
+    keys:
+      X_API_BEARER_TOKEN: X_API_BEARER_TOKEN
+
+capability:
+  consumes:
+    - import: x-posts
+      location: "./shared/posts.yaml"
+    - import: x-media
+      location: "./shared/media.yaml"
+    - import: x-bookmarks
+      location: "./shared/bookmarks.yaml"
+    - import: x-lists
+      location: "./shared/lists.yaml"
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: x-content-api
+      resources:
+        - path: /v1/content/posts
+          name: posts
+          description: "Create and retrieve posts"
+          operations:
+            - method: POST
+              name: createPosts
+              description: "Create a new post"
+              call: "x-content-api.createPosts"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: GET
+              name: getPostsByIds
+              description: "Retrieve posts by IDs"
+              call: "x-content-api.getPostsByIds"
+              with:
+                ids: "rest.ids"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/content/posts/{id}
+          name: post
+          description: "Manage a specific post"
+          operations:
+            - method: DELETE
+              name: deletePostById
+              description: "Delete a post"
+              call: "x-content-api.deletePostById"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/content/posts/{id}/analytics
+          name: post-analytics
+          description: "Get post analytics"
+          operations:
+            - method: GET
+              name: getPostsAnalytics
+              description: "Get analytics for a post"
+              call: "x-content-api.getPostsAnalytics"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/content/media/upload
+          name: media-upload
+          description: "Upload media"
+          operations:
+            - method: POST
+              name: mediaUpload
+              description: "Upload media for posts"
+              call: "x-content-api.mediaUpload"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/content/media/upload/initialize
+          name: media-upload-init
+          description: "Initialize chunked upload"
+          operations:
+            - method: POST
+              name: initializeMediaUpload
+              description: "Initialize a chunked media upload"
+              call: "x-content-api.initializeMediaUpload"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/content/media/upload/finalize
+          name: media-upload-finalize
+          description: "Finalize chunked upload"
+          operations:
+            - method: POST
+              name: finalizeMediaUpload
+              description: "Finalize a chunked media upload"
+              call: "x-content-api.finalizeMediaUpload"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/content/users/{id}/bookmarks
+          name: bookmarks
+          description: "Manage user bookmarks"
+          operations:
+            - method: POST
+              name: createUsersBookmark
+              description: "Bookmark a post"
+              call: "x-content-api.createUsersBookmark"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: GET
+              name: getUsersBookmarks
+              description: "Get bookmarked posts"
+              call: "x-content-api.getUsersBookmarks"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/content/lists
+          name: lists
+          description: "Create lists"
+          operations:
+            - method: POST
+              name: createLists
+              description: "Create a new list"
+              call: "x-content-api.createLists"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/content/lists/{id}/members
+          name: list-members
+          description: "Manage list members"
+          operations:
+            - method: POST
+              name: addListsMember
+              description: "Add a member to a list"
+              call: "x-content-api.addListsMember"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/content/lists/{id}/posts
+          name: list-posts
+          description: "Get list posts"
+          operations:
+            - method: GET
+              name: getListsPosts
+              description: "Get posts from a list timeline"
+              call: "x-content-api.getListsPosts"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9080
+      namespace: x-content-mcp
+      transport: http
+      tools:
+        - name: createPosts
+          description: "Create a new post (tweet) on X"
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "x-content-mcp.createPosts"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getPostsByIds
+          description: "Retrieve multiple posts by their IDs"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-content-mcp.getPostsByIds"
+          with:
+            ids: "tools.ids"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: deletePostById
+          description: "Delete a post by its ID"
+          hints:
+            readOnly: false
+            destructive: true
+          call: "x-content-mcp.deletePostById"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getPostsAnalytics
+          description: "Get analytics data for a specific post"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-content-mcp.getPostsAnalytics"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: mediaUpload
+          description: "Upload media for posts (simple upload for small files)"
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "x-content-mcp.mediaUpload"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: initializeMediaUpload
+          description: "Initialize a chunked media upload"
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "x-content-mcp.initializeMediaUpload"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: appendMediaUpload
+          description: "Append a chunk to an in-progress media upload"
+          hints:
+            readOnly: false
+            idempotent: true
+          call: "x-content-mcp.appendMediaUpload"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: finalizeMediaUpload
+          description: "Finalize a chunked media upload"
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "x-content-mcp.finalizeMediaUpload"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getMediaUploadStatus
+          description: "Get the processing status of an uploaded media"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-content-mcp.getMediaUploadStatus"
+          with:
+            media_id: "tools.media_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: createMediaMetadata
+          description: "Create or update metadata (alt text) for uploaded media"
+          hints:
+            readOnly: false
+            idempotent: true
+          call: "x-content-mcp.createMediaMetadata"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: createUsersBookmark
+          description: "Bookmark a post"
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "x-content-mcp.createUsersBookmark"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getUsersBookmarks
+          description: "Get bookmarked posts for the authenticated user"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-content-mcp.getUsersBookmarks"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: deleteUsersBookmark
+          description: "Remove a bookmark"
+          hints:
+            readOnly: false
+            destructive: true
+          call: "x-content-mcp.deleteUsersBookmark"
+          with:
+            id: "tools.id"
+            tweet_id: "tools.tweet_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: createLists
+          description: "Create a new list on X"
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "x-content-mcp.createLists"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getListsById
+          description: "Get a list by its ID"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-content-mcp.getListsById"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: updateLists
+          description: "Update a list's name or description"
+          hints:
+            readOnly: false
+            idempotent: true
+          call: "x-content-mcp.updateLists"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: addListsMember
+          description: "Add a member to a list"
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "x-content-mcp.addListsMember"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getListsMembers
+          description: "Get the members of a list"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-content-mcp.getListsMembers"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getListsPosts
+          description: "Get posts from a list's timeline"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-content-mcp.getListsPosts"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: deleteLists
+          description: "Delete a list"
+          hints:
+            readOnly: false
+            destructive: true
+          call: "x-content-mcp.deleteLists"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."

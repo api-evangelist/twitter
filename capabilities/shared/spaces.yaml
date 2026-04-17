@@ -1,0 +1,326 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "X API Spaces"
+  description: "Retrieve and search Spaces (live audio rooms) on X, including buyers and associated posts."
+  tags:
+    - X API
+    - Spaces
+    - Audio
+  created: "2026-04-17"
+  modified: "2026-04-17"
+
+binds:
+  - namespace: env
+    keys:
+      X_API_BEARER_TOKEN: X_API_BEARER_TOKEN
+
+capability:
+  consumes:
+    - type: http
+      namespace: x-spaces
+      baseUri: https://api.x.com
+      description: "X API v2 endpoints for Spaces."
+      authentication:
+        type: bearer
+        token: "{{X_API_BEARER_TOKEN}}"
+      resources:
+        - name: spaces
+          path: /2
+          description: "Retrieve and search Spaces."
+          operations:
+            - name: getSpacesByIds
+              method: GET
+              path: /spaces
+              description: "Retrieve multiple Spaces by their IDs."
+              inputParameters:
+                - name: ids
+                  in: query
+                  type: string
+                  required: true
+                  description: "Comma-separated list of Space IDs"
+                - name: space.fields
+                  in: query
+                  type: string
+                  required: false
+                  description: "Comma-separated list of Space fields"
+                - name: expansions
+                  in: query
+                  type: string
+                  required: false
+                  description: "Comma-separated list of expansions"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: getSpacesById
+              method: GET
+              path: /spaces/{id}
+              description: "Retrieve a single Space by its ID."
+              inputParameters:
+                - name: id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The Space ID"
+                - name: space.fields
+                  in: query
+                  type: string
+                  required: false
+                  description: "Comma-separated list of Space fields"
+                - name: expansions
+                  in: query
+                  type: string
+                  required: false
+                  description: "Comma-separated list of expansions"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: getSpacesByCreatorIds
+              method: GET
+              path: /spaces/by/creator_ids
+              description: "Retrieve Spaces created by specific user IDs."
+              inputParameters:
+                - name: user_ids
+                  in: query
+                  type: string
+                  required: true
+                  description: "Comma-separated list of user IDs"
+                - name: space.fields
+                  in: query
+                  type: string
+                  required: false
+                  description: "Comma-separated list of Space fields"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: searchSpaces
+              method: GET
+              path: /spaces/search
+              description: "Search for Spaces by keyword."
+              inputParameters:
+                - name: query
+                  in: query
+                  type: string
+                  required: true
+                  description: "Search query for Spaces"
+                - name: state
+                  in: query
+                  type: string
+                  required: false
+                  description: "Filter by Space state (live, scheduled, all)"
+                - name: space.fields
+                  in: query
+                  type: string
+                  required: false
+                  description: "Comma-separated list of Space fields"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: space-details
+          path: /2
+          description: "Get buyers and posts associated with a Space."
+          operations:
+            - name: getSpacesBuyers
+              method: GET
+              path: /spaces/{id}/buyers
+              description: "Get users who purchased a ticket to a Space."
+              inputParameters:
+                - name: id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The Space ID"
+                - name: user.fields
+                  in: query
+                  type: string
+                  required: false
+                  description: "Comma-separated list of user fields"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: getSpacesPosts
+              method: GET
+              path: /spaces/{id}/tweets
+              description: "Get posts shared in a Space."
+              inputParameters:
+                - name: id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The Space ID"
+                - name: tweet.fields
+                  in: query
+                  type: string
+                  required: false
+                  description: "Comma-separated list of tweet fields"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8105
+      namespace: x-spaces-rest
+      resources:
+        - path: /v1/spaces
+          name: spaces
+          description: "Retrieve Spaces by IDs"
+          operations:
+            - method: GET
+              name: getSpacesByIds
+              description: "Get multiple Spaces by IDs"
+              call: "x-spaces.getSpacesByIds"
+              with:
+                ids: "rest.ids"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/spaces/{id}
+          name: space
+          description: "Get a specific Space"
+          operations:
+            - method: GET
+              name: getSpacesById
+              description: "Get a Space by ID"
+              call: "x-spaces.getSpacesById"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/spaces/by/creator
+          name: spaces-by-creator
+          description: "Get Spaces by creator"
+          operations:
+            - method: GET
+              name: getSpacesByCreatorIds
+              description: "Get Spaces by creator IDs"
+              call: "x-spaces.getSpacesByCreatorIds"
+              with:
+                user_ids: "rest.user_ids"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/spaces/search
+          name: spaces-search
+          description: "Search Spaces"
+          operations:
+            - method: GET
+              name: searchSpaces
+              description: "Search for Spaces by keyword"
+              call: "x-spaces.searchSpaces"
+              with:
+                query: "rest.query"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/spaces/{id}/buyers
+          name: space-buyers
+          description: "Get Space ticket buyers"
+          operations:
+            - method: GET
+              name: getSpacesBuyers
+              description: "Get users who bought tickets"
+              call: "x-spaces.getSpacesBuyers"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/spaces/{id}/posts
+          name: space-posts
+          description: "Get posts shared in Space"
+          operations:
+            - method: GET
+              name: getSpacesPosts
+              description: "Get posts shared in a Space"
+              call: "x-spaces.getSpacesPosts"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9105
+      namespace: x-spaces-mcp
+      transport: http
+      tools:
+        - name: getSpacesByIds
+          description: "Retrieve multiple Spaces by their IDs"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-spaces.getSpacesByIds"
+          with:
+            ids: "tools.ids"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getSpacesById
+          description: "Retrieve a single Space by its ID"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-spaces.getSpacesById"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getSpacesByCreatorIds
+          description: "Retrieve Spaces created by specific user IDs"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-spaces.getSpacesByCreatorIds"
+          with:
+            user_ids: "tools.user_ids"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: searchSpaces
+          description: "Search for Spaces by keyword"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-spaces.searchSpaces"
+          with:
+            query: "tools.query"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getSpacesBuyers
+          description: "Get users who purchased a ticket to a Space"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-spaces.getSpacesBuyers"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getSpacesPosts
+          description: "Get posts shared in a Space"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-spaces.getSpacesPosts"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."

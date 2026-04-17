@@ -1,0 +1,279 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "X API Bookmarks"
+  description: "Manage bookmarks and bookmark folders for the authenticated user on X."
+  tags:
+    - X API
+    - Bookmarks
+    - Saved Content
+  created: "2026-04-17"
+  modified: "2026-04-17"
+
+binds:
+  - namespace: env
+    keys:
+      X_API_BEARER_TOKEN: X_API_BEARER_TOKEN
+
+capability:
+  consumes:
+    - type: http
+      namespace: x-bookmarks
+      baseUri: https://api.x.com
+      description: "X API v2 endpoints for bookmarks and bookmark folders."
+      authentication:
+        type: bearer
+        token: "{{X_API_BEARER_TOKEN}}"
+      resources:
+        - name: bookmarks
+          path: /2
+          description: "Manage user bookmarks."
+          operations:
+            - name: getUsersBookmarks
+              method: GET
+              path: /users/{id}/bookmarks
+              description: "Get bookmarked posts for the authenticated user."
+              inputParameters:
+                - name: id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The authenticated user ID"
+                - name: max_results
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Maximum number of results"
+                - name: pagination_token
+                  in: query
+                  type: string
+                  required: false
+                  description: "Token for pagination"
+                - name: tweet.fields
+                  in: query
+                  type: string
+                  required: false
+                  description: "Comma-separated list of tweet fields"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: createUsersBookmark
+              method: POST
+              path: /users/{id}/bookmarks
+              description: "Bookmark a post."
+              inputParameters:
+                - name: id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The authenticated user ID"
+              body:
+                type: json
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: deleteUsersBookmark
+              method: DELETE
+              path: /users/{id}/bookmarks/{tweet_id}
+              description: "Remove a bookmark."
+              inputParameters:
+                - name: id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The authenticated user ID"
+                - name: tweet_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The post ID to unbookmark"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+        - name: bookmark-folders
+          path: /2
+          description: "Manage bookmark folders."
+          operations:
+            - name: getUsersBookmarkFolders
+              method: GET
+              path: /users/{id}/bookmarks/folders
+              description: "Get bookmark folders for the authenticated user."
+              inputParameters:
+                - name: id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The authenticated user ID"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: getUsersBookmarksByFolderId
+              method: GET
+              path: /users/{id}/bookmarks/folders/{folder_id}
+              description: "Get bookmarked posts in a specific folder."
+              inputParameters:
+                - name: id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The authenticated user ID"
+                - name: folder_id
+                  in: path
+                  type: string
+                  required: true
+                  description: "The bookmark folder ID"
+                - name: max_results
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Maximum number of results"
+                - name: pagination_token
+                  in: query
+                  type: string
+                  required: false
+                  description: "Token for pagination"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8107
+      namespace: x-bookmarks-rest
+      resources:
+        - path: /v1/users/{id}/bookmarks
+          name: bookmarks
+          description: "Manage user bookmarks"
+          operations:
+            - method: GET
+              name: getUsersBookmarks
+              description: "Get bookmarked posts"
+              call: "x-bookmarks.getUsersBookmarks"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: createUsersBookmark
+              description: "Bookmark a post"
+              call: "x-bookmarks.createUsersBookmark"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/users/{id}/bookmarks/{tweet_id}
+          name: bookmark
+          description: "Remove a bookmark"
+          operations:
+            - method: DELETE
+              name: deleteUsersBookmark
+              description: "Remove a bookmark"
+              call: "x-bookmarks.deleteUsersBookmark"
+              with:
+                id: "rest.id"
+                tweet_id: "rest.tweet_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/users/{id}/bookmarks/folders
+          name: bookmark-folders
+          description: "Get bookmark folders"
+          operations:
+            - method: GET
+              name: getUsersBookmarkFolders
+              description: "Get bookmark folders"
+              call: "x-bookmarks.getUsersBookmarkFolders"
+              with:
+                id: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/users/{id}/bookmarks/folders/{folder_id}
+          name: bookmark-folder
+          description: "Get bookmarks in a folder"
+          operations:
+            - method: GET
+              name: getUsersBookmarksByFolderId
+              description: "Get bookmarks in a specific folder"
+              call: "x-bookmarks.getUsersBookmarksByFolderId"
+              with:
+                id: "rest.id"
+                folder_id: "rest.folder_id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9107
+      namespace: x-bookmarks-mcp
+      transport: http
+      tools:
+        - name: getUsersBookmarks
+          description: "Get bookmarked posts for the authenticated user"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-bookmarks.getUsersBookmarks"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: createUsersBookmark
+          description: "Bookmark a post"
+          hints:
+            readOnly: false
+            idempotent: false
+          call: "x-bookmarks.createUsersBookmark"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: deleteUsersBookmark
+          description: "Remove a bookmark"
+          hints:
+            readOnly: false
+            destructive: true
+          call: "x-bookmarks.deleteUsersBookmark"
+          with:
+            id: "tools.id"
+            tweet_id: "tools.tweet_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getUsersBookmarkFolders
+          description: "Get bookmark folders for the authenticated user"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-bookmarks.getUsersBookmarkFolders"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: getUsersBookmarksByFolderId
+          description: "Get bookmarked posts in a specific folder"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "x-bookmarks.getUsersBookmarksByFolderId"
+          with:
+            id: "tools.id"
+            folder_id: "tools.folder_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
