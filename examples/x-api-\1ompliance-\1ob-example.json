@@ -1,0 +1,11 @@
+{
+  "created_at": "2021-01-06T18:40:40.000Z",
+  "download_expires_at": "2021-01-06T18:40:40.000Z",
+  "download_url": "https://x.com/exampleuser",
+  "id": "1372966999991541762",
+  "name": "my-job",
+  "status": "complete",
+  "type": "tweets",
+  "upload_expires_at": "2021-01-06T18:40:40.000Z",
+  "upload_url": "https://x.com/exampleuser"
+}

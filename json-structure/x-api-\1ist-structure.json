@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-structure/x-api-\\1ist-structure.json",
+  "name": "List",
+  "description": "A X List is a curated group of accounts.",
+  "type": "object",
+  "properties": {
+    "created_at": {
+      "type": "datetime"
+    },
+    "description": {
+      "type": "string"
+    },
+    "follower_count": {
+      "type": "int32"
+    },
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of this List.",
+      "pattern": "^[0-9]{1,19}$",
+      "example": "1146654567674912769"
+    },
+    "member_count": {
+      "type": "int32"
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of this List."
+    },
+    "owner_id": {
+      "type": "string",
+      "description": "Unique identifier of this User. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.",
+      "pattern": "^[0-9]{1,19}$",
+      "example": "2244994945"
+    },
+    "private": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "id",
+    "name"
+  ]
+}

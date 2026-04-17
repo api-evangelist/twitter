@@ -153,6 +153,22 @@ Machine-readable API specifications organized by format.
 - [X API v2 Postman Collection](postman/x-api-v2-postman-collection.json)
 - [X Ads API Postman Collection](postman/x-ads-api-postman-collection.json)
 
+### JSON Schema
+
+26 standalone JSON Schema files extracted from the X API v2 OpenAPI spec in [json-schema/](json-schema/).
+
+### JSON Structure
+
+26 JSON Structure files converted from JSON Schema in [json-structure/](json-structure/).
+
+### JSON-LD
+
+- [X API Context](json-ld/x-api-context.jsonld) — 23 types, 118 properties with schema.org alignments
+
+### Examples
+
+26 realistic example JSON files generated from JSON Schema in [examples/](examples/).
+
 ## Capabilities
 
 Naftiko capabilities organized as shared per-API definitions composed into customer-facing workflows.

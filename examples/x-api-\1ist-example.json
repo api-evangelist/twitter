@@ -1,0 +1,10 @@
+{
+  "created_at": "example_value",
+  "description": "An example resource.",
+  "follower_count": 42,
+  "id": "1146654567674912769",
+  "member_count": 42,
+  "name": "Example User",
+  "owner_id": "2244994945",
+  "private": true
+}

@@ -1,0 +1,7 @@
+{
+  "conversation_type": "Group",
+  "message": "Hello from the X API! #example",
+  "participant_ids": [
+    "1234567890123456789"
+  ]
+}

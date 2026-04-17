@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-schema/x-api-\\1sers-\\1ollowing-\\1reate-\\1equest-schema.json",
+  "title": "UsersFollowingCreateRequest",
+  "description": "UsersFollowingCreateRequest schema from X API v2",
+  "type": "object",
+  "properties": {
+    "target_user_id": {
+      "type": "string",
+      "description": "Unique identifier of this User. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.",
+      "pattern": "^[0-9]{1,19}$",
+      "example": "2244994945"
+    }
+  },
+  "required": [
+    "target_user_id"
+  ]
+}

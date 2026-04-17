@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-schema/x-api-\\1ompliance-\\1ob-schema.json",
+  "title": "ComplianceJob",
+  "description": "ComplianceJob schema from X API v2",
+  "type": "object",
+  "properties": {
+    "created_at": {
+      "type": "string",
+      "description": "Creation time of the compliance job.",
+      "format": "date-time",
+      "example": "2021-01-06T18:40:40.000Z"
+    },
+    "download_expires_at": {
+      "type": "string",
+      "description": "Expiration time of the download URL.",
+      "format": "date-time",
+      "example": "2021-01-06T18:40:40.000Z"
+    },
+    "download_url": {
+      "type": "string",
+      "description": "URL from which the user will retrieve their compliance results.",
+      "format": "uri"
+    },
+    "id": {
+      "type": "string",
+      "description": "Compliance Job ID.",
+      "pattern": "^[0-9]{1,19}$",
+      "example": "1372966999991541762"
+    },
+    "name": {
+      "type": "string",
+      "description": "User-provided name for a compliance job.",
+      "maxLength": 64,
+      "example": "my-job"
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of a compliance job.",
+      "enum": [
+        "created",
+        "in_progress",
+        "failed",
+        "complete",
+        "expired"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of compliance job to list.",
+      "enum": [
+        "tweets",
+        "users"
+      ]
+    },
+    "upload_expires_at": {
+      "type": "string",
+      "description": "Expiration time of the upload URL.",
+      "format": "date-time",
+      "example": "2021-01-06T18:40:40.000Z"
+    },
+    "upload_url": {
+      "type": "string",
+      "description": "URL to which the user will upload their Tweet or user IDs.",
+      "format": "uri"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "created_at",
+    "upload_url",
+    "download_url",
+    "upload_expires_at",
+    "download_expires_at",
+    "status"
+  ]
+}

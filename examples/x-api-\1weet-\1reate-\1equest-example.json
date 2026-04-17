@@ -1,0 +1,23 @@
+{
+  "card_uri": "example_value",
+  "community_id": "1146654567674912769",
+  "direct_message_deep_link": "Hello from the X API! #example",
+  "edit_options": {
+    "previous_post_id": "1234567890123456789"
+  },
+  "for_super_followers_only": true,
+  "geo": {
+    "place_id": "1234567890123456789"
+  },
+  "made_with_ai": true,
+  "media": {
+    "media_ids": [
+      "1234567890123456789"
+    ],
+    "tagged_user_ids": [
+      "1234567890123456789"
+    ]
+  },
+  "nullcast": true,
+  "paid_partnership": true
+}

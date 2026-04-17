@@ -1,0 +1,22 @@
+{
+  "contained_within": [
+    "example_value"
+  ],
+  "country": "United States",
+  "country_code": "US",
+  "full_name": "Lakewood, CO",
+  "geo": {
+    "bbox": [
+      -105.193475,
+      39.60973,
+      -105.053164,
+      39.761974
+    ],
+    "geometry": "example_value",
+    "properties": {},
+    "type": "Feature"
+  },
+  "id": "f7eb2fa2fea288b1",
+  "name": "Lakewood",
+  "place_type": "city"
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-schema/x-api-\\1oll-schema.json",
+  "title": "Poll",
+  "description": "Represent a Poll attached to a Tweet.",
+  "type": "object",
+  "properties": {
+    "duration_minutes": {
+      "type": "integer",
+      "minimum": 5,
+      "maximum": 10080,
+      "format": "int32"
+    },
+    "end_datetime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of this poll.",
+      "pattern": "^[0-9]{1,19}$",
+      "example": "1365059861688410112"
+    },
+    "options": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "items": {
+        "$ref": "#/components/schemas/PollOption"
+      }
+    },
+    "voting_status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "closed"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "options"
+  ]
+}

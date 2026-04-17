@@ -1,0 +1,526 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "x": "https://docs.x.com/schema/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ActivityStreamingResponse": "x:ActivityStreamingResponse",
+    "ActivitySubscription": "x:ActivitySubscription",
+    "ComplianceJob": "x:ComplianceJob",
+    "CreateDmConversationRequest": "x:CreateDmConversationRequest",
+    "DmEvent": "x:DmEvent",
+    "Error": "x:Error",
+    "Expansions": "x:Expansions",
+    "FilteredStreamingTweetResponse": "x:FilteredStreamingTweetResponse",
+    "Get2TweetsSearchRecentResponse": "x:Get2TweetsSearchRecentResponse",
+    "Get2UsersIdResponse": "x:Get2UsersIdResponse",
+    "List": "x:List",
+    "ListCreateRequest": "x:ListCreateRequest",
+    "Media": "x:Media",
+    "Place": "x:Place",
+    "Poll": "x:Poll",
+    "Problem": "x:Problem",
+    "Space": "x:Space",
+    "Tweet": "x:Tweet",
+    "TweetCreateRequest": "x:TweetCreateRequest",
+    "TweetCreateResponse": "x:TweetCreateResponse",
+    "TweetDeleteResponse": "x:TweetDeleteResponse",
+    "User": "x:User",
+    "UsersFollowingCreateRequest": "x:UsersFollowingCreateRequest",
+    "affiliation": {
+      "@id": "x:affiliation",
+      "@type": "@id"
+    },
+    "attachments": {
+      "@id": "x:attachments",
+      "@type": "@id"
+    },
+    "authorId": {
+      "@id": "x:author_id",
+      "@type": "xsd:string"
+    },
+    "cardUri": {
+      "@id": "x:card_uri",
+      "@type": "xsd:string"
+    },
+    "cashtags": {
+      "@id": "x:cashtags",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "code": {
+      "@id": "x:code",
+      "@type": "xsd:string"
+    },
+    "communityId": {
+      "@id": "x:community_id",
+      "@type": "xsd:string"
+    },
+    "connectionStatus": {
+      "@id": "x:connection_status",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "containedWithin": {
+      "@id": "x:contained_within",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "contextAnnotations": {
+      "@id": "x:context_annotations",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "conversationId": {
+      "@id": "x:conversation_id",
+      "@type": "xsd:string"
+    },
+    "conversationType": {
+      "@id": "x:conversation_type",
+      "@type": "xsd:string"
+    },
+    "country": {
+      "@id": "x:country",
+      "@type": "xsd:string"
+    },
+    "countryCode": {
+      "@id": "x:country_code",
+      "@type": "xsd:string"
+    },
+    "createdAt": {
+      "@id": "x:created_at",
+      "@type": "xsd:dateTime"
+    },
+    "creatorId": {
+      "@id": "x:creator_id",
+      "@type": "xsd:string"
+    },
+    "data": {
+      "@id": "x:data",
+      "@type": "@id"
+    },
+    "description": {
+      "@id": "schema:description",
+      "@type": "xsd:string"
+    },
+    "detail": {
+      "@id": "x:detail",
+      "@type": "xsd:string"
+    },
+    "directMessageDeepLink": {
+      "@id": "x:direct_message_deep_link",
+      "@type": "xsd:string"
+    },
+    "displayTextRange": {
+      "@id": "x:display_text_range",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "dmConversationId": {
+      "@id": "x:dm_conversation_id",
+      "@type": "xsd:string"
+    },
+    "downloadExpiresAt": {
+      "@id": "x:download_expires_at",
+      "@type": "xsd:dateTime"
+    },
+    "downloadUrl": {
+      "@id": "x:download_url",
+      "@type": "@id"
+    },
+    "durationMinutes": {
+      "@id": "x:duration_minutes",
+      "@type": "xsd:string"
+    },
+    "editControls": {
+      "@id": "x:edit_controls",
+      "@type": "@id"
+    },
+    "editHistoryTweetIds": {
+      "@id": "x:edit_history_tweet_ids",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "editOptions": {
+      "@id": "x:edit_options",
+      "@type": "@id"
+    },
+    "endDatetime": {
+      "@id": "x:end_datetime",
+      "@type": "xsd:dateTime"
+    },
+    "endedAt": {
+      "@id": "x:ended_at",
+      "@type": "xsd:dateTime"
+    },
+    "entities": {
+      "@id": "x:entities",
+      "@type": "@id"
+    },
+    "errors": {
+      "@id": "x:errors",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "eventType": {
+      "@id": "x:event_type",
+      "@type": "xsd:string"
+    },
+    "filter": {
+      "@id": "x:filter",
+      "@type": "@id"
+    },
+    "followerCount": {
+      "@id": "x:follower_count",
+      "@type": "xsd:integer"
+    },
+    "forSuperFollowersOnly": {
+      "@id": "x:for_super_followers_only",
+      "@type": "xsd:boolean"
+    },
+    "fullName": {
+      "@id": "x:full_name",
+      "@type": "xsd:string"
+    },
+    "geo": {
+      "@id": "x:geo",
+      "@type": "@id"
+    },
+    "hashtags": {
+      "@id": "x:hashtags",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "height": {
+      "@id": "x:height",
+      "@type": "xsd:integer"
+    },
+    "hostIds": {
+      "@id": "x:host_ids",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "id": {
+      "@id": "x:id",
+      "@type": "xsd:string"
+    },
+    "inReplyToUserId": {
+      "@id": "x:in_reply_to_user_id",
+      "@type": "xsd:string"
+    },
+    "includes": {
+      "@id": "x:includes",
+      "@type": "@id"
+    },
+    "invitedUserIds": {
+      "@id": "x:invited_user_ids",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "isTicketed": {
+      "@id": "x:is_ticketed",
+      "@type": "xsd:boolean"
+    },
+    "lang": {
+      "@id": "x:lang",
+      "@type": "xsd:string"
+    },
+    "location": {
+      "@id": "x:location",
+      "@type": "xsd:string"
+    },
+    "madeWithAi": {
+      "@id": "x:made_with_ai",
+      "@type": "xsd:boolean"
+    },
+    "matchingRules": {
+      "@id": "x:matching_rules",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "media": {
+      "@id": "x:media",
+      "@type": "@id"
+    },
+    "mediaKey": {
+      "@id": "x:media_key",
+      "@type": "xsd:string"
+    },
+    "memberCount": {
+      "@id": "x:member_count",
+      "@type": "xsd:integer"
+    },
+    "mentions": {
+      "@id": "x:mentions",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "message": {
+      "@id": "x:message",
+      "@type": "xsd:string"
+    },
+    "meta": {
+      "@id": "x:meta",
+      "@type": "@id"
+    },
+    "mostRecentTweetId": {
+      "@id": "x:most_recent_tweet_id",
+      "@type": "xsd:string"
+    },
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "nonPublicMetrics": {
+      "@id": "x:non_public_metrics",
+      "@type": "@id"
+    },
+    "noteTweet": {
+      "@id": "x:note_tweet",
+      "@type": "@id"
+    },
+    "nullcast": {
+      "@id": "x:nullcast",
+      "@type": "xsd:boolean"
+    },
+    "options": {
+      "@id": "x:options",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "organicMetrics": {
+      "@id": "x:organic_metrics",
+      "@type": "@id"
+    },
+    "ownerId": {
+      "@id": "x:owner_id",
+      "@type": "xsd:string"
+    },
+    "paidPartnership": {
+      "@id": "x:paid_partnership",
+      "@type": "xsd:boolean"
+    },
+    "participantCount": {
+      "@id": "x:participant_count",
+      "@type": "xsd:string"
+    },
+    "participantIds": {
+      "@id": "x:participant_ids",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "pinnedTweetId": {
+      "@id": "x:pinned_tweet_id",
+      "@type": "xsd:string"
+    },
+    "placeType": {
+      "@id": "x:place_type",
+      "@type": "xsd:string"
+    },
+    "places": {
+      "@id": "x:places",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "poll": {
+      "@id": "x:poll",
+      "@type": "@id"
+    },
+    "polls": {
+      "@id": "x:polls",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "possiblySensitive": {
+      "@id": "x:possibly_sensitive",
+      "@type": "xsd:boolean"
+    },
+    "private": {
+      "@id": "x:private",
+      "@type": "xsd:boolean"
+    },
+    "profileBannerUrl": {
+      "@id": "x:profile_banner_url",
+      "@type": "@id"
+    },
+    "profileImageUrl": {
+      "@id": "x:profile_image_url",
+      "@type": "@id"
+    },
+    "promotedMetrics": {
+      "@id": "x:promoted_metrics",
+      "@type": "@id"
+    },
+    "protected": {
+      "@id": "x:protected",
+      "@type": "xsd:boolean"
+    },
+    "publicMetrics": {
+      "@id": "x:public_metrics",
+      "@type": "@id"
+    },
+    "quoteTweetId": {
+      "@id": "x:quote_tweet_id",
+      "@type": "xsd:string"
+    },
+    "receivesYourDm": {
+      "@id": "x:receives_your_dm",
+      "@type": "xsd:boolean"
+    },
+    "referencedTweets": {
+      "@id": "x:referenced_tweets",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "reply": {
+      "@id": "x:reply",
+      "@type": "@id"
+    },
+    "replySettings": {
+      "@id": "x:reply_settings",
+      "@type": "xsd:string"
+    },
+    "scheduledStart": {
+      "@id": "x:scheduled_start",
+      "@type": "xsd:dateTime"
+    },
+    "scopes": {
+      "@id": "x:scopes",
+      "@type": "@id"
+    },
+    "senderId": {
+      "@id": "x:sender_id",
+      "@type": "xsd:string"
+    },
+    "shareWithFollowers": {
+      "@id": "x:share_with_followers",
+      "@type": "xsd:boolean"
+    },
+    "source": {
+      "@id": "x:source",
+      "@type": "xsd:string"
+    },
+    "speakerIds": {
+      "@id": "x:speaker_ids",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "startedAt": {
+      "@id": "x:started_at",
+      "@type": "xsd:dateTime"
+    },
+    "state": {
+      "@id": "x:state",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "x:status",
+      "@type": "xsd:string"
+    },
+    "subscriberCount": {
+      "@id": "x:subscriber_count",
+      "@type": "xsd:string"
+    },
+    "subscriptionId": {
+      "@id": "x:subscription_id",
+      "@type": "xsd:string"
+    },
+    "subscriptionType": {
+      "@id": "x:subscription_type",
+      "@type": "xsd:string"
+    },
+    "suggestedSourceLinks": {
+      "@id": "x:suggested_source_links",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "suggestedSourceLinksWithCounts": {
+      "@id": "x:suggested_source_links_with_counts",
+      "@type": "@id"
+    },
+    "tag": {
+      "@id": "x:tag",
+      "@type": "xsd:string"
+    },
+    "targetUserId": {
+      "@id": "x:target_user_id",
+      "@type": "xsd:string"
+    },
+    "text": {
+      "@id": "x:text",
+      "@type": "xsd:string"
+    },
+    "title": {
+      "@id": "x:title",
+      "@type": "xsd:string"
+    },
+    "topics": {
+      "@id": "x:topics",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "tweets": {
+      "@id": "x:tweets",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "type": {
+      "@id": "x:type",
+      "@type": "xsd:string"
+    },
+    "updatedAt": {
+      "@id": "x:updated_at",
+      "@type": "xsd:dateTime"
+    },
+    "uploadExpiresAt": {
+      "@id": "x:upload_expires_at",
+      "@type": "xsd:dateTime"
+    },
+    "uploadUrl": {
+      "@id": "x:upload_url",
+      "@type": "@id"
+    },
+    "url": {
+      "@id": "schema:url",
+      "@type": "xsd:string"
+    },
+    "urls": {
+      "@id": "x:urls",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "username": {
+      "@id": "x:username",
+      "@type": "xsd:string"
+    },
+    "users": {
+      "@id": "x:users",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "verified": {
+      "@id": "x:verified",
+      "@type": "xsd:boolean"
+    },
+    "verifiedType": {
+      "@id": "x:verified_type",
+      "@type": "xsd:string"
+    },
+    "votingStatus": {
+      "@id": "x:voting_status",
+      "@type": "xsd:string"
+    },
+    "webhookId": {
+      "@id": "x:webhook_id",
+      "@type": "xsd:string"
+    },
+    "width": {
+      "@id": "x:width",
+      "@type": "xsd:integer"
+    },
+    "withheld": {
+      "@id": "x:withheld",
+      "@type": "@id"
+    }
+  }
+}

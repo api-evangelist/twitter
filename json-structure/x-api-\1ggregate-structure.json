@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-structure/x-api-\\1ggregate-structure.json",
+  "name": "Aggregate",
+  "description": "The sum of results returned in this response.",
+  "type": "int32"
+}

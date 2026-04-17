@@ -1,0 +1,34 @@
+{
+  "data": [
+    "example_value"
+  ],
+  "errors": [
+    "example_value"
+  ],
+  "includes": {
+    "media": [
+      "example_value"
+    ],
+    "places": [
+      "example_value"
+    ],
+    "polls": [
+      "example_value"
+    ],
+    "topics": [
+      "example_value"
+    ],
+    "tweets": [
+      "example_value"
+    ],
+    "users": [
+      "example_value"
+    ]
+  },
+  "meta": {
+    "newest_id": "1234567890123456789",
+    "next_token": "next_abc123",
+    "oldest_id": "1234567890123456789",
+    "result_count": "example_value"
+  }
+}

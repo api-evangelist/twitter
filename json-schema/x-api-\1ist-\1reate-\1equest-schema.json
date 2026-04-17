@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-schema/x-api-\\1ist-\\1reate-\\1equest-schema.json",
+  "title": "ListCreateRequest",
+  "description": "ListCreateRequest schema from X API v2",
+  "type": "object",
+  "properties": {
+    "description": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 100
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 25
+    },
+    "private": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "name"
+  ]
+}
