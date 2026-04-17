@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-structure/x-api-space-structure.json",
+  "name": "Space",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "created_at": {
+      "type": "datetime",
+      "description": "Creation time of the Space.",
+      "example": "2021-07-06T18:40:40.000Z"
+    },
+    "creator_id": {
+      "type": "string",
+      "description": "Unique identifier of this User. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.",
+      "pattern": "^[0-9]{1,19}$",
+      "example": "2244994945"
+    },
+    "ended_at": {
+      "type": "datetime",
+      "description": "End time of the Space.",
+      "example": "2021-07-06T18:40:40.000Z"
+    },
+    "host_ids": {
+      "type": "array",
+      "description": "The user ids for the hosts of the Space.",
+      "items": {
+        "$ref": "#/components/schemas/UserId"
+      }
+    },
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of this Space.",
+      "pattern": "^[a-zA-Z0-9]{1,13}$",
+      "example": "1SLjjRYNejbKM"
+    },
+    "invited_user_ids": {
+      "type": "array",
+      "description": "An array of user ids for people who were invited to a Space.",
+      "items": {
+        "$ref": "#/components/schemas/UserId"
+      }
+    },
+    "is_ticketed": {
+      "type": "boolean",
+      "description": "Denotes if the Space is a ticketed Space.",
+      "example": "false"
+    },
+    "lang": {
+      "type": "string",
+      "description": "The language of the Space.",
+      "example": "en"
+    },
+    "participant_count": {
+      "type": "int32",
+      "description": "The number of participants in a Space.",
+      "example": 10
+    },
+    "scheduled_start": {
+      "type": "datetime",
+      "description": "A date time stamp for when a Space is scheduled to begin.",
+      "example": "2021-07-06T18:40:40.000Z"
+    },
+    "speaker_ids": {
+      "type": "array",
+      "description": "An array of user ids for people who were speakers in a Space.",
+      "items": {
+        "$ref": "#/components/schemas/UserId"
+      }
+    },
+    "started_at": {
+      "type": "datetime",
+      "description": "When the Space was started as a date string.",
+      "example": "2021-7-14T04:35:55Z"
+    },
+    "state": {
+      "type": "string",
+      "description": "The current state of the Space.",
+      "enum": [
+        "live",
+        "scheduled",
+        "ended"
+      ],
+      "example": "live"
+    },
+    "subscriber_count": {
+      "type": "int32",
+      "description": "The number of people who have either purchased a ticket or set a reminder for this Space.",
+      "example": 10
+    },
+    "title": {
+      "type": "string",
+      "description": "The title of the Space.",
+      "example": "Spaces are Awesome"
+    },
+    "topics": {
+      "type": "array",
+      "description": "The topics of a Space, as selected by its creator.",
+      "items": {
+        "type": "object",
+        "description": "The X Topic object.",
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "The description of the given topic."
+          },
+          "id": {
+            "type": "string",
+            "description": "An ID suitable for use in the REST API."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the given topic."
+          }
+        },
+        "example": {
+          "description": "All about technology",
+          "id": "848920371311001600",
+          "name": "Technology"
+        }
+      }
+    },
+    "updated_at": {
+      "type": "datetime",
+      "description": "When the Space was last updated.",
+      "example": "2021-7-14T04:35:55Z"
+    }
+  },
+  "required": [
+    "id",
+    "state"
+  ]
+}

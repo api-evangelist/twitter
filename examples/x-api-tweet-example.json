@@ -1,0 +1,48 @@
+{
+  "attachments": {
+    "media_keys": [
+      "example_value"
+    ],
+    "media_source_tweet_id": [
+      "1234567890123456789"
+    ],
+    "poll_ids": [
+      "1234567890123456789"
+    ]
+  },
+  "author_id": "2244994945",
+  "community_id": "1146654567674912769",
+  "context_annotations": [
+    "Hello from the X API! #example"
+  ],
+  "conversation_id": "1346889436626259968",
+  "created_at": "2021-01-06T18:40:40.000Z",
+  "display_text_range": [
+    42
+  ],
+  "edit_controls": {
+    "editable_until": "2021-01-06T18:40:40.000Z",
+    "edits_remaining": 42,
+    "is_edit_eligible": false
+  },
+  "edit_history_tweet_ids": [
+    "1234567890123456789"
+  ],
+  "entities": {
+    "annotations": [
+      "example_value"
+    ],
+    "cashtags": [
+      "example_value"
+    ],
+    "hashtags": [
+      "example_value"
+    ],
+    "mentions": [
+      "example_value"
+    ],
+    "urls": [
+      "https://x.com/exampleuser"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-structure/x-api-error-structure.json",
+  "name": "Error",
+  "description": "Error schema from X API v2",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "int32"
+    },
+    "message": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "code",
+    "message"
+  ]
+}

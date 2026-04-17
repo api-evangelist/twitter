@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-structure/x-api-list-create-request-structure.json",
+  "name": "ListCreateRequest",
+  "description": "ListCreateRequest schema from X API v2",
+  "type": "object",
+  "properties": {
+    "description": {
+      "type": "string",
+      "minLength": 0,
+      "maxLength": 100
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 25
+    },
+    "private": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

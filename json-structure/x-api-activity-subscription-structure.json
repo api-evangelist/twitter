@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-structure/x-api-activity-subscription-structure.json",
+  "name": "ActivitySubscription",
+  "description": "An XActivity subscription.",
+  "type": "object",
+  "properties": {
+    "created_at": {
+      "type": "datetime",
+      "example": "2026-04-17T12:00:00Z"
+    },
+    "event_type": {
+      "type": "string",
+      "example": "standard"
+    },
+    "filter": {
+      "type": "object",
+      "description": "An XAA subscription filter.",
+      "properties": {
+        "direction": {
+          "type": "string",
+          "description": "Optional direction filter for directional events.",
+          "enum": [
+            "inbound",
+            "outbound"
+          ],
+          "example": "inbound"
+        },
+        "keyword": {
+          "$ref": "#/components/schemas/Keyword"
+        },
+        "user_id": {
+          "$ref": "#/components/schemas/UserId"
+        }
+      },
+      "additionalProperties": false
+    },
+    "subscription_id": {
+      "type": "string",
+      "description": "The unique identifier of this subscription.",
+      "pattern": "^[0-9]{1,19}$",
+      "example": "1146654567674912769"
+    },
+    "tag": {
+      "type": "string",
+      "example": "example_tag"
+    },
+    "updated_at": {
+      "type": "datetime",
+      "example": "2026-04-17T12:00:00Z"
+    },
+    "webhook_id": {
+      "type": "string",
+      "description": "The unique identifier of this webhook config.",
+      "pattern": "^[0-9]{1,19}$",
+      "example": "1146654567674912769"
+    }
+  },
+  "required": [
+    "subscription_id",
+    "event_type",
+    "filter",
+    "created_at",
+    "updated_at"
+  ]
+}

@@ -1,0 +1,252 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-structure/x-api-get2-users-id-response-structure.json",
+  "name": "Get2UsersIdResponse",
+  "description": "Get2UsersIdResponse schema from X API v2",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "description": "The X User object.",
+      "required": [
+        "id",
+        "name",
+        "username"
+      ],
+      "properties": {
+        "affiliation": {
+          "type": "object",
+          "description": "Metadata about a user's affiliation.",
+          "properties": {
+            "badge_url": {
+              "type": "uri",
+              "description": "The badge URL corresponding to the affiliation."
+            },
+            "description": {
+              "type": "string",
+              "description": "The description of the affiliation."
+            },
+            "url": {
+              "type": "uri",
+              "description": "The URL, if available, to details about an affiliation."
+            },
+            "user_id": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/components/schemas/UserId"
+              }
+            }
+          }
+        },
+        "connection_status": {
+          "type": "array",
+          "description": "Returns detailed information about the relationship between two users.",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "description": "Type of connection between users.",
+            "enum": [
+              "follow_request_received",
+              "follow_request_sent",
+              "blocking",
+              "followed_by",
+              "following",
+              "muting"
+            ]
+          }
+        },
+        "created_at": {
+          "type": "datetime",
+          "description": "Creation time of this User."
+        },
+        "description": {
+          "type": "string",
+          "description": "The text of this User's profile description (also known as bio), if the User provided one."
+        },
+        "entities": {
+          "type": "object",
+          "description": "A list of metadata found in the User's profile description.",
+          "properties": {
+            "description": {
+              "$ref": "#/components/schemas/FullTextEntities"
+            },
+            "url": {
+              "type": "object",
+              "description": "Expanded details for the URL specified in the User's profile, with start and end indices.",
+              "properties": {
+                "urls": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "$ref": "#/components/schemas/UrlEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "id": {
+          "$ref": "#/components/schemas/UserId"
+        },
+        "location": {
+          "type": "string",
+          "description": "The location specified in the User's profile, if the User provided one. As this is a freeform value, it may not indicate a valid location, but it may be fuzzily evaluated when performing searches with location queries."
+        },
+        "most_recent_tweet_id": {
+          "$ref": "#/components/schemas/TweetId"
+        },
+        "name": {
+          "type": "string",
+          "description": "The friendly name of this User, as shown on their profile."
+        },
+        "pinned_tweet_id": {
+          "$ref": "#/components/schemas/TweetId"
+        },
+        "profile_banner_url": {
+          "type": "uri",
+          "description": "The URL to the profile banner for this User."
+        },
+        "profile_image_url": {
+          "type": "uri",
+          "description": "The URL to the profile image for this User."
+        },
+        "protected": {
+          "type": "boolean",
+          "description": "Indicates if this User has chosen to protect their Posts (in other words, if this User's Posts are private)."
+        },
+        "public_metrics": {
+          "type": "object",
+          "description": "A list of metrics for this User.",
+          "required": [
+            "followers_count",
+            "following_count",
+            "tweet_count",
+            "listed_count"
+          ],
+          "properties": {
+            "followers_count": {
+              "type": "int32",
+              "description": "Number of Users who are following this User."
+            },
+            "following_count": {
+              "type": "int32",
+              "description": "Number of Users this User is following."
+            },
+            "like_count": {
+              "type": "int32",
+              "description": "The number of likes created by this User."
+            },
+            "listed_count": {
+              "type": "int32",
+              "description": "The number of lists that include this User."
+            },
+            "tweet_count": {
+              "type": "int32",
+              "description": "The number of Posts (including Retweets) posted by this User."
+            }
+          }
+        },
+        "receives_your_dm": {
+          "type": "boolean",
+          "description": "Indicates if you can send a DM to this User"
+        },
+        "subscription_type": {
+          "type": "string",
+          "description": "The X Blue subscription type of the user, eg: Basic, Premium, PremiumPlus or None.",
+          "enum": [
+            "Basic",
+            "Premium",
+            "PremiumPlus",
+            "None"
+          ]
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL specified in the User's profile."
+        },
+        "username": {
+          "$ref": "#/components/schemas/UserName"
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "Indicate if this User is a verified X User."
+        },
+        "verified_type": {
+          "type": "string",
+          "description": "The X Blue verified type of the user, eg: blue, government, business or none.",
+          "enum": [
+            "blue",
+            "government",
+            "business",
+            "none"
+          ]
+        },
+        "withheld": {
+          "$ref": "#/components/schemas/UserWithheld"
+        }
+      },
+      "example": {
+        "created_at": "2013-12-14T04:35:55Z",
+        "id": "2244994945",
+        "name": "X Dev",
+        "protected": false,
+        "username": "TwitterDev"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/Problem"
+      }
+    },
+    "includes": {
+      "type": "object",
+      "properties": {
+        "media": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/components/schemas/Media"
+          }
+        },
+        "places": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/components/schemas/Place"
+          }
+        },
+        "polls": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/components/schemas/Poll"
+          }
+        },
+        "topics": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/components/schemas/Topic"
+          }
+        },
+        "tweets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/components/schemas/Tweet"
+          }
+        },
+        "users": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      }
+    }
+  }
+}

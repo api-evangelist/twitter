@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-schema/x-api-problem-schema.json",
+  "title": "Problem",
+  "description": "An HTTP Problem Details object, as defined in IETF RFC 7807 (https://tools.ietf.org/html/rfc7807).",
+  "type": "object",
+  "properties": {
+    "detail": {
+      "type": "string"
+    },
+    "status": {
+      "type": "integer"
+    },
+    "title": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "title"
+  ]
+}

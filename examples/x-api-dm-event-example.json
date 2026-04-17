@@ -1,0 +1,31 @@
+{
+  "attachments": {
+    "card_ids": [
+      "1234567890123456789"
+    ],
+    "media_keys": [
+      "example_value"
+    ]
+  },
+  "cashtags": [
+    "example_value"
+  ],
+  "created_at": "example_value",
+  "dm_conversation_id": "123123123-456456456",
+  "event_type": "MessageCreate",
+  "hashtags": [
+    "example_value"
+  ],
+  "id": "1146654567674912769",
+  "mentions": [
+    "example_value"
+  ],
+  "participant_ids": [
+    "1234567890123456789"
+  ],
+  "referenced_tweets": [
+    {
+      "id": "1234567890123456789"
+    }
+  ]
+}

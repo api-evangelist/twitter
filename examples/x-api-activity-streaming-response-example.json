@@ -1,0 +1,10 @@
+{
+  "data": {
+    "event_type": "example_value",
+    "event_uuid": "1234567890123456789",
+    "filter": "example_value",
+    "payload": "example_value",
+    "tag": "example_value"
+  },
+  "errors": []
+}

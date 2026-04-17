@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-schema/x-api-get2-tweets-search-recent-response-schema.json",
+  "title": "Get2TweetsSearchRecentResponse",
+  "description": "Get2TweetsSearchRecentResponse schema from X API v2",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/Tweet"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/Problem"
+      }
+    },
+    "includes": {
+      "type": "object",
+      "properties": {
+        "media": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/components/schemas/Media"
+          }
+        },
+        "places": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/components/schemas/Place"
+          }
+        },
+        "polls": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/components/schemas/Poll"
+          }
+        },
+        "topics": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/components/schemas/Topic"
+          }
+        },
+        "tweets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/components/schemas/Tweet"
+          }
+        },
+        "users": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "newest_id": {
+          "$ref": "#/components/schemas/NewestId"
+        },
+        "next_token": {
+          "$ref": "#/components/schemas/NextToken"
+        },
+        "oldest_id": {
+          "$ref": "#/components/schemas/OldestId"
+        },
+        "result_count": {
+          "$ref": "#/components/schemas/ResultCount"
+        }
+      }
+    }
+  }
+}

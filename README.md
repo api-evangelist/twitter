@@ -155,11 +155,11 @@ Machine-readable API specifications organized by format.
 
 ### JSON Schema
 
-26 standalone JSON Schema files extracted from the X API v2 OpenAPI spec in [json-schema/](json-schema/).
+25 standalone JSON Schema files extracted from the X API v2 OpenAPI spec in [json-schema/](json-schema/).
 
 ### JSON Structure
 
-26 JSON Structure files converted from JSON Schema in [json-structure/](json-structure/).
+25 JSON Structure files converted from JSON Schema in [json-structure/](json-structure/).
 
 ### JSON-LD
 
@@ -167,7 +167,7 @@ Machine-readable API specifications organized by format.
 
 ### Examples
 
-26 realistic example JSON files generated from JSON Schema in [examples/](examples/).
+25 realistic example JSON files generated from JSON Schema in [examples/](examples/).
 
 ## Capabilities
 

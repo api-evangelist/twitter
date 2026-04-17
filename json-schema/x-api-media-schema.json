@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-schema/x-api-media-schema.json",
+  "title": "Media",
+  "description": "Media schema from X API v2",
+  "type": "object",
+  "properties": {
+    "height": {
+      "type": "integer",
+      "description": "The height of the media in pixels.",
+      "minimum": 0
+    },
+    "media_key": {
+      "type": "string",
+      "description": "The Media Key identifier for this attachment.",
+      "pattern": "^([0-9]+)_([0-9]+)$"
+    },
+    "type": {
+      "type": "string"
+    },
+    "width": {
+      "type": "integer",
+      "description": "The width of the media in pixels.",
+      "minimum": 0
+    }
+  },
+  "required": [
+    "type"
+  ]
+}

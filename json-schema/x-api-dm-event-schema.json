@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-schema/x-api-dm-event-schema.json",
+  "title": "DmEvent",
+  "description": "DmEvent schema from X API v2",
+  "type": "object",
+  "properties": {
+    "attachments": {
+      "type": "object",
+      "description": "Specifies the type of attachments (if any) present in this DM.",
+      "properties": {
+        "card_ids": {
+          "type": "array",
+          "description": "A list of card IDs (if cards are attached).",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "media_keys": {
+          "type": "array",
+          "description": "A list of Media Keys for each one of the media attachments (if media are attached).",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/components/schemas/MediaKey"
+          }
+        }
+      }
+    },
+    "cashtags": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/CashtagEntity"
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "dm_conversation_id": {
+      "type": "string",
+      "description": "Unique identifier of a DM conversation. This can either be a numeric string, or a pair of numeric strings separated by a '-' character in the case of one-on-one DM Conversations.",
+      "pattern": "^([0-9]{1,19}-[0-9]{1,19}|[0-9]{15,19})$",
+      "example": "123123123-456456456"
+    },
+    "event_type": {
+      "type": "string",
+      "example": "MessageCreate"
+    },
+    "hashtags": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/HashtagEntity"
+      }
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of a DM Event.",
+      "pattern": "^[0-9]{1,19}$",
+      "example": "1146654567674912769"
+    },
+    "mentions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/MentionEntity"
+      }
+    },
+    "participant_ids": {
+      "type": "array",
+      "description": "A list of participants for a ParticipantsJoin or ParticipantsLeave event_type.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/UserId"
+      }
+    },
+    "referenced_tweets": {
+      "type": "array",
+      "description": "A list of Posts this DM refers to.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/TweetId"
+          }
+        }
+      }
+    },
+    "sender_id": {
+      "type": "string",
+      "description": "Unique identifier of this User. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.",
+      "pattern": "^[0-9]{1,19}$",
+      "example": "2244994945"
+    },
+    "text": {
+      "type": "string"
+    },
+    "urls": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/UrlEntityDm"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "event_type"
+  ]
+}

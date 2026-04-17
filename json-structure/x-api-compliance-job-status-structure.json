@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-structure/x-api-compliance-job-status-structure.json",
+  "name": "ComplianceJobStatus",
+  "description": "Status of a compliance job.",
+  "type": "string",
+  "enum": [
+    "created",
+    "in_progress",
+    "failed",
+    "complete",
+    "expired"
+  ]
+}

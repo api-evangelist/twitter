@@ -1,7 +1,0 @@
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/json-schema/x-api-\\1ggregate-schema.json",
-  "title": "Aggregate",
-  "description": "The sum of results returned in this response.",
-  "type": "integer"
-}
