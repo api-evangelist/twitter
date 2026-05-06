@@ -4,97 +4,120 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: X (Twitter)
 providerId: twitter
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Social Media
-  - Microblogging
-  - Real-Time Data
-  - Streaming
-  - Advertising
-  - Content
+  - Developer API
   - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the X (Twitter) API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
+description: X API v2 enforces rate limits on top of its pay-per-call pricing. Limits are scoped per endpoint
+  with per-app (Bearer) and per-user (OAuth) buckets, typically over 15-minute or 24-hour windows. Headers
+  expose the live limit, remaining, and reset timestamp. When a limit is exceeded, the API returns HTTP
+  429 with error code 88 ("Rate limit exceeded"); recovery is via the reset timestamp and exponential
+  backoff.
+sources:
+  - https://docs.x.com/x-api/fundamentals/rate-limits
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  limit: x-rate-limit-limit
+  remaining: x-rate-limit-remaining
+  reset: x-rate-limit-reset
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
+  - name: Tweet lookup (app)
+    scope: app (Bearer token)
+    metric: requests_per_15_minutes
+    limit: 3500
     timeFrame: minute
-    applies:
-      - X API
-      - X Ads API
-      - X Activity API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - X API
-      - X Ads API
-      - X Activity API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
+    notes: 15-minute window.
+  - name: Tweet lookup (user)
+    scope: user (OAuth)
+    metric: requests_per_15_minutes
+    limit: 5000
+    timeFrame: minute
+    notes: 15-minute window.
+  - name: Recent search (app)
+    scope: app (Bearer token)
+    metric: requests_per_15_minutes
+    limit: 450
+    timeFrame: minute
+    notes: 15-minute window.
+  - name: Recent search (user)
+    scope: user (OAuth)
+    metric: requests_per_15_minutes
+    limit: 300
+    timeFrame: minute
+    notes: 15-minute window.
+  - name: Post creation (app)
+    scope: app (Bearer token)
+    metric: requests_per_24_hours
+    limit: 10000
+    timeFrame: day
+    notes: 24-hour window.
+  - name: Post creation (user)
+    scope: user (OAuth)
+    metric: requests_per_15_minutes
     limit: 100
-    burst: 200
     timeFrame: minute
-    applies:
-      - X API
-      - X Ads API
-      - X Activity API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - X API
-      - X Ads API
-      - X Activity API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
+    notes: 15-minute window.
+  - name: User lookup (app)
+    scope: app (Bearer token)
+    metric: requests_per_15_minutes
+    limit: 300
     timeFrame: minute
-    applies:
-      - X API
-      - X Ads API
-      - X Activity API
+    notes: 15-minute window.
+  - name: User lookup (user)
+    scope: user (OAuth)
+    metric: requests_per_15_minutes
+    limit: 900
+    timeFrame: minute
+    notes: 15-minute window.
+  - name: Follow management (user)
+    scope: user (OAuth)
+    metric: requests_per_15_minutes
+    limit: 50
+    timeFrame: minute
+    notes: User-only; not available with app tokens.
+  - name: Direct Messages - retrieval (user)
+    scope: user (OAuth)
+    metric: requests_per_15_minutes
+    limit: 15
+    timeFrame: minute
+    notes: User-only.
+  - name: Direct Messages - creation
+    scope: app/user
+    metric: requests_per_24_hours
+    limit: 1440
+    timeFrame: day
+    notes: 24-hour window; available on both app and user contexts.
+  - name: Media upload init (app)
+    scope: app (Bearer token)
+    metric: requests_per_24_hours
+    limit: 180000
+    timeFrame: day
+    notes: 24-hour window.
+  - name: Media upload init (user)
+    scope: user (OAuth)
+    metric: requests_per_15_minutes
+    limit: 1875
+    timeFrame: minute
+    notes: 15-minute window.
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+  - name: 15-Minute / 24-Hour Windows
+    description: Most endpoints reset on 15-minute windows; high-volume actions (post creation, DM creation,
+      media upload init) use 24-hour windows. Use x-rate-limit-reset to determine wait time.
+  - name: App vs User Buckets
+    description: Each endpoint has separate per-app (Bearer) and per-user (OAuth) buckets; choose the
+      auth context that fits your traffic shape and treat them as independent budgets.
+  - name: Error Code 88 Recovery
+    description: A 429 response carries error code 88 ("Rate limit exceeded"); recover by waiting until
+      x-rate-limit-reset and applying exponential backoff before retrying.
+  - name: Streaming for Real-Time
+    description: For high-volume real-time use cases, prefer streaming endpoints over polling to stay
+      within the 15-minute / 24-hour windows.
+  - name: Caching and Distribution
+    description: Cache responses, monitor remaining, and distribute requests across the time window to
+      avoid bursting against the limit.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

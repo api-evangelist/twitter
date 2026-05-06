@@ -4,166 +4,118 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: X (Twitter)
 providerId: twitter
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Social Media
+  - Developer API
+  - Pay-Per-Use
   - Microblogging
-  - Real-Time Data
-  - Streaming
-  - Advertising
-  - Content
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+description: X API v2 is sold on a pay-per-usage credit model — developers buy credits in the Developer
+  Console and the platform deducts them per request. There are no contracts, subscriptions, or minimums;
+  read operations on most resources cost $0.005 per resource, identity-adjacent reads (users, DMs, follows,
+  trends) cost $0.010, and write operations are $0.015 per request (or $0.200 with a URL). Owned reads
+  (your own posts, bookmarks, followers) are $0.001 per resource. Duplicate requests within 24 hours are
+  charged once. Spending limits and auto-recharge are configurable.
+sources:
+  - https://docs.x.com/x-api/getting-started/pricing
+  - https://docs.x.com/x-api/getting-started/about-x-api
 plans:
-  - id: twitter-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the X (Twitter) API surface. Intended for evaluation, prototyping,
-      and low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
+  - id: twitter-pay-per-usage
+    name: X API Pay-Per-Usage
+    type: pay-as-you-go
+    description: Credit-based pay-per-call X API v2. Buy credits in the Developer Console; each request
+      deducts the documented per-resource or per-request price. Spending limits and deduplication are
+      built in.
     entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://api.x.com/2
-          - https://ads-api.x.com
-          - https://api.x.com
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://api.x.com/2
-          - https://ads-api.x.com
-          - https://api.x.com
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: X API
-      - name: X Ads API
-      - name: X Activity API
-  - id: twitter-pro
-    name: Professional
-    type: paid
-    description: Production tier for X (Twitter). Provides higher quotas, priority support, and access
-      to the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://api.x.com/2
-          - https://ads-api.x.com
-          - https://api.x.com
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://api.x.com/2
-          - https://ads-api.x.com
-          - https://api.x.com
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
+      - label: Read - Posts / Lists / Spaces / Communities / Notes / Media / Analytics
+        name: read_content_resources
         type: metered
-        metric: requests
+        metric: resource
         limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '$0.005'
+        userMultiplied: false
+      - label: Read - Users / DMs / Following / Followers / Trends
+        name: read_identity_resources
+        type: metered
+        metric: resource
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '$0.010'
+        userMultiplied: false
+      - label: Owned Reads
+        name: owned_reads
+        type: metered
+        metric: resource
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '$0.001'
+        userMultiplied: false
+      - label: Write - Content Creation
+        name: write_content
+        type: metered
+        metric: request
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '$0.015'
+        userMultiplied: false
+      - label: Write - Content with URL
+        name: write_content_with_url
+        type: metered
+        metric: request
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '$0.200'
+        userMultiplied: false
+      - label: Write - Interactions / Bookmarks
+        name: write_interactions
+        type: metered
+        metric: request
+        limit: -1
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '$0.005-$0.015'
+        userMultiplied: false
+      - label: Deduplication Window
+        name: deduplication_window
+        type: flat
+        metric: hour
+        limit: 24
+        timeFrame: day
+        geo: global
+        unit: 1
+        price: included
+        userMultiplied: false
+      - label: Auto-Recharge / Spending Limit
+        name: cost_controls
+        type: flat
+        metric: month
+        limit: 1
         timeFrame: month
         geo: global
-        domains:
-          - https://api.x.com/2
-          - https://ads-api.x.com
-          - https://api.x.com
-        unit: 1000
-        price: TBD
+        unit: 1
+        price: included
         userMultiplied: false
     elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: X API
-      - name: X Ads API
-      - name: X Activity API
-  - id: twitter-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for X (Twitter). Includes dedicated capacity, contractual SLAs,
-      security review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains:
-          - https://api.x.com/2
-          - https://ads-api.x.com
-          - https://api.x.com
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains:
-          - https://api.x.com/2
-          - https://ads-api.x.com
-          - https://api.x.com
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: X API
-      - name: X Ads API
-      - name: X Activity API
+      - name: No Contracts
+      - name: No Subscriptions
+      - name: No Minimum Spend
+      - name: Real-Time Usage Tracking in Developer Console
+      - name: 24-Hour Request Deduplication
+      - name: Configurable Spending Limit
+      - name: Configurable Auto-Recharge
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
