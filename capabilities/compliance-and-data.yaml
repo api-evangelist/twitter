@@ -1,196 +1,740 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "X Compliance and Data Management"
-  description: "Unified workflow for managing compliance jobs, data streams, and real-time compliance monitoring on X. Used by compliance officers, data engineers, and platform operations."
+  label: X Compliance and Data Management
+  description: Unified workflow for managing compliance jobs, data streams, and real-time compliance monitoring on X. Used
+    by compliance officers, data engineers, and platform operations.
   tags:
-    - X API
-    - Compliance
-    - Data Management
-    - Streaming
+  - X API
+  - Compliance
+  - Data Management
+  - Streaming
   personas:
-    - compliance officers
-    - data engineers
-    - platform operations
-  created: "2026-04-17"
-  modified: "2026-04-17"
-
+  - compliance officers
+  - data engineers
+  - platform operations
+  created: '2026-04-17'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      X_API_BEARER_TOKEN: X_API_BEARER_TOKEN
-
+- namespace: env
+  keys:
+    X_API_BEARER_TOKEN: X_API_BEARER_TOKEN
 capability:
   consumes:
-    - import: x-streaming
-      location: "./shared/streaming.yaml"
-    - import: x-posts
-      location: "./shared/posts.yaml"
-
+  - type: http
+    namespace: x-streaming
+    baseUri: https://api.x.com
+    description: X API v2 streaming endpoints for real-time data access.
+    authentication:
+      type: bearer
+      token: '{{X_API_BEARER_TOKEN}}'
+    resources:
+    - name: post-streams
+      path: /2
+      description: Stream posts in real-time via firehose, sample, and filtered search.
+      operations:
+      - name: streamPostsFirehose
+        method: GET
+        path: /tweets/firehose/stream
+        description: Stream all public posts in real-time via the firehose.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamPostsFirehoseEn
+        method: GET
+        path: /tweets/firehose/stream/lang/en
+        description: Stream all public English-language posts in real-time.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamPostsSample10
+        method: GET
+        path: /tweets/sample10/stream
+        description: Stream a 10% sample of all public posts in real-time.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamPostsSample1
+        method: GET
+        path: /tweets/sample/stream
+        description: Stream a roughly 1% sample of all public posts in real-time.
+        inputParameters:
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamPostsSearch
+        method: GET
+        path: /tweets/search/stream
+        description: Stream posts matching filtered stream rules in real-time.
+        inputParameters:
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        - name: expansions
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of expansions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: stream-rules
+      path: /2
+      description: Manage filtered stream rules.
+      operations:
+      - name: addSearchStreamRules
+        method: POST
+        path: /tweets/search/stream/rules
+        description: Add or delete rules for the filtered search stream.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getSearchStreamRules
+        method: GET
+        path: /tweets/search/stream/rules
+        description: Get the current rules for the filtered search stream.
+        inputParameters:
+        - name: ids
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of rule IDs to retrieve
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: compliance-streams
+      path: /2
+      description: Stream compliance events for users, posts, likes, and labels.
+      operations:
+      - name: streamUsersCompliance
+        method: GET
+        path: /users/compliance/stream
+        description: Stream user compliance events in real-time.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamPostsCompliance
+        method: GET
+        path: /tweets/compliance/stream
+        description: Stream post compliance events in real-time.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamLikesFirehose
+        method: GET
+        path: /likes/firehose/stream
+        description: Stream all likes in real-time via the firehose.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamLikesCompliance
+        method: GET
+        path: /likes/compliance/stream
+        description: Stream likes compliance events in real-time.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamLabelsCompliance
+        method: GET
+        path: /labels/compliance/stream
+        description: Stream labels compliance events in real-time.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  - type: http
+    namespace: x-posts
+    baseUri: https://api.x.com
+    description: X API v2 endpoints for posts (tweets) management.
+    authentication:
+      type: bearer
+      token: '{{X_API_BEARER_TOKEN}}'
+    resources:
+    - name: posts
+      path: /2
+      description: Create, retrieve, and delete posts.
+      operations:
+      - name: createPosts
+        method: POST
+        path: /tweets
+        description: Create a new post (tweet).
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getPostsByIds
+        method: GET
+        path: /tweets
+        description: Retrieve multiple posts by their IDs.
+        inputParameters:
+        - name: ids
+          in: query
+          type: string
+          required: true
+          description: Comma-separated list of post IDs
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields to return
+        - name: expansions
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of expansions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletePostById
+        method: DELETE
+        path: /tweets/{id}
+        description: Delete a post by its ID.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The ID of the post to delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-analytics
+      path: /2
+      description: Retrieve analytics and insights for posts.
+      operations:
+      - name: getPostsAnalytics
+        method: GET
+        path: /tweets/{id}/analytics
+        description: Get analytics data for a specific post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The ID of the post
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getInsights28Hr
+        method: GET
+        path: /insights/tweets/28hr
+        description: Get post insights for the last 28 hours.
+        inputParameters:
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getInsightsHistorical
+        method: GET
+        path: /insights/tweets/historical
+        description: Get historical post insights.
+        inputParameters:
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-search
+      path: /2
+      description: Search for posts using queries.
+      operations:
+      - name: searchPostsRecent
+        method: POST
+        path: /tweets/search/recent
+        description: Search for posts from the last 7 days.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: searchPostsAll
+        method: POST
+        path: /tweets/search/all
+        description: Search the full archive of posts.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-counts
+      path: /2
+      description: Get counts of posts matching a query.
+      operations:
+      - name: getPostsCountsRecent
+        method: GET
+        path: /tweets/counts/recent
+        description: Get counts of posts matching a query from the last 7 days.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          required: true
+          description: Search query for matching posts
+        - name: granularity
+          in: query
+          type: string
+          required: false
+          description: Granularity of count results (minute, hour, day)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getPostsCountsAll
+        method: GET
+        path: /tweets/counts/all
+        description: Get counts of posts matching a query from the full archive.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          required: true
+          description: Search query for matching posts
+        - name: granularity
+          in: query
+          type: string
+          required: false
+          description: Granularity of count results (minute, hour, day)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: timelines
+      path: /2
+      description: Retrieve user timelines and mentions.
+      operations:
+      - name: getUserTimeline
+        method: GET
+        path: /users/{id}/tweets
+        description: Get posts authored by a specific user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-100)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUserMentions
+        method: GET
+        path: /users/{id}/mentions
+        description: Get posts mentioning a specific user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-100)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUserHomeTimeline
+        method: GET
+        path: /users/{id}/timelines/reverse_chronological
+        description: Get the authenticated user's home timeline.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-100)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-engagement
+      path: /2
+      description: Get engagement data for posts.
+      operations:
+      - name: getPostsQuotePosts
+        method: GET
+        path: /tweets/{id}/quote_tweets
+        description: Get posts that quote a specific post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The post ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getPostsRepostedBy
+        method: GET
+        path: /tweets/{id}/retweeted_by
+        description: Get users who reposted a specific post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The post ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getPostsLikingUsers
+        method: GET
+        path: /tweets/{id}/liking_users
+        description: Get users who liked a specific post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The post ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-moderation
+      path: /2
+      description: Moderate post replies.
+      operations:
+      - name: hidePostsReply
+        method: PUT
+        path: /tweets/{id}/hidden
+        description: Hide or unhide a reply to a post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The reply post ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
   exposes:
-    - type: rest
-      port: 8083
-      namespace: x-compliance-api
-      resources:
-        - path: /v1/compliance/jobs
-          name: compliance-jobs
-          description: "Create and list compliance jobs"
-          operations:
-            - method: POST
-              name: createComplianceJobs
-              description: "Create a new compliance job"
-              call: "x-compliance-api.createComplianceJobs"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: GET
-              name: getComplianceJobs
-              description: "List compliance jobs"
-              call: "x-compliance-api.getComplianceJobs"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/compliance/jobs/{id}
-          name: compliance-job
-          description: "Get a specific compliance job"
-          operations:
-            - method: GET
-              name: getComplianceJobsById
-              description: "Get a compliance job by ID"
-              call: "x-compliance-api.getComplianceJobsById"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/compliance/streams/users
-          name: users-compliance
-          description: "User compliance stream"
-          operations:
-            - method: GET
-              name: streamUsersCompliance
-              description: "Stream user compliance events"
-              call: "x-compliance-api.streamUsersCompliance"
-              with:
-                partition: "rest.partition"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/compliance/streams/posts
-          name: posts-compliance
-          description: "Post compliance stream"
-          operations:
-            - method: GET
-              name: streamPostsCompliance
-              description: "Stream post compliance events"
-              call: "x-compliance-api.streamPostsCompliance"
-              with:
-                partition: "rest.partition"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/compliance/streams/likes
-          name: likes-compliance
-          description: "Likes compliance stream"
-          operations:
-            - method: GET
-              name: streamLikesCompliance
-              description: "Stream likes compliance events"
-              call: "x-compliance-api.streamLikesCompliance"
-              with:
-                partition: "rest.partition"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/compliance/streams/labels
-          name: labels-compliance
-          description: "Labels compliance stream"
-          operations:
-            - method: GET
-              name: streamLabelsCompliance
-              description: "Stream labels compliance events"
-              call: "x-compliance-api.streamLabelsCompliance"
-              with:
-                partition: "rest.partition"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9083
-      namespace: x-compliance-mcp
-      transport: http
-      tools:
-        - name: createComplianceJobs
-          description: "Create a new compliance job"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-compliance-mcp.createComplianceJobs"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getComplianceJobs
-          description: "List compliance jobs"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-compliance-mcp.getComplianceJobs"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getComplianceJobsById
-          description: "Get a compliance job by its ID"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-compliance-mcp.getComplianceJobsById"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: streamUsersCompliance
-          description: "Stream user compliance events in real-time"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-compliance-mcp.streamUsersCompliance"
-          with:
-            partition: "tools.partition"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: streamPostsCompliance
-          description: "Stream post compliance events in real-time"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-compliance-mcp.streamPostsCompliance"
-          with:
-            partition: "tools.partition"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: streamLikesCompliance
-          description: "Stream likes compliance events in real-time"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-compliance-mcp.streamLikesCompliance"
-          with:
-            partition: "tools.partition"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: streamLabelsCompliance
-          description: "Stream labels compliance events in real-time"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-compliance-mcp.streamLabelsCompliance"
-          with:
-            partition: "tools.partition"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8083
+    namespace: x-compliance-api
+    resources:
+    - path: /v1/compliance/jobs
+      name: compliance-jobs
+      description: Create and list compliance jobs
+      operations:
+      - method: POST
+        name: createComplianceJobs
+        description: Create a new compliance job
+        call: x-compliance-api.createComplianceJobs
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getComplianceJobs
+        description: List compliance jobs
+        call: x-compliance-api.getComplianceJobs
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/compliance/jobs/{id}
+      name: compliance-job
+      description: Get a specific compliance job
+      operations:
+      - method: GET
+        name: getComplianceJobsById
+        description: Get a compliance job by ID
+        call: x-compliance-api.getComplianceJobsById
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/compliance/streams/users
+      name: users-compliance
+      description: User compliance stream
+      operations:
+      - method: GET
+        name: streamUsersCompliance
+        description: Stream user compliance events
+        call: x-compliance-api.streamUsersCompliance
+        with:
+          partition: rest.partition
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/compliance/streams/posts
+      name: posts-compliance
+      description: Post compliance stream
+      operations:
+      - method: GET
+        name: streamPostsCompliance
+        description: Stream post compliance events
+        call: x-compliance-api.streamPostsCompliance
+        with:
+          partition: rest.partition
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/compliance/streams/likes
+      name: likes-compliance
+      description: Likes compliance stream
+      operations:
+      - method: GET
+        name: streamLikesCompliance
+        description: Stream likes compliance events
+        call: x-compliance-api.streamLikesCompliance
+        with:
+          partition: rest.partition
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/compliance/streams/labels
+      name: labels-compliance
+      description: Labels compliance stream
+      operations:
+      - method: GET
+        name: streamLabelsCompliance
+        description: Stream labels compliance events
+        call: x-compliance-api.streamLabelsCompliance
+        with:
+          partition: rest.partition
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9083
+    namespace: x-compliance-mcp
+    transport: http
+    tools:
+    - name: createComplianceJobs
+      description: Create a new compliance job
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-compliance-mcp.createComplianceJobs
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getComplianceJobs
+      description: List compliance jobs
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-compliance-mcp.getComplianceJobs
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getComplianceJobsById
+      description: Get a compliance job by its ID
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-compliance-mcp.getComplianceJobsById
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: streamUsersCompliance
+      description: Stream user compliance events in real-time
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-compliance-mcp.streamUsersCompliance
+      with:
+        partition: tools.partition
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: streamPostsCompliance
+      description: Stream post compliance events in real-time
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-compliance-mcp.streamPostsCompliance
+      with:
+        partition: tools.partition
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: streamLikesCompliance
+      description: Stream likes compliance events in real-time
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-compliance-mcp.streamLikesCompliance
+      with:
+        partition: tools.partition
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: streamLabelsCompliance
+      description: Stream labels compliance events in real-time
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-compliance-mcp.streamLabelsCompliance
+      with:
+        partition: tools.partition
+      outputParameters:
+      - type: object
+        mapping: $.

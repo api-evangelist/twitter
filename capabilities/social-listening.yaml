@@ -1,402 +1,1259 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "X Social Listening and Analytics"
-  description: "Unified workflow for monitoring conversations, searching posts, analyzing trends, and extracting insights from X data. Used by data analysts, brand managers, and researchers."
+  label: X Social Listening and Analytics
+  description: Unified workflow for monitoring conversations, searching posts, analyzing trends, and extracting insights from
+    X data. Used by data analysts, brand managers, and researchers.
   tags:
-    - X API
-    - Social Listening
-    - Analytics
-    - Search
-    - Trends
+  - X API
+  - Social Listening
+  - Analytics
+  - Search
+  - Trends
   personas:
-    - data analysts
-    - brand managers
-    - researchers
-  created: "2026-04-17"
-  modified: "2026-04-17"
-
+  - data analysts
+  - brand managers
+  - researchers
+  created: '2026-04-17'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      X_API_BEARER_TOKEN: X_API_BEARER_TOKEN
-
+- namespace: env
+  keys:
+    X_API_BEARER_TOKEN: X_API_BEARER_TOKEN
 capability:
   consumes:
-    - import: x-posts
-      location: "./shared/posts.yaml"
-    - import: x-streaming
-      location: "./shared/streaming.yaml"
-    - import: x-users
-      location: "./shared/users.yaml"
-
+  - type: http
+    namespace: x-posts
+    baseUri: https://api.x.com
+    description: X API v2 endpoints for posts (tweets) management.
+    authentication:
+      type: bearer
+      token: '{{X_API_BEARER_TOKEN}}'
+    resources:
+    - name: posts
+      path: /2
+      description: Create, retrieve, and delete posts.
+      operations:
+      - name: createPosts
+        method: POST
+        path: /tweets
+        description: Create a new post (tweet).
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getPostsByIds
+        method: GET
+        path: /tweets
+        description: Retrieve multiple posts by their IDs.
+        inputParameters:
+        - name: ids
+          in: query
+          type: string
+          required: true
+          description: Comma-separated list of post IDs
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields to return
+        - name: expansions
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of expansions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletePostById
+        method: DELETE
+        path: /tweets/{id}
+        description: Delete a post by its ID.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The ID of the post to delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-analytics
+      path: /2
+      description: Retrieve analytics and insights for posts.
+      operations:
+      - name: getPostsAnalytics
+        method: GET
+        path: /tweets/{id}/analytics
+        description: Get analytics data for a specific post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The ID of the post
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getInsights28Hr
+        method: GET
+        path: /insights/tweets/28hr
+        description: Get post insights for the last 28 hours.
+        inputParameters:
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getInsightsHistorical
+        method: GET
+        path: /insights/tweets/historical
+        description: Get historical post insights.
+        inputParameters:
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-search
+      path: /2
+      description: Search for posts using queries.
+      operations:
+      - name: searchPostsRecent
+        method: POST
+        path: /tweets/search/recent
+        description: Search for posts from the last 7 days.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: searchPostsAll
+        method: POST
+        path: /tweets/search/all
+        description: Search the full archive of posts.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-counts
+      path: /2
+      description: Get counts of posts matching a query.
+      operations:
+      - name: getPostsCountsRecent
+        method: GET
+        path: /tweets/counts/recent
+        description: Get counts of posts matching a query from the last 7 days.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          required: true
+          description: Search query for matching posts
+        - name: granularity
+          in: query
+          type: string
+          required: false
+          description: Granularity of count results (minute, hour, day)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getPostsCountsAll
+        method: GET
+        path: /tweets/counts/all
+        description: Get counts of posts matching a query from the full archive.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          required: true
+          description: Search query for matching posts
+        - name: granularity
+          in: query
+          type: string
+          required: false
+          description: Granularity of count results (minute, hour, day)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: timelines
+      path: /2
+      description: Retrieve user timelines and mentions.
+      operations:
+      - name: getUserTimeline
+        method: GET
+        path: /users/{id}/tweets
+        description: Get posts authored by a specific user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-100)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUserMentions
+        method: GET
+        path: /users/{id}/mentions
+        description: Get posts mentioning a specific user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-100)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUserHomeTimeline
+        method: GET
+        path: /users/{id}/timelines/reverse_chronological
+        description: Get the authenticated user's home timeline.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-100)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-engagement
+      path: /2
+      description: Get engagement data for posts.
+      operations:
+      - name: getPostsQuotePosts
+        method: GET
+        path: /tweets/{id}/quote_tweets
+        description: Get posts that quote a specific post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The post ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getPostsRepostedBy
+        method: GET
+        path: /tweets/{id}/retweeted_by
+        description: Get users who reposted a specific post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The post ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getPostsLikingUsers
+        method: GET
+        path: /tweets/{id}/liking_users
+        description: Get users who liked a specific post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The post ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-moderation
+      path: /2
+      description: Moderate post replies.
+      operations:
+      - name: hidePostsReply
+        method: PUT
+        path: /tweets/{id}/hidden
+        description: Hide or unhide a reply to a post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The reply post ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  - type: http
+    namespace: x-streaming
+    baseUri: https://api.x.com
+    description: X API v2 streaming endpoints for real-time data access.
+    authentication:
+      type: bearer
+      token: '{{X_API_BEARER_TOKEN}}'
+    resources:
+    - name: post-streams
+      path: /2
+      description: Stream posts in real-time via firehose, sample, and filtered search.
+      operations:
+      - name: streamPostsFirehose
+        method: GET
+        path: /tweets/firehose/stream
+        description: Stream all public posts in real-time via the firehose.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamPostsFirehoseEn
+        method: GET
+        path: /tweets/firehose/stream/lang/en
+        description: Stream all public English-language posts in real-time.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamPostsSample10
+        method: GET
+        path: /tweets/sample10/stream
+        description: Stream a 10% sample of all public posts in real-time.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamPostsSample1
+        method: GET
+        path: /tweets/sample/stream
+        description: Stream a roughly 1% sample of all public posts in real-time.
+        inputParameters:
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamPostsSearch
+        method: GET
+        path: /tweets/search/stream
+        description: Stream posts matching filtered stream rules in real-time.
+        inputParameters:
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        - name: expansions
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of expansions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: stream-rules
+      path: /2
+      description: Manage filtered stream rules.
+      operations:
+      - name: addSearchStreamRules
+        method: POST
+        path: /tweets/search/stream/rules
+        description: Add or delete rules for the filtered search stream.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getSearchStreamRules
+        method: GET
+        path: /tweets/search/stream/rules
+        description: Get the current rules for the filtered search stream.
+        inputParameters:
+        - name: ids
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of rule IDs to retrieve
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: compliance-streams
+      path: /2
+      description: Stream compliance events for users, posts, likes, and labels.
+      operations:
+      - name: streamUsersCompliance
+        method: GET
+        path: /users/compliance/stream
+        description: Stream user compliance events in real-time.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamPostsCompliance
+        method: GET
+        path: /tweets/compliance/stream
+        description: Stream post compliance events in real-time.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamLikesFirehose
+        method: GET
+        path: /likes/firehose/stream
+        description: Stream all likes in real-time via the firehose.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamLikesCompliance
+        method: GET
+        path: /likes/compliance/stream
+        description: Stream likes compliance events in real-time.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: streamLabelsCompliance
+        method: GET
+        path: /labels/compliance/stream
+        description: Stream labels compliance events in real-time.
+        inputParameters:
+        - name: partition
+          in: query
+          type: integer
+          required: true
+          description: The partition number
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  - type: http
+    namespace: x-users
+    baseUri: https://api.x.com
+    description: X API v2 endpoints for user management, follows, blocks, and mutes.
+    authentication:
+      type: bearer
+      token: '{{X_API_BEARER_TOKEN}}'
+    resources:
+    - name: users
+      path: /2
+      description: Look up users by ID, username, or authenticated user.
+      operations:
+      - name: getUsersByIds
+        method: GET
+        path: /users
+        description: Retrieve multiple users by their IDs.
+        inputParameters:
+        - name: ids
+          in: query
+          type: string
+          required: true
+          description: Comma-separated list of user IDs
+        - name: user.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of user fields to return
+        - name: expansions
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of expansions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUsersByUsernames
+        method: GET
+        path: /users/by
+        description: Retrieve multiple users by their usernames.
+        inputParameters:
+        - name: usernames
+          in: query
+          type: string
+          required: true
+          description: Comma-separated list of usernames
+        - name: user.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of user fields to return
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUsersByUsername
+        method: GET
+        path: /users/by/username/{username}
+        description: Retrieve a single user by username.
+        inputParameters:
+        - name: username
+          in: path
+          type: string
+          required: true
+          description: The username to look up
+        - name: user.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of user fields to return
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUsersMe
+        method: GET
+        path: /users/me
+        description: Retrieve the authenticated user's profile.
+        inputParameters:
+        - name: user.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of user fields to return
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: follows
+      path: /2
+      description: Manage follow relationships.
+      operations:
+      - name: followUser
+        method: POST
+        path: /users/{id}/following
+        description: Follow a user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: unfollowUser
+        method: DELETE
+        path: /users/{source_user_id}/following/{target_user_id}
+        description: Unfollow a user.
+        inputParameters:
+        - name: source_user_id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: target_user_id
+          in: path
+          type: string
+          required: true
+          description: The user ID to unfollow
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getFollowers
+        method: GET
+        path: /users/{id}/followers
+        description: Get followers of a user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-1000)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getFollowing
+        method: GET
+        path: /users/{id}/following
+        description: Get users that a user is following.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-1000)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: blocks
+      path: /2
+      description: Manage block relationships.
+      operations:
+      - name: blockUsers
+        method: POST
+        path: /users/{id}/blocking
+        description: Block a user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: unblockUsers
+        method: DELETE
+        path: /users/{source_user_id}/blocking/{target_user_id}
+        description: Unblock a user.
+        inputParameters:
+        - name: source_user_id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: target_user_id
+          in: path
+          type: string
+          required: true
+          description: The user ID to unblock
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getBlockedUsers
+        method: GET
+        path: /users/{id}/blocking
+        description: Get users blocked by the authenticated user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: mutes
+      path: /2
+      description: Manage mute relationships.
+      operations:
+      - name: muteUser
+        method: POST
+        path: /users/{id}/muting
+        description: Mute a user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: unmuteUser
+        method: DELETE
+        path: /users/{source_user_id}/muting/{target_user_id}
+        description: Unmute a user.
+        inputParameters:
+        - name: source_user_id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: target_user_id
+          in: path
+          type: string
+          required: true
+          description: The user ID to unmute
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getMutedUsers
+        method: GET
+        path: /users/{id}/muting
+        description: Get users muted by the authenticated user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
   exposes:
-    - type: rest
-      port: 8081
-      namespace: x-listening-api
-      resources:
-        - path: /v1/listening/search/recent
-          name: search-recent
-          description: "Search recent posts"
-          operations:
-            - method: POST
-              name: searchPostsRecent
-              description: "Search posts from last 7 days"
-              call: "x-listening-api.searchPostsRecent"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/listening/search/all
-          name: search-all
-          description: "Search all posts"
-          operations:
-            - method: POST
-              name: searchPostsAll
-              description: "Search full archive of posts"
-              call: "x-listening-api.searchPostsAll"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/listening/counts/recent
-          name: counts-recent
-          description: "Get recent post counts"
-          operations:
-            - method: GET
-              name: getPostsCountsRecent
-              description: "Get counts from last 7 days"
-              call: "x-listening-api.getPostsCountsRecent"
-              with:
-                query: "rest.query"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/listening/counts/all
-          name: counts-all
-          description: "Get all post counts"
-          operations:
-            - method: GET
-              name: getPostsCountsAll
-              description: "Get counts from full archive"
-              call: "x-listening-api.getPostsCountsAll"
-              with:
-                query: "rest.query"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/listening/insights/28hr
-          name: insights-28hr
-          description: "Get 28-hour post insights"
-          operations:
-            - method: GET
-              name: getInsights28Hr
-              description: "Get post insights for last 28 hours"
-              call: "x-listening-api.getInsights28Hr"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/listening/insights/historical
-          name: insights-historical
-          description: "Get historical post insights"
-          operations:
-            - method: GET
-              name: getInsightsHistorical
-              description: "Get historical post insights"
-              call: "x-listening-api.getInsightsHistorical"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/listening/streams/search
-          name: search-stream
-          description: "Filtered search stream"
-          operations:
-            - method: GET
-              name: streamPostsSearch
-              description: "Stream posts matching filter rules"
-              call: "x-listening-api.streamPostsSearch"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/listening/streams/search/rules
-          name: stream-rules
-          description: "Manage stream filter rules"
-          operations:
-            - method: POST
-              name: addSearchStreamRules
-              description: "Add or delete stream rules"
-              call: "x-listening-api.addSearchStreamRules"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: GET
-              name: getSearchStreamRules
-              description: "Get current stream rules"
-              call: "x-listening-api.getSearchStreamRules"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/listening/streams/firehose
-          name: firehose
-          description: "Full firehose stream"
-          operations:
-            - method: GET
-              name: streamPostsFirehose
-              description: "Stream all public posts"
-              call: "x-listening-api.streamPostsFirehose"
-              with:
-                partition: "rest.partition"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/listening/streams/sample10
-          name: sample10
-          description: "10% sample stream"
-          operations:
-            - method: GET
-              name: streamPostsSample10
-              description: "Stream 10% sample of posts"
-              call: "x-listening-api.streamPostsSample10"
-              with:
-                partition: "rest.partition"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/listening/users
-          name: users
-          description: "Look up users by IDs"
-          operations:
-            - method: GET
-              name: getUsersByIds
-              description: "Retrieve users by IDs"
-              call: "x-listening-api.getUsersByIds"
-              with:
-                ids: "rest.ids"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/listening/users/by
-          name: users-by-usernames
-          description: "Look up users by usernames"
-          operations:
-            - method: GET
-              name: getUsersByUsernames
-              description: "Retrieve users by usernames"
-              call: "x-listening-api.getUsersByUsernames"
-              with:
-                usernames: "rest.usernames"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/listening/users/{id}/followers
-          name: followers
-          description: "Get followers"
-          operations:
-            - method: GET
-              name: getFollowers
-              description: "Get user followers"
-              call: "x-listening-api.getFollowers"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/listening/users/{id}/following
-          name: following
-          description: "Get following"
-          operations:
-            - method: GET
-              name: getFollowing
-              description: "Get users being followed"
-              call: "x-listening-api.getFollowing"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9081
-      namespace: x-listening-mcp
-      transport: http
-      tools:
-        - name: searchPostsRecent
-          description: "Search for posts from the last 7 days"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.searchPostsRecent"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: searchPostsAll
-          description: "Search the full archive of posts"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.searchPostsAll"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getPostsCountsRecent
-          description: "Get counts of posts matching a query from last 7 days"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.getPostsCountsRecent"
-          with:
-            query: "tools.query"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getPostsCountsAll
-          description: "Get counts of posts matching a query from full archive"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.getPostsCountsAll"
-          with:
-            query: "tools.query"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getInsights28Hr
-          description: "Get post insights for the last 28 hours"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.getInsights28Hr"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getInsightsHistorical
-          description: "Get historical post insights"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.getInsightsHistorical"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: streamPostsSearch
-          description: "Stream posts matching filtered stream rules in real-time"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.streamPostsSearch"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: addSearchStreamRules
-          description: "Add or delete rules for the filtered search stream"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-listening-mcp.addSearchStreamRules"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getSearchStreamRules
-          description: "Get current rules for the filtered search stream"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.getSearchStreamRules"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: streamPostsFirehose
-          description: "Stream all public posts in real-time via the firehose"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.streamPostsFirehose"
-          with:
-            partition: "tools.partition"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: streamPostsSample10
-          description: "Stream a 10% sample of all public posts in real-time"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.streamPostsSample10"
-          with:
-            partition: "tools.partition"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getUsersByIds
-          description: "Retrieve multiple users by their IDs"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.getUsersByIds"
-          with:
-            ids: "tools.ids"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getUsersByUsernames
-          description: "Retrieve multiple users by their usernames"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.getUsersByUsernames"
-          with:
-            usernames: "tools.usernames"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getUsersMe
-          description: "Retrieve the authenticated user's profile"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.getUsersMe"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getFollowers
-          description: "Get followers of a user"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.getFollowers"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getFollowing
-          description: "Get users that a user is following"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.getFollowing"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getUserTimeline
-          description: "Get posts authored by a specific user"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.getUserTimeline"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getUserMentions
-          description: "Get posts mentioning a specific user"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-listening-mcp.getUserMentions"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8081
+    namespace: x-listening-api
+    resources:
+    - path: /v1/listening/search/recent
+      name: search-recent
+      description: Search recent posts
+      operations:
+      - method: POST
+        name: searchPostsRecent
+        description: Search posts from last 7 days
+        call: x-listening-api.searchPostsRecent
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/listening/search/all
+      name: search-all
+      description: Search all posts
+      operations:
+      - method: POST
+        name: searchPostsAll
+        description: Search full archive of posts
+        call: x-listening-api.searchPostsAll
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/listening/counts/recent
+      name: counts-recent
+      description: Get recent post counts
+      operations:
+      - method: GET
+        name: getPostsCountsRecent
+        description: Get counts from last 7 days
+        call: x-listening-api.getPostsCountsRecent
+        with:
+          query: rest.query
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/listening/counts/all
+      name: counts-all
+      description: Get all post counts
+      operations:
+      - method: GET
+        name: getPostsCountsAll
+        description: Get counts from full archive
+        call: x-listening-api.getPostsCountsAll
+        with:
+          query: rest.query
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/listening/insights/28hr
+      name: insights-28hr
+      description: Get 28-hour post insights
+      operations:
+      - method: GET
+        name: getInsights28Hr
+        description: Get post insights for last 28 hours
+        call: x-listening-api.getInsights28Hr
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/listening/insights/historical
+      name: insights-historical
+      description: Get historical post insights
+      operations:
+      - method: GET
+        name: getInsightsHistorical
+        description: Get historical post insights
+        call: x-listening-api.getInsightsHistorical
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/listening/streams/search
+      name: search-stream
+      description: Filtered search stream
+      operations:
+      - method: GET
+        name: streamPostsSearch
+        description: Stream posts matching filter rules
+        call: x-listening-api.streamPostsSearch
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/listening/streams/search/rules
+      name: stream-rules
+      description: Manage stream filter rules
+      operations:
+      - method: POST
+        name: addSearchStreamRules
+        description: Add or delete stream rules
+        call: x-listening-api.addSearchStreamRules
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getSearchStreamRules
+        description: Get current stream rules
+        call: x-listening-api.getSearchStreamRules
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/listening/streams/firehose
+      name: firehose
+      description: Full firehose stream
+      operations:
+      - method: GET
+        name: streamPostsFirehose
+        description: Stream all public posts
+        call: x-listening-api.streamPostsFirehose
+        with:
+          partition: rest.partition
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/listening/streams/sample10
+      name: sample10
+      description: 10% sample stream
+      operations:
+      - method: GET
+        name: streamPostsSample10
+        description: Stream 10% sample of posts
+        call: x-listening-api.streamPostsSample10
+        with:
+          partition: rest.partition
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/listening/users
+      name: users
+      description: Look up users by IDs
+      operations:
+      - method: GET
+        name: getUsersByIds
+        description: Retrieve users by IDs
+        call: x-listening-api.getUsersByIds
+        with:
+          ids: rest.ids
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/listening/users/by
+      name: users-by-usernames
+      description: Look up users by usernames
+      operations:
+      - method: GET
+        name: getUsersByUsernames
+        description: Retrieve users by usernames
+        call: x-listening-api.getUsersByUsernames
+        with:
+          usernames: rest.usernames
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/listening/users/{id}/followers
+      name: followers
+      description: Get followers
+      operations:
+      - method: GET
+        name: getFollowers
+        description: Get user followers
+        call: x-listening-api.getFollowers
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/listening/users/{id}/following
+      name: following
+      description: Get following
+      operations:
+      - method: GET
+        name: getFollowing
+        description: Get users being followed
+        call: x-listening-api.getFollowing
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9081
+    namespace: x-listening-mcp
+    transport: http
+    tools:
+    - name: searchPostsRecent
+      description: Search for posts from the last 7 days
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.searchPostsRecent
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: searchPostsAll
+      description: Search the full archive of posts
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.searchPostsAll
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getPostsCountsRecent
+      description: Get counts of posts matching a query from last 7 days
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.getPostsCountsRecent
+      with:
+        query: tools.query
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getPostsCountsAll
+      description: Get counts of posts matching a query from full archive
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.getPostsCountsAll
+      with:
+        query: tools.query
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getInsights28Hr
+      description: Get post insights for the last 28 hours
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.getInsights28Hr
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getInsightsHistorical
+      description: Get historical post insights
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.getInsightsHistorical
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: streamPostsSearch
+      description: Stream posts matching filtered stream rules in real-time
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.streamPostsSearch
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: addSearchStreamRules
+      description: Add or delete rules for the filtered search stream
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-listening-mcp.addSearchStreamRules
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getSearchStreamRules
+      description: Get current rules for the filtered search stream
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.getSearchStreamRules
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: streamPostsFirehose
+      description: Stream all public posts in real-time via the firehose
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.streamPostsFirehose
+      with:
+        partition: tools.partition
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: streamPostsSample10
+      description: Stream a 10% sample of all public posts in real-time
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.streamPostsSample10
+      with:
+        partition: tools.partition
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getUsersByIds
+      description: Retrieve multiple users by their IDs
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.getUsersByIds
+      with:
+        ids: tools.ids
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getUsersByUsernames
+      description: Retrieve multiple users by their usernames
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.getUsersByUsernames
+      with:
+        usernames: tools.usernames
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getUsersMe
+      description: Retrieve the authenticated user's profile
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.getUsersMe
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getFollowers
+      description: Get followers of a user
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.getFollowers
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getFollowing
+      description: Get users that a user is following
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.getFollowing
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getUserTimeline
+      description: Get posts authored by a specific user
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.getUserTimeline
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getUserMentions
+      description: Get posts mentioning a specific user
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-listening-mcp.getUserMentions
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

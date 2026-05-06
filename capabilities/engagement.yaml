@@ -1,360 +1,1015 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "X Engagement and Community Management"
-  description: "Unified workflow for managing user relationships, direct messages, spaces, and community interactions on X. Used by community managers, customer support teams, and engagement specialists."
+  label: X Engagement and Community Management
+  description: Unified workflow for managing user relationships, direct messages, spaces, and community interactions on X.
+    Used by community managers, customer support teams, and engagement specialists.
   tags:
-    - X API
-    - Engagement
-    - Community
-    - Direct Messages
-    - Spaces
+  - X API
+  - Engagement
+  - Community
+  - Direct Messages
+  - Spaces
   personas:
-    - community managers
-    - customer support
-    - engagement specialists
-  created: "2026-04-17"
-  modified: "2026-04-17"
-
+  - community managers
+  - customer support
+  - engagement specialists
+  created: '2026-04-17'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      X_API_BEARER_TOKEN: X_API_BEARER_TOKEN
-
+- namespace: env
+  keys:
+    X_API_BEARER_TOKEN: X_API_BEARER_TOKEN
 capability:
   consumes:
-    - import: x-users
-      location: "./shared/users.yaml"
-    - import: x-direct-messages
-      location: "./shared/direct-messages.yaml"
-    - import: x-spaces
-      location: "./shared/spaces.yaml"
-
+  - type: http
+    namespace: x-users
+    baseUri: https://api.x.com
+    description: X API v2 endpoints for user management, follows, blocks, and mutes.
+    authentication:
+      type: bearer
+      token: '{{X_API_BEARER_TOKEN}}'
+    resources:
+    - name: users
+      path: /2
+      description: Look up users by ID, username, or authenticated user.
+      operations:
+      - name: getUsersByIds
+        method: GET
+        path: /users
+        description: Retrieve multiple users by their IDs.
+        inputParameters:
+        - name: ids
+          in: query
+          type: string
+          required: true
+          description: Comma-separated list of user IDs
+        - name: user.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of user fields to return
+        - name: expansions
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of expansions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUsersByUsernames
+        method: GET
+        path: /users/by
+        description: Retrieve multiple users by their usernames.
+        inputParameters:
+        - name: usernames
+          in: query
+          type: string
+          required: true
+          description: Comma-separated list of usernames
+        - name: user.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of user fields to return
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUsersByUsername
+        method: GET
+        path: /users/by/username/{username}
+        description: Retrieve a single user by username.
+        inputParameters:
+        - name: username
+          in: path
+          type: string
+          required: true
+          description: The username to look up
+        - name: user.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of user fields to return
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUsersMe
+        method: GET
+        path: /users/me
+        description: Retrieve the authenticated user's profile.
+        inputParameters:
+        - name: user.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of user fields to return
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: follows
+      path: /2
+      description: Manage follow relationships.
+      operations:
+      - name: followUser
+        method: POST
+        path: /users/{id}/following
+        description: Follow a user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: unfollowUser
+        method: DELETE
+        path: /users/{source_user_id}/following/{target_user_id}
+        description: Unfollow a user.
+        inputParameters:
+        - name: source_user_id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: target_user_id
+          in: path
+          type: string
+          required: true
+          description: The user ID to unfollow
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getFollowers
+        method: GET
+        path: /users/{id}/followers
+        description: Get followers of a user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-1000)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getFollowing
+        method: GET
+        path: /users/{id}/following
+        description: Get users that a user is following.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-1000)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: blocks
+      path: /2
+      description: Manage block relationships.
+      operations:
+      - name: blockUsers
+        method: POST
+        path: /users/{id}/blocking
+        description: Block a user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: unblockUsers
+        method: DELETE
+        path: /users/{source_user_id}/blocking/{target_user_id}
+        description: Unblock a user.
+        inputParameters:
+        - name: source_user_id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: target_user_id
+          in: path
+          type: string
+          required: true
+          description: The user ID to unblock
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getBlockedUsers
+        method: GET
+        path: /users/{id}/blocking
+        description: Get users blocked by the authenticated user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: mutes
+      path: /2
+      description: Manage mute relationships.
+      operations:
+      - name: muteUser
+        method: POST
+        path: /users/{id}/muting
+        description: Mute a user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: unmuteUser
+        method: DELETE
+        path: /users/{source_user_id}/muting/{target_user_id}
+        description: Unmute a user.
+        inputParameters:
+        - name: source_user_id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: target_user_id
+          in: path
+          type: string
+          required: true
+          description: The user ID to unmute
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getMutedUsers
+        method: GET
+        path: /users/{id}/muting
+        description: Get users muted by the authenticated user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  - type: http
+    namespace: x-direct-messages
+    baseUri: https://api.x.com
+    description: X API v2 endpoints for direct messages and conversations.
+    authentication:
+      type: bearer
+      token: '{{X_API_BEARER_TOKEN}}'
+    resources:
+    - name: conversations
+      path: /2
+      description: Create and manage direct message conversations.
+      operations:
+      - name: createDirectMessagesConversation
+        method: POST
+        path: /dm_conversations
+        description: Create a new group DM conversation.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createDirectMessagesByParticipantId
+        method: POST
+        path: /dm_conversations/with/{participant_id}/messages
+        description: Send a direct message to a user by participant ID, creating a 1-1 conversation if needed.
+        inputParameters:
+        - name: participant_id
+          in: path
+          type: string
+          required: true
+          description: The participant user ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createDirectMessagesByConversationId
+        method: POST
+        path: /dm_conversations/{dm_conversation_id}/messages
+        description: Send a direct message to an existing conversation.
+        inputParameters:
+        - name: dm_conversation_id
+          in: path
+          type: string
+          required: true
+          description: The DM conversation ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: events
+      path: /2
+      description: Retrieve direct message events.
+      operations:
+      - name: getDirectMessagesEvents
+        method: GET
+        path: /dm_events
+        description: Get recent DM events for the authenticated user.
+        inputParameters:
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-100)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        - name: dm_event.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of DM event fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getDirectMessagesEventsByConversationId
+        method: GET
+        path: /dm_conversations/{dm_conversation_id}/dm_events
+        description: Get DM events for a specific conversation.
+        inputParameters:
+        - name: dm_conversation_id
+          in: path
+          type: string
+          required: true
+          description: The DM conversation ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-100)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getDirectMessagesEventsByParticipantId
+        method: GET
+        path: /dm_conversations/with/{participant_id}/dm_events
+        description: Get DM events for a 1-1 conversation with a specific user.
+        inputParameters:
+        - name: participant_id
+          in: path
+          type: string
+          required: true
+          description: The participant user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-100)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getDirectMessagesEventsById
+        method: GET
+        path: /dm_events/{event_id}
+        description: Get a specific DM event by its ID.
+        inputParameters:
+        - name: event_id
+          in: path
+          type: string
+          required: true
+          description: The DM event ID
+        - name: dm_event.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of DM event fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: media
+      path: /2
+      description: Download media from DM conversations.
+      operations:
+      - name: dmConversationsMediaDownload
+        method: GET
+        path: /dm_conversations/{dm_conversation_id}/media/{media_id}
+        description: Download media from a DM conversation.
+        inputParameters:
+        - name: dm_conversation_id
+          in: path
+          type: string
+          required: true
+          description: The DM conversation ID
+        - name: media_id
+          in: path
+          type: string
+          required: true
+          description: The media ID to download
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: delete
+      path: /2
+      description: Delete direct messages.
+      operations:
+      - name: deleteDirectMessageById
+        method: DELETE
+        path: /dm_events/{event_id}
+        description: Delete a direct message event by its ID.
+        inputParameters:
+        - name: event_id
+          in: path
+          type: string
+          required: true
+          description: The DM event ID to delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  - type: http
+    namespace: x-spaces
+    baseUri: https://api.x.com
+    description: X API v2 endpoints for Spaces.
+    authentication:
+      type: bearer
+      token: '{{X_API_BEARER_TOKEN}}'
+    resources:
+    - name: spaces
+      path: /2
+      description: Retrieve and search Spaces.
+      operations:
+      - name: getSpacesByIds
+        method: GET
+        path: /spaces
+        description: Retrieve multiple Spaces by their IDs.
+        inputParameters:
+        - name: ids
+          in: query
+          type: string
+          required: true
+          description: Comma-separated list of Space IDs
+        - name: space.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of Space fields
+        - name: expansions
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of expansions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getSpacesById
+        method: GET
+        path: /spaces/{id}
+        description: Retrieve a single Space by its ID.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The Space ID
+        - name: space.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of Space fields
+        - name: expansions
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of expansions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getSpacesByCreatorIds
+        method: GET
+        path: /spaces/by/creator_ids
+        description: Retrieve Spaces created by specific user IDs.
+        inputParameters:
+        - name: user_ids
+          in: query
+          type: string
+          required: true
+          description: Comma-separated list of user IDs
+        - name: space.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of Space fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: searchSpaces
+        method: GET
+        path: /spaces/search
+        description: Search for Spaces by keyword.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          required: true
+          description: Search query for Spaces
+        - name: state
+          in: query
+          type: string
+          required: false
+          description: Filter by Space state (live, scheduled, all)
+        - name: space.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of Space fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: space-details
+      path: /2
+      description: Get buyers and posts associated with a Space.
+      operations:
+      - name: getSpacesBuyers
+        method: GET
+        path: /spaces/{id}/buyers
+        description: Get users who purchased a ticket to a Space.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The Space ID
+        - name: user.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of user fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getSpacesPosts
+        method: GET
+        path: /spaces/{id}/tweets
+        description: Get posts shared in a Space.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The Space ID
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
   exposes:
-    - type: rest
-      port: 8082
-      namespace: x-engagement-api
-      resources:
-        - path: /v1/engagement/users/{id}/following
-          name: following
-          description: "Manage following"
-          operations:
-            - method: POST
-              name: followUser
-              description: "Follow a user"
-              call: "x-engagement-api.followUser"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/engagement/users/{source_user_id}/following/{target_user_id}
-          name: unfollow
-          description: "Unfollow a user"
-          operations:
-            - method: DELETE
-              name: unfollowUser
-              description: "Unfollow a user"
-              call: "x-engagement-api.unfollowUser"
-              with:
-                source_user_id: "rest.source_user_id"
-                target_user_id: "rest.target_user_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/engagement/users/{id}/blocking
-          name: blocking
-          description: "Manage blocks"
-          operations:
-            - method: POST
-              name: blockUsers
-              description: "Block a user"
-              call: "x-engagement-api.blockUsers"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/engagement/users/{source_user_id}/blocking/{target_user_id}
-          name: unblock
-          description: "Unblock a user"
-          operations:
-            - method: DELETE
-              name: unblockUsers
-              description: "Unblock a user"
-              call: "x-engagement-api.unblockUsers"
-              with:
-                source_user_id: "rest.source_user_id"
-                target_user_id: "rest.target_user_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/engagement/users/{id}/muting
-          name: muting
-          description: "Manage mutes"
-          operations:
-            - method: POST
-              name: muteUser
-              description: "Mute a user"
-              call: "x-engagement-api.muteUser"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/engagement/users/{source_user_id}/muting/{target_user_id}
-          name: unmute
-          description: "Unmute a user"
-          operations:
-            - method: DELETE
-              name: unmuteUser
-              description: "Unmute a user"
-              call: "x-engagement-api.unmuteUser"
-              with:
-                source_user_id: "rest.source_user_id"
-                target_user_id: "rest.target_user_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/engagement/dm/conversations
-          name: dm-conversations
-          description: "Create DM conversations"
-          operations:
-            - method: POST
-              name: createDirectMessagesConversation
-              description: "Create a new group DM conversation"
-              call: "x-engagement-api.createDirectMessagesConversation"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/engagement/dm/conversations/{dm_conversation_id}/messages
-          name: dm-by-conversation
-          description: "Send DM to a conversation"
-          operations:
-            - method: POST
-              name: createDirectMessagesByConversationId
-              description: "Send a DM to an existing conversation"
-              call: "x-engagement-api.createDirectMessagesByConversationId"
-              with:
-                dm_conversation_id: "rest.dm_conversation_id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/engagement/dm/events
-          name: dm-events
-          description: "Get DM events"
-          operations:
-            - method: GET
-              name: getDirectMessagesEvents
-              description: "Get recent DM events"
-              call: "x-engagement-api.getDirectMessagesEvents"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/engagement/spaces/search
-          name: spaces-search
-          description: "Search Spaces"
-          operations:
-            - method: GET
-              name: searchSpaces
-              description: "Search for Spaces by keyword"
-              call: "x-engagement-api.searchSpaces"
-              with:
-                query: "rest.query"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/engagement/spaces
-          name: spaces
-          description: "Retrieve Spaces by IDs"
-          operations:
-            - method: GET
-              name: getSpacesByIds
-              description: "Get multiple Spaces by IDs"
-              call: "x-engagement-api.getSpacesByIds"
-              with:
-                ids: "rest.ids"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9082
-      namespace: x-engagement-mcp
-      transport: http
-      tools:
-        - name: followUser
-          description: "Follow a user"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-engagement-mcp.followUser"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: unfollowUser
-          description: "Unfollow a user"
-          hints:
-            readOnly: false
-            destructive: true
-          call: "x-engagement-mcp.unfollowUser"
-          with:
-            source_user_id: "tools.source_user_id"
-            target_user_id: "tools.target_user_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: blockUsers
-          description: "Block a user"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-engagement-mcp.blockUsers"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: unblockUsers
-          description: "Unblock a user"
-          hints:
-            readOnly: false
-            destructive: true
-          call: "x-engagement-mcp.unblockUsers"
-          with:
-            source_user_id: "tools.source_user_id"
-            target_user_id: "tools.target_user_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getBlockedUsers
-          description: "Get users blocked by the authenticated user"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-engagement-mcp.getBlockedUsers"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: muteUser
-          description: "Mute a user"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-engagement-mcp.muteUser"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: unmuteUser
-          description: "Unmute a user"
-          hints:
-            readOnly: false
-            destructive: true
-          call: "x-engagement-mcp.unmuteUser"
-          with:
-            source_user_id: "tools.source_user_id"
-            target_user_id: "tools.target_user_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getMutedUsers
-          description: "Get users muted by the authenticated user"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-engagement-mcp.getMutedUsers"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: createDirectMessagesConversation
-          description: "Create a new group DM conversation"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-engagement-mcp.createDirectMessagesConversation"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: createDirectMessagesByParticipantId
-          description: "Send a direct message to a user by participant ID"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-engagement-mcp.createDirectMessagesByParticipantId"
-          with:
-            participant_id: "tools.participant_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: createDirectMessagesByConversationId
-          description: "Send a direct message to an existing conversation"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-engagement-mcp.createDirectMessagesByConversationId"
-          with:
-            dm_conversation_id: "tools.dm_conversation_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getDirectMessagesEvents
-          description: "Get recent DM events for the authenticated user"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-engagement-mcp.getDirectMessagesEvents"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getDirectMessagesEventsByConversationId
-          description: "Get DM events for a specific conversation"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-engagement-mcp.getDirectMessagesEventsByConversationId"
-          with:
-            dm_conversation_id: "tools.dm_conversation_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: searchSpaces
-          description: "Search for Spaces by keyword"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-engagement-mcp.searchSpaces"
-          with:
-            query: "tools.query"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getSpacesByIds
-          description: "Retrieve multiple Spaces by their IDs"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-engagement-mcp.getSpacesByIds"
-          with:
-            ids: "tools.ids"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getSpacesPosts
-          description: "Get posts shared in a Space"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-engagement-mcp.getSpacesPosts"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8082
+    namespace: x-engagement-api
+    resources:
+    - path: /v1/engagement/users/{id}/following
+      name: following
+      description: Manage following
+      operations:
+      - method: POST
+        name: followUser
+        description: Follow a user
+        call: x-engagement-api.followUser
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/engagement/users/{source_user_id}/following/{target_user_id}
+      name: unfollow
+      description: Unfollow a user
+      operations:
+      - method: DELETE
+        name: unfollowUser
+        description: Unfollow a user
+        call: x-engagement-api.unfollowUser
+        with:
+          source_user_id: rest.source_user_id
+          target_user_id: rest.target_user_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/engagement/users/{id}/blocking
+      name: blocking
+      description: Manage blocks
+      operations:
+      - method: POST
+        name: blockUsers
+        description: Block a user
+        call: x-engagement-api.blockUsers
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/engagement/users/{source_user_id}/blocking/{target_user_id}
+      name: unblock
+      description: Unblock a user
+      operations:
+      - method: DELETE
+        name: unblockUsers
+        description: Unblock a user
+        call: x-engagement-api.unblockUsers
+        with:
+          source_user_id: rest.source_user_id
+          target_user_id: rest.target_user_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/engagement/users/{id}/muting
+      name: muting
+      description: Manage mutes
+      operations:
+      - method: POST
+        name: muteUser
+        description: Mute a user
+        call: x-engagement-api.muteUser
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/engagement/users/{source_user_id}/muting/{target_user_id}
+      name: unmute
+      description: Unmute a user
+      operations:
+      - method: DELETE
+        name: unmuteUser
+        description: Unmute a user
+        call: x-engagement-api.unmuteUser
+        with:
+          source_user_id: rest.source_user_id
+          target_user_id: rest.target_user_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/engagement/dm/conversations
+      name: dm-conversations
+      description: Create DM conversations
+      operations:
+      - method: POST
+        name: createDirectMessagesConversation
+        description: Create a new group DM conversation
+        call: x-engagement-api.createDirectMessagesConversation
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/engagement/dm/conversations/{dm_conversation_id}/messages
+      name: dm-by-conversation
+      description: Send DM to a conversation
+      operations:
+      - method: POST
+        name: createDirectMessagesByConversationId
+        description: Send a DM to an existing conversation
+        call: x-engagement-api.createDirectMessagesByConversationId
+        with:
+          dm_conversation_id: rest.dm_conversation_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/engagement/dm/events
+      name: dm-events
+      description: Get DM events
+      operations:
+      - method: GET
+        name: getDirectMessagesEvents
+        description: Get recent DM events
+        call: x-engagement-api.getDirectMessagesEvents
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/engagement/spaces/search
+      name: spaces-search
+      description: Search Spaces
+      operations:
+      - method: GET
+        name: searchSpaces
+        description: Search for Spaces by keyword
+        call: x-engagement-api.searchSpaces
+        with:
+          query: rest.query
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/engagement/spaces
+      name: spaces
+      description: Retrieve Spaces by IDs
+      operations:
+      - method: GET
+        name: getSpacesByIds
+        description: Get multiple Spaces by IDs
+        call: x-engagement-api.getSpacesByIds
+        with:
+          ids: rest.ids
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9082
+    namespace: x-engagement-mcp
+    transport: http
+    tools:
+    - name: followUser
+      description: Follow a user
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-engagement-mcp.followUser
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: unfollowUser
+      description: Unfollow a user
+      hints:
+        readOnly: false
+        destructive: true
+      call: x-engagement-mcp.unfollowUser
+      with:
+        source_user_id: tools.source_user_id
+        target_user_id: tools.target_user_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: blockUsers
+      description: Block a user
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-engagement-mcp.blockUsers
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: unblockUsers
+      description: Unblock a user
+      hints:
+        readOnly: false
+        destructive: true
+      call: x-engagement-mcp.unblockUsers
+      with:
+        source_user_id: tools.source_user_id
+        target_user_id: tools.target_user_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getBlockedUsers
+      description: Get users blocked by the authenticated user
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-engagement-mcp.getBlockedUsers
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: muteUser
+      description: Mute a user
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-engagement-mcp.muteUser
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: unmuteUser
+      description: Unmute a user
+      hints:
+        readOnly: false
+        destructive: true
+      call: x-engagement-mcp.unmuteUser
+      with:
+        source_user_id: tools.source_user_id
+        target_user_id: tools.target_user_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getMutedUsers
+      description: Get users muted by the authenticated user
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-engagement-mcp.getMutedUsers
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createDirectMessagesConversation
+      description: Create a new group DM conversation
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-engagement-mcp.createDirectMessagesConversation
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createDirectMessagesByParticipantId
+      description: Send a direct message to a user by participant ID
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-engagement-mcp.createDirectMessagesByParticipantId
+      with:
+        participant_id: tools.participant_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createDirectMessagesByConversationId
+      description: Send a direct message to an existing conversation
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-engagement-mcp.createDirectMessagesByConversationId
+      with:
+        dm_conversation_id: tools.dm_conversation_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getDirectMessagesEvents
+      description: Get recent DM events for the authenticated user
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-engagement-mcp.getDirectMessagesEvents
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getDirectMessagesEventsByConversationId
+      description: Get DM events for a specific conversation
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-engagement-mcp.getDirectMessagesEventsByConversationId
+      with:
+        dm_conversation_id: tools.dm_conversation_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: searchSpaces
+      description: Search for Spaces by keyword
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-engagement-mcp.searchSpaces
+      with:
+        query: tools.query
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getSpacesByIds
+      description: Retrieve multiple Spaces by their IDs
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-engagement-mcp.getSpacesByIds
+      with:
+        ids: tools.ids
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getSpacesPosts
+      description: Get posts shared in a Space
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-engagement-mcp.getSpacesPosts
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

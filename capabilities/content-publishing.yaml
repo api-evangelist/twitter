@@ -1,391 +1,1365 @@
-naftiko: "1.0.0-alpha1"
-
+naftiko: 1.0.0-alpha2
 info:
-  label: "X Content Publishing and Management"
-  description: "Unified workflow for creating, managing, and analyzing posts, media, bookmarks, and lists on X. Used by social media managers, content creators, and marketing teams."
+  label: X Content Publishing and Management
+  description: Unified workflow for creating, managing, and analyzing posts, media, bookmarks, and lists on X. Used by social
+    media managers, content creators, and marketing teams.
   tags:
-    - X API
-    - Content
-    - Publishing
-    - Posts
-    - Media
-    - Marketing
+  - X API
+  - Content
+  - Publishing
+  - Posts
+  - Media
+  - Marketing
   personas:
-    - social media managers
-    - content creators
-    - marketing teams
-  created: "2026-04-17"
-  modified: "2026-04-17"
-
+  - social media managers
+  - content creators
+  - marketing teams
+  created: '2026-04-17'
+  modified: '2026-05-06'
 binds:
-  - namespace: env
-    keys:
-      X_API_BEARER_TOKEN: X_API_BEARER_TOKEN
-
+- namespace: env
+  keys:
+    X_API_BEARER_TOKEN: X_API_BEARER_TOKEN
 capability:
   consumes:
-    - import: x-posts
-      location: "./shared/posts.yaml"
-    - import: x-media
-      location: "./shared/media.yaml"
-    - import: x-bookmarks
-      location: "./shared/bookmarks.yaml"
-    - import: x-lists
-      location: "./shared/lists.yaml"
-
+  - type: http
+    namespace: x-posts
+    baseUri: https://api.x.com
+    description: X API v2 endpoints for posts (tweets) management.
+    authentication:
+      type: bearer
+      token: '{{X_API_BEARER_TOKEN}}'
+    resources:
+    - name: posts
+      path: /2
+      description: Create, retrieve, and delete posts.
+      operations:
+      - name: createPosts
+        method: POST
+        path: /tweets
+        description: Create a new post (tweet).
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getPostsByIds
+        method: GET
+        path: /tweets
+        description: Retrieve multiple posts by their IDs.
+        inputParameters:
+        - name: ids
+          in: query
+          type: string
+          required: true
+          description: Comma-separated list of post IDs
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields to return
+        - name: expansions
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of expansions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletePostById
+        method: DELETE
+        path: /tweets/{id}
+        description: Delete a post by its ID.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The ID of the post to delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-analytics
+      path: /2
+      description: Retrieve analytics and insights for posts.
+      operations:
+      - name: getPostsAnalytics
+        method: GET
+        path: /tweets/{id}/analytics
+        description: Get analytics data for a specific post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The ID of the post
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getInsights28Hr
+        method: GET
+        path: /insights/tweets/28hr
+        description: Get post insights for the last 28 hours.
+        inputParameters:
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getInsightsHistorical
+        method: GET
+        path: /insights/tweets/historical
+        description: Get historical post insights.
+        inputParameters:
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-search
+      path: /2
+      description: Search for posts using queries.
+      operations:
+      - name: searchPostsRecent
+        method: POST
+        path: /tweets/search/recent
+        description: Search for posts from the last 7 days.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: searchPostsAll
+        method: POST
+        path: /tweets/search/all
+        description: Search the full archive of posts.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-counts
+      path: /2
+      description: Get counts of posts matching a query.
+      operations:
+      - name: getPostsCountsRecent
+        method: GET
+        path: /tweets/counts/recent
+        description: Get counts of posts matching a query from the last 7 days.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          required: true
+          description: Search query for matching posts
+        - name: granularity
+          in: query
+          type: string
+          required: false
+          description: Granularity of count results (minute, hour, day)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getPostsCountsAll
+        method: GET
+        path: /tweets/counts/all
+        description: Get counts of posts matching a query from the full archive.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          required: true
+          description: Search query for matching posts
+        - name: granularity
+          in: query
+          type: string
+          required: false
+          description: Granularity of count results (minute, hour, day)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: timelines
+      path: /2
+      description: Retrieve user timelines and mentions.
+      operations:
+      - name: getUserTimeline
+        method: GET
+        path: /users/{id}/tweets
+        description: Get posts authored by a specific user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-100)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUserMentions
+        method: GET
+        path: /users/{id}/mentions
+        description: Get posts mentioning a specific user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-100)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUserHomeTimeline
+        method: GET
+        path: /users/{id}/timelines/reverse_chronological
+        description: Get the authenticated user's home timeline.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results (1-100)
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-engagement
+      path: /2
+      description: Get engagement data for posts.
+      operations:
+      - name: getPostsQuotePosts
+        method: GET
+        path: /tweets/{id}/quote_tweets
+        description: Get posts that quote a specific post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The post ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getPostsRepostedBy
+        method: GET
+        path: /tweets/{id}/retweeted_by
+        description: Get users who reposted a specific post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The post ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getPostsLikingUsers
+        method: GET
+        path: /tweets/{id}/liking_users
+        description: Get users who liked a specific post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The post ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: post-moderation
+      path: /2
+      description: Moderate post replies.
+      operations:
+      - name: hidePostsReply
+        method: PUT
+        path: /tweets/{id}/hidden
+        description: Hide or unhide a reply to a post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The reply post ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  - type: http
+    namespace: x-media
+    baseUri: https://api.x.com
+    description: X API endpoints for media upload and management.
+    authentication:
+      type: bearer
+      token: '{{X_API_BEARER_TOKEN}}'
+    resources:
+    - name: upload
+      path: /2
+      description: Upload media via simple or chunked upload.
+      operations:
+      - name: mediaUpload
+        method: POST
+        path: /media/upload
+        description: Upload media (simple upload for small files).
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: initializeMediaUpload
+        method: POST
+        path: /media/upload/initialize
+        description: Initialize a chunked media upload.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: appendMediaUpload
+        method: POST
+        path: /media/upload/append
+        description: Append a chunk to an in-progress media upload.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: finalizeMediaUpload
+        method: POST
+        path: /media/upload/finalize
+        description: Finalize a chunked media upload.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getMediaUploadStatus
+        method: GET
+        path: /media/upload/status/{media_id}
+        description: Get the processing status of an uploaded media.
+        inputParameters:
+        - name: media_id
+          in: path
+          type: string
+          required: true
+          description: The media ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: media-info
+      path: /2
+      description: Retrieve media information and analytics.
+      operations:
+      - name: getMediaByMediaKeys
+        method: GET
+        path: /media
+        description: Retrieve media by media keys.
+        inputParameters:
+        - name: media_keys
+          in: query
+          type: string
+          required: true
+          description: Comma-separated list of media keys
+        - name: media.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of media fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getMediaAnalytics
+        method: GET
+        path: /media/{media_id}/analytics
+        description: Get analytics for a specific media.
+        inputParameters:
+        - name: media_id
+          in: path
+          type: string
+          required: true
+          description: The media ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: media-metadata
+      path: /2
+      description: Manage media metadata and subtitles.
+      operations:
+      - name: createMediaMetadata
+        method: POST
+        path: /media/metadata/create
+        description: Create or update metadata (alt text) for uploaded media.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createMediaSubtitles
+        method: POST
+        path: /media/subtitles/create
+        description: Associate subtitles with uploaded media.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deleteMediaSubtitles
+        method: DELETE
+        path: /media/subtitles/delete
+        description: Remove subtitles from uploaded media.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  - type: http
+    namespace: x-bookmarks
+    baseUri: https://api.x.com
+    description: X API v2 endpoints for bookmarks and bookmark folders.
+    authentication:
+      type: bearer
+      token: '{{X_API_BEARER_TOKEN}}'
+    resources:
+    - name: bookmarks
+      path: /2
+      description: Manage user bookmarks.
+      operations:
+      - name: getUsersBookmarks
+        method: GET
+        path: /users/{id}/bookmarks
+        description: Get bookmarked posts for the authenticated user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        - name: tweet.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of tweet fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createUsersBookmark
+        method: POST
+        path: /users/{id}/bookmarks
+        description: Bookmark a post.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deleteUsersBookmark
+        method: DELETE
+        path: /users/{id}/bookmarks/{tweet_id}
+        description: Remove a bookmark.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: tweet_id
+          in: path
+          type: string
+          required: true
+          description: The post ID to unbookmark
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: bookmark-folders
+      path: /2
+      description: Manage bookmark folders.
+      operations:
+      - name: getUsersBookmarkFolders
+        method: GET
+        path: /users/{id}/bookmarks/folders
+        description: Get bookmark folders for the authenticated user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUsersBookmarksByFolderId
+        method: GET
+        path: /users/{id}/bookmarks/folders/{folder_id}
+        description: Get bookmarked posts in a specific folder.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: folder_id
+          in: path
+          type: string
+          required: true
+          description: The bookmark folder ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  - type: http
+    namespace: x-lists
+    baseUri: https://api.x.com
+    description: X API v2 endpoints for list management.
+    authentication:
+      type: bearer
+      token: '{{X_API_BEARER_TOKEN}}'
+    resources:
+    - name: lists
+      path: /2
+      description: Create, retrieve, update, and delete lists.
+      operations:
+      - name: createLists
+        method: POST
+        path: /lists
+        description: Create a new list.
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getListsById
+        method: GET
+        path: /lists/{id}
+        description: Get a list by its ID.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The list ID
+        - name: list.fields
+          in: query
+          type: string
+          required: false
+          description: Comma-separated list of list fields
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateLists
+        method: PUT
+        path: /lists/{id}
+        description: Update a list's name or description.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The list ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deleteLists
+        method: DELETE
+        path: /lists/{id}
+        description: Delete a list.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The list ID to delete
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: list-members
+      path: /2
+      description: Manage list members.
+      operations:
+      - name: getListsMembers
+        method: GET
+        path: /lists/{id}/members
+        description: Get the members of a list.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The list ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: addListsMember
+        method: POST
+        path: /lists/{id}/members
+        description: Add a member to a list.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The list ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: removeListsMemberByUserId
+        method: DELETE
+        path: /lists/{id}/members/{user_id}
+        description: Remove a member from a list.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The list ID
+        - name: user_id
+          in: path
+          type: string
+          required: true
+          description: The user ID to remove
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: list-followers
+      path: /2
+      description: Get list followers.
+      operations:
+      - name: getListsFollowers
+        method: GET
+        path: /lists/{id}/followers
+        description: Get users who follow a list.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The list ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: list-follows
+      path: /2
+      description: Follow and unfollow lists.
+      operations:
+      - name: followList
+        method: POST
+        path: /users/{id}/followed_lists
+        description: Follow a list.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: unfollowList
+        method: DELETE
+        path: /users/{id}/followed_lists/{list_id}
+        description: Unfollow a list.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: list_id
+          in: path
+          type: string
+          required: true
+          description: The list ID to unfollow
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: list-pins
+      path: /2
+      description: Pin and unpin lists.
+      operations:
+      - name: pinList
+        method: POST
+        path: /users/{id}/pinned_lists
+        description: Pin a list.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        body:
+          type: json
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: unpinList
+        method: DELETE
+        path: /users/{id}/pinned_lists/{list_id}
+        description: Unpin a list.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The authenticated user ID
+        - name: list_id
+          in: path
+          type: string
+          required: true
+          description: The list ID to unpin
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: list-posts
+      path: /2
+      description: Get posts from a list timeline.
+      operations:
+      - name: getListsPosts
+        method: GET
+        path: /lists/{id}/tweets
+        description: Get posts from a list's timeline.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The list ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: user-lists
+      path: /2
+      description: Get lists associated with a user.
+      operations:
+      - name: getUserOwnedLists
+        method: GET
+        path: /users/{id}/owned_lists
+        description: Get lists owned by a user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUserListMemberships
+        method: GET
+        path: /users/{id}/list_memberships
+        description: Get lists a user is a member of.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUserFollowedLists
+        method: GET
+        path: /users/{id}/followed_lists
+        description: Get lists a user follows.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The user ID
+        - name: max_results
+          in: query
+          type: integer
+          required: false
+          description: Maximum number of results
+        - name: pagination_token
+          in: query
+          type: string
+          required: false
+          description: Token for pagination
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: getUserPinnedLists
+        method: GET
+        path: /users/{id}/pinned_lists
+        description: Get lists pinned by a user.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+          description: The user ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
   exposes:
-    - type: rest
-      port: 8080
-      namespace: x-content-api
-      resources:
-        - path: /v1/content/posts
-          name: posts
-          description: "Create and retrieve posts"
-          operations:
-            - method: POST
-              name: createPosts
-              description: "Create a new post"
-              call: "x-content-api.createPosts"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: GET
-              name: getPostsByIds
-              description: "Retrieve posts by IDs"
-              call: "x-content-api.getPostsByIds"
-              with:
-                ids: "rest.ids"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/content/posts/{id}
-          name: post
-          description: "Manage a specific post"
-          operations:
-            - method: DELETE
-              name: deletePostById
-              description: "Delete a post"
-              call: "x-content-api.deletePostById"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/content/posts/{id}/analytics
-          name: post-analytics
-          description: "Get post analytics"
-          operations:
-            - method: GET
-              name: getPostsAnalytics
-              description: "Get analytics for a post"
-              call: "x-content-api.getPostsAnalytics"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/content/media/upload
-          name: media-upload
-          description: "Upload media"
-          operations:
-            - method: POST
-              name: mediaUpload
-              description: "Upload media for posts"
-              call: "x-content-api.mediaUpload"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/content/media/upload/initialize
-          name: media-upload-init
-          description: "Initialize chunked upload"
-          operations:
-            - method: POST
-              name: initializeMediaUpload
-              description: "Initialize a chunked media upload"
-              call: "x-content-api.initializeMediaUpload"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/content/media/upload/finalize
-          name: media-upload-finalize
-          description: "Finalize chunked upload"
-          operations:
-            - method: POST
-              name: finalizeMediaUpload
-              description: "Finalize a chunked media upload"
-              call: "x-content-api.finalizeMediaUpload"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/content/users/{id}/bookmarks
-          name: bookmarks
-          description: "Manage user bookmarks"
-          operations:
-            - method: POST
-              name: createUsersBookmark
-              description: "Bookmark a post"
-              call: "x-content-api.createUsersBookmark"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-            - method: GET
-              name: getUsersBookmarks
-              description: "Get bookmarked posts"
-              call: "x-content-api.getUsersBookmarks"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/content/lists
-          name: lists
-          description: "Create lists"
-          operations:
-            - method: POST
-              name: createLists
-              description: "Create a new list"
-              call: "x-content-api.createLists"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/content/lists/{id}/members
-          name: list-members
-          description: "Manage list members"
-          operations:
-            - method: POST
-              name: addListsMember
-              description: "Add a member to a list"
-              call: "x-content-api.addListsMember"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-        - path: /v1/content/lists/{id}/posts
-          name: list-posts
-          description: "Get list posts"
-          operations:
-            - method: GET
-              name: getListsPosts
-              description: "Get posts from a list timeline"
-              call: "x-content-api.getListsPosts"
-              with:
-                id: "rest.id"
-              outputParameters:
-                - type: object
-                  mapping: "$."
-
-    - type: mcp
-      port: 9080
-      namespace: x-content-mcp
-      transport: http
-      tools:
-        - name: createPosts
-          description: "Create a new post (tweet) on X"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-content-mcp.createPosts"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getPostsByIds
-          description: "Retrieve multiple posts by their IDs"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-content-mcp.getPostsByIds"
-          with:
-            ids: "tools.ids"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: deletePostById
-          description: "Delete a post by its ID"
-          hints:
-            readOnly: false
-            destructive: true
-          call: "x-content-mcp.deletePostById"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getPostsAnalytics
-          description: "Get analytics data for a specific post"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-content-mcp.getPostsAnalytics"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: mediaUpload
-          description: "Upload media for posts (simple upload for small files)"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-content-mcp.mediaUpload"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: initializeMediaUpload
-          description: "Initialize a chunked media upload"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-content-mcp.initializeMediaUpload"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: appendMediaUpload
-          description: "Append a chunk to an in-progress media upload"
-          hints:
-            readOnly: false
-            idempotent: true
-          call: "x-content-mcp.appendMediaUpload"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: finalizeMediaUpload
-          description: "Finalize a chunked media upload"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-content-mcp.finalizeMediaUpload"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getMediaUploadStatus
-          description: "Get the processing status of an uploaded media"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-content-mcp.getMediaUploadStatus"
-          with:
-            media_id: "tools.media_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: createMediaMetadata
-          description: "Create or update metadata (alt text) for uploaded media"
-          hints:
-            readOnly: false
-            idempotent: true
-          call: "x-content-mcp.createMediaMetadata"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: createUsersBookmark
-          description: "Bookmark a post"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-content-mcp.createUsersBookmark"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getUsersBookmarks
-          description: "Get bookmarked posts for the authenticated user"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-content-mcp.getUsersBookmarks"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: deleteUsersBookmark
-          description: "Remove a bookmark"
-          hints:
-            readOnly: false
-            destructive: true
-          call: "x-content-mcp.deleteUsersBookmark"
-          with:
-            id: "tools.id"
-            tweet_id: "tools.tweet_id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: createLists
-          description: "Create a new list on X"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-content-mcp.createLists"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getListsById
-          description: "Get a list by its ID"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-content-mcp.getListsById"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: updateLists
-          description: "Update a list's name or description"
-          hints:
-            readOnly: false
-            idempotent: true
-          call: "x-content-mcp.updateLists"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: addListsMember
-          description: "Add a member to a list"
-          hints:
-            readOnly: false
-            idempotent: false
-          call: "x-content-mcp.addListsMember"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getListsMembers
-          description: "Get the members of a list"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-content-mcp.getListsMembers"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: getListsPosts
-          description: "Get posts from a list's timeline"
-          hints:
-            readOnly: true
-            idempotent: true
-          call: "x-content-mcp.getListsPosts"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
-        - name: deleteLists
-          description: "Delete a list"
-          hints:
-            readOnly: false
-            destructive: true
-          call: "x-content-mcp.deleteLists"
-          with:
-            id: "tools.id"
-          outputParameters:
-            - type: object
-              mapping: "$."
+  - type: rest
+    port: 8080
+    namespace: x-content-api
+    resources:
+    - path: /v1/content/posts
+      name: posts
+      description: Create and retrieve posts
+      operations:
+      - method: POST
+        name: createPosts
+        description: Create a new post
+        call: x-content-api.createPosts
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getPostsByIds
+        description: Retrieve posts by IDs
+        call: x-content-api.getPostsByIds
+        with:
+          ids: rest.ids
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/posts/{id}
+      name: post
+      description: Manage a specific post
+      operations:
+      - method: DELETE
+        name: deletePostById
+        description: Delete a post
+        call: x-content-api.deletePostById
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/posts/{id}/analytics
+      name: post-analytics
+      description: Get post analytics
+      operations:
+      - method: GET
+        name: getPostsAnalytics
+        description: Get analytics for a post
+        call: x-content-api.getPostsAnalytics
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/media/upload
+      name: media-upload
+      description: Upload media
+      operations:
+      - method: POST
+        name: mediaUpload
+        description: Upload media for posts
+        call: x-content-api.mediaUpload
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/media/upload/initialize
+      name: media-upload-init
+      description: Initialize chunked upload
+      operations:
+      - method: POST
+        name: initializeMediaUpload
+        description: Initialize a chunked media upload
+        call: x-content-api.initializeMediaUpload
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/media/upload/finalize
+      name: media-upload-finalize
+      description: Finalize chunked upload
+      operations:
+      - method: POST
+        name: finalizeMediaUpload
+        description: Finalize a chunked media upload
+        call: x-content-api.finalizeMediaUpload
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/users/{id}/bookmarks
+      name: bookmarks
+      description: Manage user bookmarks
+      operations:
+      - method: POST
+        name: createUsersBookmark
+        description: Bookmark a post
+        call: x-content-api.createUsersBookmark
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getUsersBookmarks
+        description: Get bookmarked posts
+        call: x-content-api.getUsersBookmarks
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/lists
+      name: lists
+      description: Create lists
+      operations:
+      - method: POST
+        name: createLists
+        description: Create a new list
+        call: x-content-api.createLists
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/lists/{id}/members
+      name: list-members
+      description: Manage list members
+      operations:
+      - method: POST
+        name: addListsMember
+        description: Add a member to a list
+        call: x-content-api.addListsMember
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/content/lists/{id}/posts
+      name: list-posts
+      description: Get list posts
+      operations:
+      - method: GET
+        name: getListsPosts
+        description: Get posts from a list timeline
+        call: x-content-api.getListsPosts
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9080
+    namespace: x-content-mcp
+    transport: http
+    tools:
+    - name: createPosts
+      description: Create a new post (tweet) on X
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-content-mcp.createPosts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getPostsByIds
+      description: Retrieve multiple posts by their IDs
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-content-mcp.getPostsByIds
+      with:
+        ids: tools.ids
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deletePostById
+      description: Delete a post by its ID
+      hints:
+        readOnly: false
+        destructive: true
+      call: x-content-mcp.deletePostById
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getPostsAnalytics
+      description: Get analytics data for a specific post
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-content-mcp.getPostsAnalytics
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: mediaUpload
+      description: Upload media for posts (simple upload for small files)
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-content-mcp.mediaUpload
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: initializeMediaUpload
+      description: Initialize a chunked media upload
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-content-mcp.initializeMediaUpload
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: appendMediaUpload
+      description: Append a chunk to an in-progress media upload
+      hints:
+        readOnly: false
+        idempotent: true
+      call: x-content-mcp.appendMediaUpload
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: finalizeMediaUpload
+      description: Finalize a chunked media upload
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-content-mcp.finalizeMediaUpload
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getMediaUploadStatus
+      description: Get the processing status of an uploaded media
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-content-mcp.getMediaUploadStatus
+      with:
+        media_id: tools.media_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createMediaMetadata
+      description: Create or update metadata (alt text) for uploaded media
+      hints:
+        readOnly: false
+        idempotent: true
+      call: x-content-mcp.createMediaMetadata
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createUsersBookmark
+      description: Bookmark a post
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-content-mcp.createUsersBookmark
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getUsersBookmarks
+      description: Get bookmarked posts for the authenticated user
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-content-mcp.getUsersBookmarks
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deleteUsersBookmark
+      description: Remove a bookmark
+      hints:
+        readOnly: false
+        destructive: true
+      call: x-content-mcp.deleteUsersBookmark
+      with:
+        id: tools.id
+        tweet_id: tools.tweet_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createLists
+      description: Create a new list on X
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-content-mcp.createLists
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getListsById
+      description: Get a list by its ID
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-content-mcp.getListsById
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: updateLists
+      description: Update a list's name or description
+      hints:
+        readOnly: false
+        idempotent: true
+      call: x-content-mcp.updateLists
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: addListsMember
+      description: Add a member to a list
+      hints:
+        readOnly: false
+        idempotent: false
+      call: x-content-mcp.addListsMember
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getListsMembers
+      description: Get the members of a list
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-content-mcp.getListsMembers
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getListsPosts
+      description: Get posts from a list's timeline
+      hints:
+        readOnly: true
+        idempotent: true
+      call: x-content-mcp.getListsPosts
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deleteLists
+      description: Delete a list
+      hints:
+        readOnly: false
+        destructive: true
+      call: x-content-mcp.deleteLists
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
