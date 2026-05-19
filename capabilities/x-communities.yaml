@@ -1,0 +1,142 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: X API v2 — Communities
+  description: 'X API v2 — Communities. 2 operations. Lead operation: X Search Communities. Self-contained Naftiko capability
+    covering one Twitter business surface.'
+  tags:
+  - Twitter
+  - Communities
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TWITTER_API_KEY: TWITTER_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: x-communities
+    baseUri: https://api.x.com
+    description: X API v2 — Communities business capability. Self-contained, no shared references.
+    resources:
+    - name: 2-communities-search
+      path: /2/communities/search
+      operations:
+      - name: searchcommunities
+        method: GET
+        description: X Search Communities
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          description: Query to search communities.
+          required: true
+        - name: max_results
+          in: query
+          type: integer
+          description: The maximum number of search results to be returned by a request.
+        - name: next_token
+          in: query
+          type: string
+          description: This parameter is used to get the next 'page' of results. The value used with the parameter is pulled
+            directly from the response provided by the API, and should
+        - name: pagination_token
+          in: query
+          type: string
+          description: This parameter is used to get the next 'page' of results. The value used with the parameter is pulled
+            directly from the response provided by the API, and should
+    - name: 2-communities-id
+      path: /2/communities/{id}
+      operations:
+      - name: getcommunitiesbyid
+        method: GET
+        description: X Get Community by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the Community.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TWITTER_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: x-communities-rest
+    port: 8080
+    description: REST adapter for X API v2 — Communities. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/2/communities/search
+      name: 2-communities-search
+      description: REST surface for 2-communities-search.
+      operations:
+      - method: GET
+        name: searchcommunities
+        description: X Search Communities
+        call: x-communities.searchcommunities
+        with:
+          query: rest.query
+          max_results: rest.max_results
+          next_token: rest.next_token
+          pagination_token: rest.pagination_token
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/communities/{id}
+      name: 2-communities-id
+      description: REST surface for 2-communities-id.
+      operations:
+      - method: GET
+        name: getcommunitiesbyid
+        description: X Get Community by ID
+        call: x-communities.getcommunitiesbyid
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: x-communities-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for X API v2 — Communities. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: x-search-communities
+      description: X Search Communities
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-communities.searchcommunities
+      with:
+        query: tools.query
+        max_results: tools.max_results
+        next_token: tools.next_token
+        pagination_token: tools.pagination_token
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-community-id
+      description: X Get Community by ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-communities.getcommunitiesbyid
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

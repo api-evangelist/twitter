@@ -1,0 +1,133 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: X API v2 — News
+  description: 'X API v2 — News. 2 operations. Lead operation: X Search News. Self-contained Naftiko capability covering one
+    Twitter business surface.'
+  tags:
+  - Twitter
+  - News
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TWITTER_API_KEY: TWITTER_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: x-news
+    baseUri: https://api.x.com
+    description: X API v2 — News business capability. Self-contained, no shared references.
+    resources:
+    - name: 2-news-search
+      path: /2/news/search
+      operations:
+      - name: searchnews
+        method: GET
+        description: X Search News
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: query
+          in: query
+          type: string
+          description: The search query.
+          required: true
+        - name: max_results
+          in: query
+          type: integer
+          description: The number of results to return.
+        - name: max_age_hours
+          in: query
+          type: integer
+          description: The maximum age of the News story to search for.
+    - name: 2-news-id
+      path: /2/news/{id}
+      operations:
+      - name: getnews
+        method: GET
+        description: X Get News Stories by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the news story.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TWITTER_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: x-news-rest
+    port: 8080
+    description: REST adapter for X API v2 — News. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/2/news/search
+      name: 2-news-search
+      description: REST surface for 2-news-search.
+      operations:
+      - method: GET
+        name: searchnews
+        description: X Search News
+        call: x-news.searchnews
+        with:
+          query: rest.query
+          max_results: rest.max_results
+          max_age_hours: rest.max_age_hours
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/news/{id}
+      name: 2-news-id
+      description: REST surface for 2-news-id.
+      operations:
+      - method: GET
+        name: getnews
+        description: X Get News Stories by ID
+        call: x-news.getnews
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: x-news-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for X API v2 — News. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: x-search-news
+      description: X Search News
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-news.searchnews
+      with:
+        query: tools.query
+        max_results: tools.max_results
+        max_age_hours: tools.max_age_hours
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-news-stories-id
+      description: X Get News Stories by ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-news.getnews
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

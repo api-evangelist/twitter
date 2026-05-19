@@ -1,0 +1,484 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: X API v2 — Direct Messages
+  description: 'X API v2 — Direct Messages. 9 operations. Lead operation: X Create DM Conversation. Self-contained Naftiko
+    capability covering one Twitter business surface.'
+  tags:
+  - Twitter
+  - Direct Messages
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TWITTER_API_KEY: TWITTER_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: x-direct-messages
+    baseUri: https://api.x.com
+    description: X API v2 — Direct Messages business capability. Self-contained, no shared references.
+    resources:
+    - name: 2-dm_conversations
+      path: /2/dm_conversations
+      operations:
+      - name: createdirectmessagesconversation
+        method: POST
+        description: X Create DM Conversation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-dm_conversations-media-dm_id-media_id-resource_id
+      path: /2/dm_conversations/media/{dm_id}/{media_id}/{resource_id}
+      operations:
+      - name: dmconversationsmediadownload
+        method: GET
+        description: X Download DM Media
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: dm_id
+          in: path
+          type: string
+          description: The unique identifier of the Direct Message event containing the media.
+          required: true
+        - name: media_id
+          in: path
+          type: string
+          description: The unique identifier of the media attached to the Direct Message.
+          required: true
+        - name: resource_id
+          in: path
+          type: string
+          description: The resource identifier of the media file, including file extension (e.g. 'hVJQTwig.jpg').
+          required: true
+    - name: 2-dm_conversations-with-participant_id-dm_events
+      path: /2/dm_conversations/with/{participant_id}/dm_events
+      operations:
+      - name: getdirectmessageseventsbyparticipantid
+        method: GET
+        description: X Get DM Events for a DM Conversation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: participant_id
+          in: path
+          type: string
+          description: The ID of the participant user for the One to One DM conversation.
+          required: true
+        - name: max_results
+          in: query
+          type: integer
+          description: The maximum number of results.
+        - name: pagination_token
+          in: query
+          type: string
+          description: This parameter is used to get a specified 'page' of results.
+        - name: event_types
+          in: query
+          type: array
+          description: The set of event_types to include in the results.
+    - name: 2-dm_conversations-with-participant_id-messages
+      path: /2/dm_conversations/with/{participant_id}/messages
+      operations:
+      - name: createdirectmessagesbyparticipantid
+        method: POST
+        description: X Create DM Message by Participant ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: participant_id
+          in: path
+          type: string
+          description: The ID of the recipient user that will receive the DM.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-dm_conversations-dm_conversation_id-messages
+      path: /2/dm_conversations/{dm_conversation_id}/messages
+      operations:
+      - name: createdirectmessagesbyconversationid
+        method: POST
+        description: X Create DM Message by Conversation ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: dm_conversation_id
+          in: path
+          type: string
+          description: The DM Conversation ID.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-dm_conversations-id-dm_events
+      path: /2/dm_conversations/{id}/dm_events
+      operations:
+      - name: getdirectmessageseventsbyconversationid
+        method: GET
+        description: X Get DM Events for a DM Conversation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The DM conversation ID.
+          required: true
+        - name: max_results
+          in: query
+          type: integer
+          description: The maximum number of results.
+        - name: pagination_token
+          in: query
+          type: string
+          description: This parameter is used to get a specified 'page' of results.
+        - name: event_types
+          in: query
+          type: array
+          description: The set of event_types to include in the results.
+    - name: 2-dm_events
+      path: /2/dm_events
+      operations:
+      - name: getdirectmessagesevents
+        method: GET
+        description: X Get DM Events
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: max_results
+          in: query
+          type: integer
+          description: The maximum number of results.
+        - name: pagination_token
+          in: query
+          type: string
+          description: This parameter is used to get a specified 'page' of results.
+        - name: event_types
+          in: query
+          type: array
+          description: The set of event_types to include in the results.
+    - name: 2-dm_events-event_id
+      path: /2/dm_events/{event_id}
+      operations:
+      - name: deletedirectmessagesevents
+        method: DELETE
+        description: X Delete DM Event
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: event_id
+          in: path
+          type: string
+          description: The ID of the direct-message event to delete.
+          required: true
+      - name: getdirectmessageseventsbyid
+        method: GET
+        description: X Get DM Event by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: event_id
+          in: path
+          type: string
+          description: dm event id.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TWITTER_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: x-direct-messages-rest
+    port: 8080
+    description: REST adapter for X API v2 — Direct Messages. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/2/dm-conversations
+      name: 2-dm-conversations
+      description: REST surface for 2-dm_conversations.
+      operations:
+      - method: POST
+        name: createdirectmessagesconversation
+        description: X Create DM Conversation
+        call: x-direct-messages.createdirectmessagesconversation
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/dm-conversations/media/{dm-id}/{media-id}/{resource-id}
+      name: 2-dm-conversations-media-dm-id-media-id-resource-id
+      description: REST surface for 2-dm_conversations-media-dm_id-media_id-resource_id.
+      operations:
+      - method: GET
+        name: dmconversationsmediadownload
+        description: X Download DM Media
+        call: x-direct-messages.dmconversationsmediadownload
+        with:
+          dm_id: rest.dm_id
+          media_id: rest.media_id
+          resource_id: rest.resource_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/dm-conversations/with/{participant-id}/dm-events
+      name: 2-dm-conversations-with-participant-id-dm-events
+      description: REST surface for 2-dm_conversations-with-participant_id-dm_events.
+      operations:
+      - method: GET
+        name: getdirectmessageseventsbyparticipantid
+        description: X Get DM Events for a DM Conversation
+        call: x-direct-messages.getdirectmessageseventsbyparticipantid
+        with:
+          participant_id: rest.participant_id
+          max_results: rest.max_results
+          pagination_token: rest.pagination_token
+          event_types: rest.event_types
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/dm-conversations/with/{participant-id}/messages
+      name: 2-dm-conversations-with-participant-id-messages
+      description: REST surface for 2-dm_conversations-with-participant_id-messages.
+      operations:
+      - method: POST
+        name: createdirectmessagesbyparticipantid
+        description: X Create DM Message by Participant ID
+        call: x-direct-messages.createdirectmessagesbyparticipantid
+        with:
+          participant_id: rest.participant_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/dm-conversations/{dm-conversation-id}/messages
+      name: 2-dm-conversations-dm-conversation-id-messages
+      description: REST surface for 2-dm_conversations-dm_conversation_id-messages.
+      operations:
+      - method: POST
+        name: createdirectmessagesbyconversationid
+        description: X Create DM Message by Conversation ID
+        call: x-direct-messages.createdirectmessagesbyconversationid
+        with:
+          dm_conversation_id: rest.dm_conversation_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/dm-conversations/{id}/dm-events
+      name: 2-dm-conversations-id-dm-events
+      description: REST surface for 2-dm_conversations-id-dm_events.
+      operations:
+      - method: GET
+        name: getdirectmessageseventsbyconversationid
+        description: X Get DM Events for a DM Conversation
+        call: x-direct-messages.getdirectmessageseventsbyconversationid
+        with:
+          id: rest.id
+          max_results: rest.max_results
+          pagination_token: rest.pagination_token
+          event_types: rest.event_types
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/dm-events
+      name: 2-dm-events
+      description: REST surface for 2-dm_events.
+      operations:
+      - method: GET
+        name: getdirectmessagesevents
+        description: X Get DM Events
+        call: x-direct-messages.getdirectmessagesevents
+        with:
+          max_results: rest.max_results
+          pagination_token: rest.pagination_token
+          event_types: rest.event_types
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/dm-events/{event-id}
+      name: 2-dm-events-event-id
+      description: REST surface for 2-dm_events-event_id.
+      operations:
+      - method: DELETE
+        name: deletedirectmessagesevents
+        description: X Delete DM Event
+        call: x-direct-messages.deletedirectmessagesevents
+        with:
+          event_id: rest.event_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getdirectmessageseventsbyid
+        description: X Get DM Event by ID
+        call: x-direct-messages.getdirectmessageseventsbyid
+        with:
+          event_id: rest.event_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: x-direct-messages-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for X API v2 — Direct Messages. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: x-create-dm-conversation
+      description: X Create DM Conversation
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-direct-messages.createdirectmessagesconversation
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-download-dm-media
+      description: X Download DM Media
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-direct-messages.dmconversationsmediadownload
+      with:
+        dm_id: tools.dm_id
+        media_id: tools.media_id
+        resource_id: tools.resource_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-dm-events-dm
+      description: X Get DM Events for a DM Conversation
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-direct-messages.getdirectmessageseventsbyparticipantid
+      with:
+        participant_id: tools.participant_id
+        max_results: tools.max_results
+        pagination_token: tools.pagination_token
+        event_types: tools.event_types
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-create-dm-message-participant
+      description: X Create DM Message by Participant ID
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-direct-messages.createdirectmessagesbyparticipantid
+      with:
+        participant_id: tools.participant_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-create-dm-message-conversation
+      description: X Create DM Message by Conversation ID
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-direct-messages.createdirectmessagesbyconversationid
+      with:
+        dm_conversation_id: tools.dm_conversation_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-dm-events-dm-2
+      description: X Get DM Events for a DM Conversation
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-direct-messages.getdirectmessageseventsbyconversationid
+      with:
+        id: tools.id
+        max_results: tools.max_results
+        pagination_token: tools.pagination_token
+        event_types: tools.event_types
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-dm-events
+      description: X Get DM Events
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-direct-messages.getdirectmessagesevents
+      with:
+        max_results: tools.max_results
+        pagination_token: tools.pagination_token
+        event_types: tools.event_types
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-delete-dm-event
+      description: X Delete DM Event
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: x-direct-messages.deletedirectmessagesevents
+      with:
+        event_id: tools.event_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-dm-event-id
+      description: X Get DM Event by ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-direct-messages.getdirectmessageseventsbyid
+      with:
+        event_id: tools.event_id
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,838 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: X API v2 — Lists
+  description: 'X API v2 — Lists. 17 operations. Lead operation: X Create List. Self-contained Naftiko capability covering
+    one Twitter business surface.'
+  tags:
+  - Twitter
+  - Lists
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TWITTER_API_KEY: TWITTER_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: x-lists
+    baseUri: https://api.x.com
+    description: X API v2 — Lists business capability. Self-contained, no shared references.
+    resources:
+    - name: 2-lists
+      path: /2/lists
+      operations:
+      - name: createlists
+        method: POST
+        description: X Create List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-lists-id
+      path: /2/lists/{id}
+      operations:
+      - name: deletelists
+        method: DELETE
+        description: X Delete List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the List to delete.
+          required: true
+      - name: getlistsbyid
+        method: GET
+        description: X Get List by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the List.
+          required: true
+      - name: updatelists
+        method: PUT
+        description: X Update List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the List to modify.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-lists-id-followers
+      path: /2/lists/{id}/followers
+      operations:
+      - name: getlistsfollowers
+        method: GET
+        description: X Get List Followers
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the List.
+          required: true
+        - name: max_results
+          in: query
+          type: integer
+          description: The maximum number of results.
+        - name: pagination_token
+          in: query
+          type: string
+          description: This parameter is used to get a specified 'page' of results.
+    - name: 2-lists-id-members
+      path: /2/lists/{id}/members
+      operations:
+      - name: getlistsmembers
+        method: GET
+        description: X Get List Members
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the List.
+          required: true
+        - name: max_results
+          in: query
+          type: integer
+          description: The maximum number of results.
+        - name: pagination_token
+          in: query
+          type: string
+          description: This parameter is used to get a specified 'page' of results.
+      - name: addlistsmember
+        method: POST
+        description: X Add List Member
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the List for which to add a member.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-lists-id-members-user_id
+      path: /2/lists/{id}/members/{user_id}
+      operations:
+      - name: removelistsmemberbyuserid
+        method: DELETE
+        description: X Remove List Member
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the List to remove a member.
+          required: true
+        - name: user_id
+          in: path
+          type: string
+          description: The ID of User that will be removed from the List.
+          required: true
+    - name: 2-lists-id-tweets
+      path: /2/lists/{id}/tweets
+      operations:
+      - name: getlistsposts
+        method: GET
+        description: X Get List Posts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the List.
+          required: true
+        - name: max_results
+          in: query
+          type: integer
+          description: The maximum number of results.
+        - name: pagination_token
+          in: query
+          type: string
+          description: This parameter is used to get the next 'page' of results.
+    - name: 2-users-id-followed_lists
+      path: /2/users/{id}/followed_lists
+      operations:
+      - name: getusersfollowedlists
+        method: GET
+        description: X Get Followed Lists
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the User to lookup.
+          required: true
+        - name: max_results
+          in: query
+          type: integer
+          description: The maximum number of results.
+        - name: pagination_token
+          in: query
+          type: string
+          description: This parameter is used to get a specified 'page' of results.
+      - name: followlist
+        method: POST
+        description: X Follow List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the authenticated source User that will follow the List.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-users-id-followed_lists-list_id
+      path: /2/users/{id}/followed_lists/{list_id}
+      operations:
+      - name: unfollowlist
+        method: DELETE
+        description: X Unfollow List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the authenticated source User that will unfollow the List.
+          required: true
+        - name: list_id
+          in: path
+          type: string
+          description: The ID of the List to unfollow.
+          required: true
+    - name: 2-users-id-list_memberships
+      path: /2/users/{id}/list_memberships
+      operations:
+      - name: getuserslistmemberships
+        method: GET
+        description: X Get List Memberships
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the User to lookup.
+          required: true
+        - name: max_results
+          in: query
+          type: integer
+          description: The maximum number of results.
+        - name: pagination_token
+          in: query
+          type: string
+          description: This parameter is used to get a specified 'page' of results.
+    - name: 2-users-id-owned_lists
+      path: /2/users/{id}/owned_lists
+      operations:
+      - name: getusersownedlists
+        method: GET
+        description: X Get Owned Lists
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the User to lookup.
+          required: true
+        - name: max_results
+          in: query
+          type: integer
+          description: The maximum number of results.
+        - name: pagination_token
+          in: query
+          type: string
+          description: This parameter is used to get a specified 'page' of results.
+    - name: 2-users-id-pinned_lists
+      path: /2/users/{id}/pinned_lists
+      operations:
+      - name: getuserspinnedlists
+        method: GET
+        description: X Get Pinned Lists
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the authenticated source User for whom to return results.
+          required: true
+      - name: pinlist
+        method: POST
+        description: X Pin List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the authenticated source User that will pin the List.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: 2-users-id-pinned_lists-list_id
+      path: /2/users/{id}/pinned_lists/{list_id}
+      operations:
+      - name: unpinlist
+        method: DELETE
+        description: X Unpin List
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the authenticated source User for whom to return results.
+          required: true
+        - name: list_id
+          in: path
+          type: string
+          description: The ID of the List to unpin.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TWITTER_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: x-lists-rest
+    port: 8080
+    description: REST adapter for X API v2 — Lists. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/2/lists
+      name: 2-lists
+      description: REST surface for 2-lists.
+      operations:
+      - method: POST
+        name: createlists
+        description: X Create List
+        call: x-lists.createlists
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/lists/{id}
+      name: 2-lists-id
+      description: REST surface for 2-lists-id.
+      operations:
+      - method: DELETE
+        name: deletelists
+        description: X Delete List
+        call: x-lists.deletelists
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getlistsbyid
+        description: X Get List by ID
+        call: x-lists.getlistsbyid
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatelists
+        description: X Update List
+        call: x-lists.updatelists
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/lists/{id}/followers
+      name: 2-lists-id-followers
+      description: REST surface for 2-lists-id-followers.
+      operations:
+      - method: GET
+        name: getlistsfollowers
+        description: X Get List Followers
+        call: x-lists.getlistsfollowers
+        with:
+          id: rest.id
+          max_results: rest.max_results
+          pagination_token: rest.pagination_token
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/lists/{id}/members
+      name: 2-lists-id-members
+      description: REST surface for 2-lists-id-members.
+      operations:
+      - method: GET
+        name: getlistsmembers
+        description: X Get List Members
+        call: x-lists.getlistsmembers
+        with:
+          id: rest.id
+          max_results: rest.max_results
+          pagination_token: rest.pagination_token
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: addlistsmember
+        description: X Add List Member
+        call: x-lists.addlistsmember
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/lists/{id}/members/{user-id}
+      name: 2-lists-id-members-user-id
+      description: REST surface for 2-lists-id-members-user_id.
+      operations:
+      - method: DELETE
+        name: removelistsmemberbyuserid
+        description: X Remove List Member
+        call: x-lists.removelistsmemberbyuserid
+        with:
+          id: rest.id
+          user_id: rest.user_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/lists/{id}/tweets
+      name: 2-lists-id-tweets
+      description: REST surface for 2-lists-id-tweets.
+      operations:
+      - method: GET
+        name: getlistsposts
+        description: X Get List Posts
+        call: x-lists.getlistsposts
+        with:
+          id: rest.id
+          max_results: rest.max_results
+          pagination_token: rest.pagination_token
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/users/{id}/followed-lists
+      name: 2-users-id-followed-lists
+      description: REST surface for 2-users-id-followed_lists.
+      operations:
+      - method: GET
+        name: getusersfollowedlists
+        description: X Get Followed Lists
+        call: x-lists.getusersfollowedlists
+        with:
+          id: rest.id
+          max_results: rest.max_results
+          pagination_token: rest.pagination_token
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: followlist
+        description: X Follow List
+        call: x-lists.followlist
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/users/{id}/followed-lists/{list-id}
+      name: 2-users-id-followed-lists-list-id
+      description: REST surface for 2-users-id-followed_lists-list_id.
+      operations:
+      - method: DELETE
+        name: unfollowlist
+        description: X Unfollow List
+        call: x-lists.unfollowlist
+        with:
+          id: rest.id
+          list_id: rest.list_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/users/{id}/list-memberships
+      name: 2-users-id-list-memberships
+      description: REST surface for 2-users-id-list_memberships.
+      operations:
+      - method: GET
+        name: getuserslistmemberships
+        description: X Get List Memberships
+        call: x-lists.getuserslistmemberships
+        with:
+          id: rest.id
+          max_results: rest.max_results
+          pagination_token: rest.pagination_token
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/users/{id}/owned-lists
+      name: 2-users-id-owned-lists
+      description: REST surface for 2-users-id-owned_lists.
+      operations:
+      - method: GET
+        name: getusersownedlists
+        description: X Get Owned Lists
+        call: x-lists.getusersownedlists
+        with:
+          id: rest.id
+          max_results: rest.max_results
+          pagination_token: rest.pagination_token
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/users/{id}/pinned-lists
+      name: 2-users-id-pinned-lists
+      description: REST surface for 2-users-id-pinned_lists.
+      operations:
+      - method: GET
+        name: getuserspinnedlists
+        description: X Get Pinned Lists
+        call: x-lists.getuserspinnedlists
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: pinlist
+        description: X Pin List
+        call: x-lists.pinlist
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/users/{id}/pinned-lists/{list-id}
+      name: 2-users-id-pinned-lists-list-id
+      description: REST surface for 2-users-id-pinned_lists-list_id.
+      operations:
+      - method: DELETE
+        name: unpinlist
+        description: X Unpin List
+        call: x-lists.unpinlist
+        with:
+          id: rest.id
+          list_id: rest.list_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: x-lists-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for X API v2 — Lists. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: x-create-list
+      description: X Create List
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-lists.createlists
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-delete-list
+      description: X Delete List
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: x-lists.deletelists
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-list-id
+      description: X Get List by ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-lists.getlistsbyid
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-update-list
+      description: X Update List
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: x-lists.updatelists
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-list-followers
+      description: X Get List Followers
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-lists.getlistsfollowers
+      with:
+        id: tools.id
+        max_results: tools.max_results
+        pagination_token: tools.pagination_token
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-list-members
+      description: X Get List Members
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-lists.getlistsmembers
+      with:
+        id: tools.id
+        max_results: tools.max_results
+        pagination_token: tools.pagination_token
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-add-list-member
+      description: X Add List Member
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: x-lists.addlistsmember
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-remove-list-member
+      description: X Remove List Member
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: x-lists.removelistsmemberbyuserid
+      with:
+        id: tools.id
+        user_id: tools.user_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-list-posts
+      description: X Get List Posts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-lists.getlistsposts
+      with:
+        id: tools.id
+        max_results: tools.max_results
+        pagination_token: tools.pagination_token
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-followed-lists
+      description: X Get Followed Lists
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-lists.getusersfollowedlists
+      with:
+        id: tools.id
+        max_results: tools.max_results
+        pagination_token: tools.pagination_token
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-follow-list
+      description: X Follow List
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-lists.followlist
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-unfollow-list
+      description: X Unfollow List
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: x-lists.unfollowlist
+      with:
+        id: tools.id
+        list_id: tools.list_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-list-memberships
+      description: X Get List Memberships
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-lists.getuserslistmemberships
+      with:
+        id: tools.id
+        max_results: tools.max_results
+        pagination_token: tools.pagination_token
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-owned-lists
+      description: X Get Owned Lists
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-lists.getusersownedlists
+      with:
+        id: tools.id
+        max_results: tools.max_results
+        pagination_token: tools.pagination_token
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-pinned-lists
+      description: X Get Pinned Lists
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-lists.getuserspinnedlists
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-pin-list
+      description: X Pin List
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-lists.pinlist
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-unpin-list
+      description: X Unpin List
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: x-lists.unpinlist
+      with:
+        id: tools.id
+        list_id: tools.list_id
+      outputParameters:
+      - type: object
+        mapping: $.

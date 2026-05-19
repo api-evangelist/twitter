@@ -1,0 +1,292 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: X API v2 — Activity
+  description: 'X API v2 — Activity. 6 operations. Lead operation: X Activity Stream. Self-contained Naftiko capability covering
+    one Twitter business surface.'
+  tags:
+  - Twitter
+  - Activity
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TWITTER_API_KEY: TWITTER_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: x-activity
+    baseUri: https://api.x.com
+    description: X API v2 — Activity business capability. Self-contained, no shared references.
+    resources:
+    - name: 2-activity-stream
+      path: /2/activity/stream
+      operations:
+      - name: activitystream
+        method: GET
+        description: X Activity Stream
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: backfill_minutes
+          in: query
+          type: integer
+          description: The number of minutes of backfill requested.
+        - name: start_time
+          in: query
+          type: string
+          description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Post labels will be provided.
+        - name: end_time
+          in: query
+          type: string
+          description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the Post labels will be provided.
+    - name: 2-activity-subscriptions
+      path: /2/activity/subscriptions
+      operations:
+      - name: deleteactivitysubscriptionsbyids
+        method: DELETE
+        description: X Delete X Activity Subscriptions by IDs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: ids
+          in: query
+          type: array
+          description: Comma-separated list of subscription IDs to delete.
+          required: true
+      - name: getactivitysubscriptions
+        method: GET
+        description: X Get X Activity Subscriptions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: max_results
+          in: query
+          type: integer
+          description: The maximum number of results to return per page.
+        - name: pagination_token
+          in: query
+          type: string
+          description: This parameter is used to get the next 'page' of results.
+      - name: createactivitysubscription
+        method: POST
+        description: X Create X Activity Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-activity-subscriptions-subscription_id
+      path: /2/activity/subscriptions/{subscription_id}
+      operations:
+      - name: deleteactivitysubscription
+        method: DELETE
+        description: X Deletes X Activity Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: subscription_id
+          in: path
+          type: string
+          description: The ID of the subscription to delete.
+          required: true
+      - name: updateactivitysubscription
+        method: PUT
+        description: X Update X Activity Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: subscription_id
+          in: path
+          type: string
+          description: The ID of the subscription to update.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.TWITTER_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: x-activity-rest
+    port: 8080
+    description: REST adapter for X API v2 — Activity. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/2/activity/stream
+      name: 2-activity-stream
+      description: REST surface for 2-activity-stream.
+      operations:
+      - method: GET
+        name: activitystream
+        description: X Activity Stream
+        call: x-activity.activitystream
+        with:
+          backfill_minutes: rest.backfill_minutes
+          start_time: rest.start_time
+          end_time: rest.end_time
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/activity/subscriptions
+      name: 2-activity-subscriptions
+      description: REST surface for 2-activity-subscriptions.
+      operations:
+      - method: DELETE
+        name: deleteactivitysubscriptionsbyids
+        description: X Delete X Activity Subscriptions by IDs
+        call: x-activity.deleteactivitysubscriptionsbyids
+        with:
+          ids: rest.ids
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: getactivitysubscriptions
+        description: X Get X Activity Subscriptions
+        call: x-activity.getactivitysubscriptions
+        with:
+          max_results: rest.max_results
+          pagination_token: rest.pagination_token
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createactivitysubscription
+        description: X Create X Activity Subscription
+        call: x-activity.createactivitysubscription
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/activity/subscriptions/{subscription-id}
+      name: 2-activity-subscriptions-subscription-id
+      description: REST surface for 2-activity-subscriptions-subscription_id.
+      operations:
+      - method: DELETE
+        name: deleteactivitysubscription
+        description: X Deletes X Activity Subscription
+        call: x-activity.deleteactivitysubscription
+        with:
+          subscription_id: rest.subscription_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateactivitysubscription
+        description: X Update X Activity Subscription
+        call: x-activity.updateactivitysubscription
+        with:
+          subscription_id: rest.subscription_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: x-activity-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for X API v2 — Activity. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: x-activity-stream
+      description: X Activity Stream
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-activity.activitystream
+      with:
+        backfill_minutes: tools.backfill_minutes
+        start_time: tools.start_time
+        end_time: tools.end_time
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-delete-x-activity-subscriptions
+      description: X Delete X Activity Subscriptions by IDs
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: x-activity.deleteactivitysubscriptionsbyids
+      with:
+        ids: tools.ids
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-x-activity-subscriptions
+      description: X Get X Activity Subscriptions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-activity.getactivitysubscriptions
+      with:
+        max_results: tools.max_results
+        pagination_token: tools.pagination_token
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-create-x-activity-subscription
+      description: X Create X Activity Subscription
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-activity.createactivitysubscription
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-deletes-x-activity-subscription
+      description: X Deletes X Activity Subscription
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: x-activity.deleteactivitysubscription
+      with:
+        subscription_id: tools.subscription_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-update-x-activity-subscription
+      description: X Update X Activity Subscription
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: x-activity.updateactivitysubscription
+      with:
+        subscription_id: tools.subscription_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

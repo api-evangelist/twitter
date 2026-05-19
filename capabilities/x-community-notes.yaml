@@ -1,0 +1,281 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: X API v2 — Community Notes
+  description: 'X API v2 — Community Notes. 5 operations. Lead operation: X Evaluate a Community Note. Self-contained Naftiko
+    capability covering one Twitter business surface.'
+  tags:
+  - Twitter
+  - Community Notes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TWITTER_API_KEY: TWITTER_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: x-community-notes
+    baseUri: https://api.x.com
+    description: X API v2 — Community Notes business capability. Self-contained, no shared references.
+    resources:
+    - name: 2-evaluate_note
+      path: /2/evaluate_note
+      operations:
+      - name: evaluatecommunitynotes
+        method: POST
+        description: X Evaluate a Community Note
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-notes
+      path: /2/notes
+      operations:
+      - name: createcommunitynotes
+        method: POST
+        description: X Create a Community Note
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-notes-search-notes_written
+      path: /2/notes/search/notes_written
+      operations:
+      - name: searchcommunitynoteswritten
+        method: GET
+        description: X Search for Community Notes Written
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: test_mode
+          in: query
+          type: boolean
+          description: If true, return the notes the caller wrote for the test. If false, return the notes the caller wrote
+            on the product.
+          required: true
+        - name: pagination_token
+          in: query
+          type: string
+          description: Pagination token to get next set of posts eligible for notes.
+        - name: max_results
+          in: query
+          type: integer
+          description: Max results to return.
+    - name: 2-notes-search-posts_eligible_for_notes
+      path: /2/notes/search/posts_eligible_for_notes
+      operations:
+      - name: searcheligibleposts
+        method: GET
+        description: X Search for Posts Eligible for Community Notes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: test_mode
+          in: query
+          type: boolean
+          description: If true, return a list of posts that are for the test. If false, return a list of posts that the bots
+            can write proposed notes on the product.
+          required: true
+        - name: pagination_token
+          in: query
+          type: string
+          description: Pagination token to get next set of posts eligible for notes.
+        - name: max_results
+          in: query
+          type: integer
+          description: Max results to return.
+        - name: post_selection
+          in: query
+          type: string
+          description: 'The selection of posts to return. Valid values are ''feed_size: [small|large|xl|xxl], feed_lang: [en|es|...|all]''.
+            Default (if not specified) is ''feed_size: smal'
+    - name: 2-notes-id
+      path: /2/notes/{id}
+      operations:
+      - name: deletecommunitynotes
+        method: DELETE
+        description: X Delete a Community Note
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The community note id to delete.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TWITTER_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: x-community-notes-rest
+    port: 8080
+    description: REST adapter for X API v2 — Community Notes. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/2/evaluate-note
+      name: 2-evaluate-note
+      description: REST surface for 2-evaluate_note.
+      operations:
+      - method: POST
+        name: evaluatecommunitynotes
+        description: X Evaluate a Community Note
+        call: x-community-notes.evaluatecommunitynotes
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/notes
+      name: 2-notes
+      description: REST surface for 2-notes.
+      operations:
+      - method: POST
+        name: createcommunitynotes
+        description: X Create a Community Note
+        call: x-community-notes.createcommunitynotes
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/notes/search/notes-written
+      name: 2-notes-search-notes-written
+      description: REST surface for 2-notes-search-notes_written.
+      operations:
+      - method: GET
+        name: searchcommunitynoteswritten
+        description: X Search for Community Notes Written
+        call: x-community-notes.searchcommunitynoteswritten
+        with:
+          test_mode: rest.test_mode
+          pagination_token: rest.pagination_token
+          max_results: rest.max_results
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/notes/search/posts-eligible-for-notes
+      name: 2-notes-search-posts-eligible-for-notes
+      description: REST surface for 2-notes-search-posts_eligible_for_notes.
+      operations:
+      - method: GET
+        name: searcheligibleposts
+        description: X Search for Posts Eligible for Community Notes
+        call: x-community-notes.searcheligibleposts
+        with:
+          test_mode: rest.test_mode
+          pagination_token: rest.pagination_token
+          max_results: rest.max_results
+          post_selection: rest.post_selection
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/notes/{id}
+      name: 2-notes-id
+      description: REST surface for 2-notes-id.
+      operations:
+      - method: DELETE
+        name: deletecommunitynotes
+        description: X Delete a Community Note
+        call: x-community-notes.deletecommunitynotes
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: x-community-notes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for X API v2 — Community Notes. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: x-evaluate-community-note
+      description: X Evaluate a Community Note
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-community-notes.evaluatecommunitynotes
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-create-community-note
+      description: X Create a Community Note
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-community-notes.createcommunitynotes
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-search-community-notes-written
+      description: X Search for Community Notes Written
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-community-notes.searchcommunitynoteswritten
+      with:
+        test_mode: tools.test_mode
+        pagination_token: tools.pagination_token
+        max_results: tools.max_results
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-search-posts-eligible-community
+      description: X Search for Posts Eligible for Community Notes
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-community-notes.searcheligibleposts
+      with:
+        test_mode: tools.test_mode
+        pagination_token: tools.pagination_token
+        max_results: tools.max_results
+        post_selection: tools.post_selection
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-delete-community-note
+      description: X Delete a Community Note
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: x-community-notes.deletecommunitynotes
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

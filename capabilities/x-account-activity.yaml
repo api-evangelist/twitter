@@ -1,0 +1,303 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: X API v2 — Account Activity
+  description: 'X API v2 — Account Activity. 6 operations. Lead operation: X Create Replay Job. Self-contained Naftiko capability
+    covering one Twitter business surface.'
+  tags:
+  - Twitter
+  - Account Activity
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TWITTER_API_KEY: TWITTER_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: x-account-activity
+    baseUri: https://api.x.com
+    description: X API v2 — Account Activity business capability. Self-contained, no shared references.
+    resources:
+    - name: 2-account_activity-replay-webhooks-webhook_id-subscriptions-all
+      path: /2/account_activity/replay/webhooks/{webhook_id}/subscriptions/all
+      operations:
+      - name: createaccountactivityreplayjob
+        method: POST
+        description: X Create Replay Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: webhook_id
+          in: path
+          type: string
+          description: The unique identifier for the webhook configuration.
+          required: true
+        - name: from_date
+          in: query
+          type: string
+          description: The oldest (starting) UTC timestamp (inclusive) from which events will be provided, in `yyyymmddhhmm`
+            format.
+          required: true
+        - name: to_date
+          in: query
+          type: string
+          description: The latest (ending) UTC timestamp (exclusive) up to which events will be provided, in `yyyymmddhhmm`
+            format.
+          required: true
+    - name: 2-account_activity-subscriptions-count
+      path: /2/account_activity/subscriptions/count
+      operations:
+      - name: getaccountactivitysubscriptioncount
+        method: GET
+        description: X Get Subscription Count
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: 2-account_activity-webhooks-webhook_id-subscriptions-all
+      path: /2/account_activity/webhooks/{webhook_id}/subscriptions/all
+      operations:
+      - name: validateaccountactivitysubscription
+        method: GET
+        description: X Validate Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: webhook_id
+          in: path
+          type: string
+          description: The webhook ID to check subscription against.
+          required: true
+      - name: createaccountactivitysubscription
+        method: POST
+        description: X Create Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: webhook_id
+          in: path
+          type: string
+          description: The webhook ID to check subscription against.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-account_activity-webhooks-webhook_id-subscriptions-all-list
+      path: /2/account_activity/webhooks/{webhook_id}/subscriptions/all/list
+      operations:
+      - name: getaccountactivitysubscriptions
+        method: GET
+        description: X Get Subscriptions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: webhook_id
+          in: path
+          type: string
+          description: The webhook ID to pull subscriptions for.
+          required: true
+    - name: 2-account_activity-webhooks-webhook_id-subscriptions-user_id-all
+      path: /2/account_activity/webhooks/{webhook_id}/subscriptions/{user_id}/all
+      operations:
+      - name: deleteaccountactivitysubscription
+        method: DELETE
+        description: X Delete Subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: webhook_id
+          in: path
+          type: string
+          description: The webhook ID to check subscription against.
+          required: true
+        - name: user_id
+          in: path
+          type: string
+          description: User ID to unsubscribe from.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TWITTER_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: x-account-activity-rest
+    port: 8080
+    description: REST adapter for X API v2 — Account Activity. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/2/account-activity/replay/webhooks/{webhook-id}/subscriptions/all
+      name: 2-account-activity-replay-webhooks-webhook-id-subscriptions-all
+      description: REST surface for 2-account_activity-replay-webhooks-webhook_id-subscriptions-all.
+      operations:
+      - method: POST
+        name: createaccountactivityreplayjob
+        description: X Create Replay Job
+        call: x-account-activity.createaccountactivityreplayjob
+        with:
+          webhook_id: rest.webhook_id
+          from_date: rest.from_date
+          to_date: rest.to_date
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/account-activity/subscriptions/count
+      name: 2-account-activity-subscriptions-count
+      description: REST surface for 2-account_activity-subscriptions-count.
+      operations:
+      - method: GET
+        name: getaccountactivitysubscriptioncount
+        description: X Get Subscription Count
+        call: x-account-activity.getaccountactivitysubscriptioncount
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/account-activity/webhooks/{webhook-id}/subscriptions/all
+      name: 2-account-activity-webhooks-webhook-id-subscriptions-all
+      description: REST surface for 2-account_activity-webhooks-webhook_id-subscriptions-all.
+      operations:
+      - method: GET
+        name: validateaccountactivitysubscription
+        description: X Validate Subscription
+        call: x-account-activity.validateaccountactivitysubscription
+        with:
+          webhook_id: rest.webhook_id
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createaccountactivitysubscription
+        description: X Create Subscription
+        call: x-account-activity.createaccountactivitysubscription
+        with:
+          webhook_id: rest.webhook_id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/account-activity/webhooks/{webhook-id}/subscriptions/all/list
+      name: 2-account-activity-webhooks-webhook-id-subscriptions-all-list
+      description: REST surface for 2-account_activity-webhooks-webhook_id-subscriptions-all-list.
+      operations:
+      - method: GET
+        name: getaccountactivitysubscriptions
+        description: X Get Subscriptions
+        call: x-account-activity.getaccountactivitysubscriptions
+        with:
+          webhook_id: rest.webhook_id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/account-activity/webhooks/{webhook-id}/subscriptions/{user-id}/all
+      name: 2-account-activity-webhooks-webhook-id-subscriptions-user-id-all
+      description: REST surface for 2-account_activity-webhooks-webhook_id-subscriptions-user_id-all.
+      operations:
+      - method: DELETE
+        name: deleteaccountactivitysubscription
+        description: X Delete Subscription
+        call: x-account-activity.deleteaccountactivitysubscription
+        with:
+          webhook_id: rest.webhook_id
+          user_id: rest.user_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: x-account-activity-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for X API v2 — Account Activity. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: x-create-replay-job
+      description: X Create Replay Job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-account-activity.createaccountactivityreplayjob
+      with:
+        webhook_id: tools.webhook_id
+        from_date: tools.from_date
+        to_date: tools.to_date
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-subscription-count
+      description: X Get Subscription Count
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-account-activity.getaccountactivitysubscriptioncount
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-validate-subscription
+      description: X Validate Subscription
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-account-activity.validateaccountactivitysubscription
+      with:
+        webhook_id: tools.webhook_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-create-subscription
+      description: X Create Subscription
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-account-activity.createaccountactivitysubscription
+      with:
+        webhook_id: tools.webhook_id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-subscriptions
+      description: X Get Subscriptions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-account-activity.getaccountactivitysubscriptions
+      with:
+        webhook_id: tools.webhook_id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-delete-subscription
+      description: X Delete Subscription
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: x-account-activity.deleteaccountactivitysubscription
+      with:
+        webhook_id: tools.webhook_id
+        user_id: tools.user_id
+      outputParameters:
+      - type: object
+        mapping: $.

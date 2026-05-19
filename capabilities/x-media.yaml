@@ -1,0 +1,520 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: X API v2 — Media
+  description: 'X API v2 — Media. 11 operations. Lead operation: X Get Media by Media Keys. Self-contained Naftiko capability
+    covering one Twitter business surface.'
+  tags:
+  - Twitter
+  - Media
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TWITTER_API_KEY: TWITTER_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: x-media
+    baseUri: https://api.x.com
+    description: X API v2 — Media business capability. Self-contained, no shared references.
+    resources:
+    - name: 2-media
+      path: /2/media
+      operations:
+      - name: getmediabymediakeys
+        method: GET
+        description: X Get Media by Media Keys
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: media_keys
+          in: query
+          type: array
+          description: A comma separated list of Media Keys. Up to 100 are allowed in a single request.
+          required: true
+    - name: 2-media-analytics
+      path: /2/media/analytics
+      operations:
+      - name: getmediaanalytics
+        method: GET
+        description: X Get Media Analytics
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: media_keys
+          in: query
+          type: array
+          description: A comma separated list of Media Keys. Up to 100 are allowed in a single request.
+          required: true
+        - name: end_time
+          in: query
+          type: string
+          description: YYYY-MM-DDTHH:mm:ssZ. The UTC timestamp representing the end of the time range.
+          required: true
+        - name: start_time
+          in: query
+          type: string
+          description: YYYY-MM-DDTHH:mm:ssZ. The UTC timestamp representing the start of the time range.
+          required: true
+        - name: granularity
+          in: query
+          type: string
+          description: The granularity for the search counts results.
+          required: true
+    - name: 2-media-metadata
+      path: /2/media/metadata
+      operations:
+      - name: createmediametadata
+        method: POST
+        description: X Create Media Metadata
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-media-subtitles
+      path: /2/media/subtitles
+      operations:
+      - name: deletemediasubtitles
+        method: DELETE
+        description: X Delete Media Subtitles
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: createmediasubtitles
+        method: POST
+        description: X Create Media Subtitles
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-media-upload
+      path: /2/media/upload
+      operations:
+      - name: getmediauploadstatus
+        method: GET
+        description: X Get Media Upload Status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: media_id
+          in: query
+          type: string
+          description: Media id for the requested media upload status.
+          required: true
+        - name: command
+          in: query
+          type: string
+          description: The command for the media upload request.
+      - name: mediaupload
+        method: POST
+        description: X Upload Media
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-media-upload-initialize
+      path: /2/media/upload/initialize
+      operations:
+      - name: initializemediaupload
+        method: POST
+        description: X Initialize Media Upload
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-media-upload-id-append
+      path: /2/media/upload/{id}/append
+      operations:
+      - name: appendmediaupload
+        method: POST
+        description: X Append Media Upload
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The media identifier for the media to perform the append operation.
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: 2-media-upload-id-finalize
+      path: /2/media/upload/{id}/finalize
+      operations:
+      - name: finalizemediaupload
+        method: POST
+        description: X Finalize Media Upload
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The media id of the targeted media to finalize.
+          required: true
+    - name: 2-media-media_key
+      path: /2/media/{media_key}
+      operations:
+      - name: getmediabymediakey
+        method: GET
+        description: X Get Media by Media Key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: media_key
+          in: path
+          type: string
+          description: A single Media Key.
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TWITTER_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: x-media-rest
+    port: 8080
+    description: REST adapter for X API v2 — Media. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/2/media
+      name: 2-media
+      description: REST surface for 2-media.
+      operations:
+      - method: GET
+        name: getmediabymediakeys
+        description: X Get Media by Media Keys
+        call: x-media.getmediabymediakeys
+        with:
+          media_keys: rest.media_keys
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/media/analytics
+      name: 2-media-analytics
+      description: REST surface for 2-media-analytics.
+      operations:
+      - method: GET
+        name: getmediaanalytics
+        description: X Get Media Analytics
+        call: x-media.getmediaanalytics
+        with:
+          media_keys: rest.media_keys
+          end_time: rest.end_time
+          start_time: rest.start_time
+          granularity: rest.granularity
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/media/metadata
+      name: 2-media-metadata
+      description: REST surface for 2-media-metadata.
+      operations:
+      - method: POST
+        name: createmediametadata
+        description: X Create Media Metadata
+        call: x-media.createmediametadata
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/media/subtitles
+      name: 2-media-subtitles
+      description: REST surface for 2-media-subtitles.
+      operations:
+      - method: DELETE
+        name: deletemediasubtitles
+        description: X Delete Media Subtitles
+        call: x-media.deletemediasubtitles
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createmediasubtitles
+        description: X Create Media Subtitles
+        call: x-media.createmediasubtitles
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/media/upload
+      name: 2-media-upload
+      description: REST surface for 2-media-upload.
+      operations:
+      - method: GET
+        name: getmediauploadstatus
+        description: X Get Media Upload Status
+        call: x-media.getmediauploadstatus
+        with:
+          media_id: rest.media_id
+          command: rest.command
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: mediaupload
+        description: X Upload Media
+        call: x-media.mediaupload
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/media/upload/initialize
+      name: 2-media-upload-initialize
+      description: REST surface for 2-media-upload-initialize.
+      operations:
+      - method: POST
+        name: initializemediaupload
+        description: X Initialize Media Upload
+        call: x-media.initializemediaupload
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/media/upload/{id}/append
+      name: 2-media-upload-id-append
+      description: REST surface for 2-media-upload-id-append.
+      operations:
+      - method: POST
+        name: appendmediaupload
+        description: X Append Media Upload
+        call: x-media.appendmediaupload
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/media/upload/{id}/finalize
+      name: 2-media-upload-id-finalize
+      description: REST surface for 2-media-upload-id-finalize.
+      operations:
+      - method: POST
+        name: finalizemediaupload
+        description: X Finalize Media Upload
+        call: x-media.finalizemediaupload
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/media/{media-key}
+      name: 2-media-media-key
+      description: REST surface for 2-media-media_key.
+      operations:
+      - method: GET
+        name: getmediabymediakey
+        description: X Get Media by Media Key
+        call: x-media.getmediabymediakey
+        with:
+          media_key: rest.media_key
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: x-media-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for X API v2 — Media. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: x-get-media-media-keys
+      description: X Get Media by Media Keys
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-media.getmediabymediakeys
+      with:
+        media_keys: tools.media_keys
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-media-analytics
+      description: X Get Media Analytics
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-media.getmediaanalytics
+      with:
+        media_keys: tools.media_keys
+        end_time: tools.end_time
+        start_time: tools.start_time
+        granularity: tools.granularity
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-create-media-metadata
+      description: X Create Media Metadata
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-media.createmediametadata
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-delete-media-subtitles
+      description: X Delete Media Subtitles
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: x-media.deletemediasubtitles
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-create-media-subtitles
+      description: X Create Media Subtitles
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-media.createmediasubtitles
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-media-upload-status
+      description: X Get Media Upload Status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-media.getmediauploadstatus
+      with:
+        media_id: tools.media_id
+        command: tools.command
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-upload-media
+      description: X Upload Media
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-media.mediaupload
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-initialize-media-upload
+      description: X Initialize Media Upload
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-media.initializemediaupload
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-append-media-upload
+      description: X Append Media Upload
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-media.appendmediaupload
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-finalize-media-upload
+      description: X Finalize Media Upload
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-media.finalizemediaupload
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-media-media-key
+      description: X Get Media by Media Key
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-media.getmediabymediakey
+      with:
+        media_key: tools.media_key
+      outputParameters:
+      - type: object
+        mapping: $.

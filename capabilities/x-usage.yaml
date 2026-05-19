@@ -1,0 +1,79 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: X API v2 — Usage
+  description: 'X API v2 — Usage. 1 operations. Lead operation: X Get Usage. Self-contained Naftiko capability covering one
+    Twitter business surface.'
+  tags:
+  - Twitter
+  - Usage
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TWITTER_API_KEY: TWITTER_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: x-usage
+    baseUri: https://api.x.com
+    description: X API v2 — Usage business capability. Self-contained, no shared references.
+    resources:
+    - name: 2-usage-tweets
+      path: /2/usage/tweets
+      operations:
+      - name: getusage
+        method: GET
+        description: X Get Usage
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: days
+          in: query
+          type: integer
+          description: The number of days for which you need usage for.
+    authentication:
+      type: bearer
+      token: '{{env.TWITTER_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: x-usage-rest
+    port: 8080
+    description: REST adapter for X API v2 — Usage. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/2/usage/tweets
+      name: 2-usage-tweets
+      description: REST surface for 2-usage-tweets.
+      operations:
+      - method: GET
+        name: getusage
+        description: X Get Usage
+        call: x-usage.getusage
+        with:
+          days: rest.days
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: x-usage-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for X API v2 — Usage. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: x-get-usage
+      description: X Get Usage
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-usage.getusage
+      with:
+        days: tools.days
+      outputParameters:
+      - type: object
+        mapping: $.

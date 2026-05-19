@@ -1,0 +1,389 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: X API v2 — Compliance
+  description: 'X API v2 — Compliance. 7 operations. Lead operation: X Get Compliance Jobs. Self-contained Naftiko capability
+    covering one Twitter business surface.'
+  tags:
+  - Twitter
+  - Compliance
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TWITTER_API_KEY: TWITTER_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: x-compliance
+    baseUri: https://api.x.com
+    description: X API v2 — Compliance business capability. Self-contained, no shared references.
+    resources:
+    - name: 2-compliance-jobs
+      path: /2/compliance/jobs
+      operations:
+      - name: getcompliancejobs
+        method: GET
+        description: X Get Compliance Jobs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: type
+          in: query
+          type: string
+          description: Type of Compliance Job to list.
+          required: true
+        - name: status
+          in: query
+          type: string
+          description: Status of Compliance Job to list.
+      - name: createcompliancejobs
+        method: POST
+        description: X Create Compliance Job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: 2-compliance-jobs-id
+      path: /2/compliance/jobs/{id}
+      operations:
+      - name: getcompliancejobsbyid
+        method: GET
+        description: X Get Compliance Job by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The ID of the Compliance Job to retrieve.
+          required: true
+    - name: 2-likes-compliance-stream
+      path: /2/likes/compliance/stream
+      operations:
+      - name: streamlikescompliance
+        method: GET
+        description: X Stream Likes Compliance Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: backfill_minutes
+          in: query
+          type: integer
+          description: The number of minutes of backfill requested.
+        - name: start_time
+          in: query
+          type: string
+          description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Likes Compliance events will be provided.
+        - name: end_time
+          in: query
+          type: string
+          description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the Likes Compliance events will be provided.
+    - name: 2-tweets-compliance-stream
+      path: /2/tweets/compliance/stream
+      operations:
+      - name: streampostscompliance
+        method: GET
+        description: X Stream Posts Compliance Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: backfill_minutes
+          in: query
+          type: integer
+          description: The number of minutes of backfill requested.
+        - name: partition
+          in: query
+          type: integer
+          description: The partition number.
+          required: true
+        - name: start_time
+          in: query
+          type: string
+          description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Post Compliance events will be provided.
+        - name: end_time
+          in: query
+          type: string
+          description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Post Compliance events will be provided.
+    - name: 2-tweets-label-stream
+      path: /2/tweets/label/stream
+      operations:
+      - name: streamlabelscompliance
+        method: GET
+        description: X Stream Post Labels
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: backfill_minutes
+          in: query
+          type: integer
+          description: The number of minutes of backfill requested.
+        - name: start_time
+          in: query
+          type: string
+          description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Post labels will be provided.
+        - name: end_time
+          in: query
+          type: string
+          description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the Post labels will be provided.
+    - name: 2-users-compliance-stream
+      path: /2/users/compliance/stream
+      operations:
+      - name: streamuserscompliance
+        method: GET
+        description: X Stream Users Compliance Data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: backfill_minutes
+          in: query
+          type: integer
+          description: The number of minutes of backfill requested.
+        - name: partition
+          in: query
+          type: integer
+          description: The partition number.
+          required: true
+        - name: start_time
+          in: query
+          type: string
+          description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the User Compliance events will be provided.
+        - name: end_time
+          in: query
+          type: string
+          description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the User Compliance events will be provided.
+    authentication:
+      type: bearer
+      token: '{{env.TWITTER_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: x-compliance-rest
+    port: 8080
+    description: REST adapter for X API v2 — Compliance. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/2/compliance/jobs
+      name: 2-compliance-jobs
+      description: REST surface for 2-compliance-jobs.
+      operations:
+      - method: GET
+        name: getcompliancejobs
+        description: X Get Compliance Jobs
+        call: x-compliance.getcompliancejobs
+        with:
+          type: rest.type
+          status: rest.status
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcompliancejobs
+        description: X Create Compliance Job
+        call: x-compliance.createcompliancejobs
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/compliance/jobs/{id}
+      name: 2-compliance-jobs-id
+      description: REST surface for 2-compliance-jobs-id.
+      operations:
+      - method: GET
+        name: getcompliancejobsbyid
+        description: X Get Compliance Job by ID
+        call: x-compliance.getcompliancejobsbyid
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/likes/compliance/stream
+      name: 2-likes-compliance-stream
+      description: REST surface for 2-likes-compliance-stream.
+      operations:
+      - method: GET
+        name: streamlikescompliance
+        description: X Stream Likes Compliance Data
+        call: x-compliance.streamlikescompliance
+        with:
+          backfill_minutes: rest.backfill_minutes
+          start_time: rest.start_time
+          end_time: rest.end_time
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/tweets/compliance/stream
+      name: 2-tweets-compliance-stream
+      description: REST surface for 2-tweets-compliance-stream.
+      operations:
+      - method: GET
+        name: streampostscompliance
+        description: X Stream Posts Compliance Data
+        call: x-compliance.streampostscompliance
+        with:
+          backfill_minutes: rest.backfill_minutes
+          partition: rest.partition
+          start_time: rest.start_time
+          end_time: rest.end_time
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/tweets/label/stream
+      name: 2-tweets-label-stream
+      description: REST surface for 2-tweets-label-stream.
+      operations:
+      - method: GET
+        name: streamlabelscompliance
+        description: X Stream Post Labels
+        call: x-compliance.streamlabelscompliance
+        with:
+          backfill_minutes: rest.backfill_minutes
+          start_time: rest.start_time
+          end_time: rest.end_time
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/2/users/compliance/stream
+      name: 2-users-compliance-stream
+      description: REST surface for 2-users-compliance-stream.
+      operations:
+      - method: GET
+        name: streamuserscompliance
+        description: X Stream Users Compliance Data
+        call: x-compliance.streamuserscompliance
+        with:
+          backfill_minutes: rest.backfill_minutes
+          partition: rest.partition
+          start_time: rest.start_time
+          end_time: rest.end_time
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: x-compliance-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for X API v2 — Compliance. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: x-get-compliance-jobs
+      description: X Get Compliance Jobs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-compliance.getcompliancejobs
+      with:
+        type: tools.type
+        status: tools.status
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-create-compliance-job
+      description: X Create Compliance Job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: x-compliance.createcompliancejobs
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-get-compliance-job-id
+      description: X Get Compliance Job by ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-compliance.getcompliancejobsbyid
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-stream-likes-compliance-data
+      description: X Stream Likes Compliance Data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-compliance.streamlikescompliance
+      with:
+        backfill_minutes: tools.backfill_minutes
+        start_time: tools.start_time
+        end_time: tools.end_time
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-stream-posts-compliance-data
+      description: X Stream Posts Compliance Data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-compliance.streampostscompliance
+      with:
+        backfill_minutes: tools.backfill_minutes
+        partition: tools.partition
+        start_time: tools.start_time
+        end_time: tools.end_time
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-stream-post-labels
+      description: X Stream Post Labels
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-compliance.streamlabelscompliance
+      with:
+        backfill_minutes: tools.backfill_minutes
+        start_time: tools.start_time
+        end_time: tools.end_time
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: x-stream-users-compliance-data
+      description: X Stream Users Compliance Data
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: x-compliance.streamuserscompliance
+      with:
+        backfill_minutes: tools.backfill_minutes
+        partition: tools.partition
+        start_time: tools.start_time
+        end_time: tools.end_time
+      outputParameters:
+      - type: object
+        mapping: $.
