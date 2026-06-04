@@ -1,0 +1,102 @@
+arazzo: 1.0.1
+info:
+  title: X Create a List and Add a Member by Username
+  summary: Create a new List, resolve a member handle, and add them to the List.
+  description: >-
+    Bootstraps a curated X List from scratch. The workflow creates a new List
+    for the authenticated user, resolves a member's @username into a numeric
+    user id, and adds that user as the first member of the List. The create and
+    add steps inline their request bodies so the chain reads and executes
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: xApi
+  url: ../openapi/x-api-openapi.json
+  type: openapi
+workflows:
+- workflowId: create-list-add-member
+  summary: Create a List then add a resolved user to it.
+  description: >-
+    Chains the create-list endpoint, the username lookup endpoint, and the
+    add-list-member endpoint so a List can be created and seeded in one flow.
+  inputs:
+    type: object
+    required:
+    - name
+    - memberUsername
+    properties:
+      name:
+        type: string
+        description: The name of the List to create (1-25 characters).
+      description:
+        type: string
+        description: An optional description for the List (up to 100 characters).
+        default: ""
+      private:
+        type: boolean
+        description: Whether the List should be private.
+        default: false
+      memberUsername:
+        type: string
+        description: The @username of the user to add as a member, without the leading @.
+      authorization:
+        type: string
+        description: OAuth2 user token to authorize the requests (e.g. "Bearer xxx").
+  steps:
+  - stepId: createList
+    description: Create a new List for the authenticated user.
+    operationId: createLists
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.name
+        description: $inputs.description
+        private: $inputs.private
+    parameters:
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      listId: $response.body#/data/id
+      listName: $response.body#/data/name
+  - stepId: resolveMember
+    description: Resolve the member's username into a numeric user id.
+    operationId: getUsersByUsername
+    parameters:
+    - name: username
+      in: path
+      value: $inputs.memberUsername
+    - name: user.fields
+      in: query
+      value: id,name,username
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      memberUserId: $response.body#/data/id
+  - stepId: addMember
+    description: Add the resolved user as a member of the newly created List.
+    operationId: addListsMember
+    parameters:
+    - name: id
+      in: path
+      value: $steps.createList.outputs.listId
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    requestBody:
+      contentType: application/json
+      payload:
+        user_id: $steps.resolveMember.outputs.memberUserId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      isMember: $response.body#/data/is_member
+  outputs:
+    listId: $steps.createList.outputs.listId
+    memberUserId: $steps.resolveMember.outputs.memberUserId
+    isMember: $steps.addMember.outputs.isMember

@@ -1,0 +1,75 @@
+arazzo: 1.0.1
+info:
+  title: X Confirm a List and Follow It
+  summary: Read a List by id to confirm it exists, then follow that List.
+  description: >-
+    Lets the authenticated user follow a curated X List after first confirming
+    the List exists. The workflow reads the List metadata by id and then issues
+    the follow-list request, inlining the list_id in the follow body so the
+    chain reads and executes without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: xApi
+  url: ../openapi/x-api-openapi.json
+  type: openapi
+workflows:
+- workflowId: follow-list-by-id
+  summary: Confirm a List by id and follow it as the authenticated user.
+  description: >-
+    Chains the list lookup endpoint into the follow-list endpoint so a caller
+    can verify and follow a List in one flow.
+  inputs:
+    type: object
+    required:
+    - authUserId
+    - listId
+    properties:
+      authUserId:
+        type: string
+        description: The numeric id of the authenticated user who will follow the List.
+      listId:
+        type: string
+        description: The numeric id of the List to confirm and follow.
+      authorization:
+        type: string
+        description: OAuth2 user token to authorize the requests (e.g. "Bearer xxx").
+  steps:
+  - stepId: confirmList
+    description: Read the List metadata to confirm the supplied List id exists.
+    operationId: getListsById
+    parameters:
+    - name: id
+      in: path
+      value: $inputs.listId
+    - name: list.fields
+      in: query
+      value: id,name,follower_count,private
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      confirmedListId: $response.body#/data/id
+      listName: $response.body#/data/name
+  - stepId: followList
+    description: Follow the confirmed List as the authenticated user.
+    operationId: followList
+    parameters:
+    - name: id
+      in: path
+      value: $inputs.authUserId
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    requestBody:
+      contentType: application/json
+      payload:
+        list_id: $steps.confirmList.outputs.confirmedListId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      following: $response.body#/data/following
+  outputs:
+    listName: $steps.confirmList.outputs.listName
+    following: $steps.followList.outputs.following

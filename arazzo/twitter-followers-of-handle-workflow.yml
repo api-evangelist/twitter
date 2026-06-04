@@ -1,0 +1,78 @@
+arazzo: 1.0.1
+info:
+  title: X List the Followers of a Handle
+  summary: Resolve a username to an id, then page that user's followers.
+  description: >-
+    Resolves an X account by its @username and then retrieves the first page of
+    that account's followers. The lookup step requests the user.fields needed to
+    chain, and the followers step inlines the user.fields and max_results so the
+    flow reads and executes without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: xApi
+  url: ../openapi/x-api-openapi.json
+  type: openapi
+workflows:
+- workflowId: followers-of-handle
+  summary: Resolve a username and list that user's followers.
+  description: >-
+    Chains the username lookup endpoint into the followers endpoint so a caller
+    can go from a handle to a page of follower accounts.
+  inputs:
+    type: object
+    required:
+    - username
+    properties:
+      username:
+        type: string
+        description: The @username whose followers to list, without the leading @.
+      maxResults:
+        type: integer
+        description: The maximum number of followers to return per page (1-1000).
+        default: 100
+      authorization:
+        type: string
+        description: Bearer token to authorize the requests (e.g. "Bearer xxx").
+  steps:
+  - stepId: resolveUser
+    description: Resolve the username into a numeric user id.
+    operationId: getUsersByUsername
+    parameters:
+    - name: username
+      in: path
+      value: $inputs.username
+    - name: user.fields
+      in: query
+      value: id,name,username
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      userId: $response.body#/data/id
+  - stepId: getFollowers
+    description: Retrieve the first page of followers for the resolved user.
+    operationId: getUsersFollowers
+    parameters:
+    - name: id
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    - name: max_results
+      in: query
+      value: $inputs.maxResults
+    - name: user.fields
+      in: query
+      value: id,name,username,public_metrics
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      followers: $response.body#/data
+      nextToken: $response.body#/meta/next_token
+  outputs:
+    userId: $steps.resolveUser.outputs.userId
+    followers: $steps.getFollowers.outputs.followers
+    nextToken: $steps.getFollowers.outputs.nextToken

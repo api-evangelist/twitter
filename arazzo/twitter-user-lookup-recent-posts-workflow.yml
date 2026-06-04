@@ -1,0 +1,87 @@
+arazzo: 1.0.1
+info:
+  title: X Resolve User and List Their Recent Posts
+  summary: Look up a user by username, then pull their most recent posts.
+  description: >-
+    Resolves an X user account by its public @username into a numeric user id,
+    then retrieves the most recent posts authored by that user. The first step
+    requests the user.fields needed downstream, and the second step inlines the
+    tweet.fields and exclude filter so the flow reads and executes without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: xApi
+  url: ../openapi/x-api-openapi.json
+  type: openapi
+workflows:
+- workflowId: user-lookup-recent-posts
+  summary: Resolve a username to an id and fetch that user's recent posts.
+  description: >-
+    Chains the username lookup endpoint into the user posts timeline endpoint
+    so a caller can go from a handle to a list of their latest posts in one
+    flow.
+  inputs:
+    type: object
+    required:
+    - username
+    properties:
+      username:
+        type: string
+        description: The X @username (handle) to resolve, without the leading @.
+      maxResults:
+        type: integer
+        description: The maximum number of posts to return (5-100).
+        default: 10
+      authorization:
+        type: string
+        description: Bearer token to authorize the requests (e.g. "Bearer xxx").
+  steps:
+  - stepId: resolveUser
+    description: >-
+      Resolve the supplied username into a numeric user id along with basic
+      profile fields.
+    operationId: getUsersByUsername
+    parameters:
+    - name: username
+      in: path
+      value: $inputs.username
+    - name: user.fields
+      in: query
+      value: id,name,username
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      userId: $response.body#/data/id
+      handle: $response.body#/data/username
+  - stepId: getRecentPosts
+    description: >-
+      Retrieve the most recent original posts authored by the resolved user,
+      excluding replies and reposts.
+    operationId: getUsersPosts
+    parameters:
+    - name: id
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    - name: max_results
+      in: query
+      value: $inputs.maxResults
+    - name: exclude
+      in: query
+      value: replies,retweets
+    - name: tweet.fields
+      in: query
+      value: id,text,created_at,public_metrics
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      posts: $response.body#/data
+      newestId: $response.body#/meta/newest_id
+  outputs:
+    userId: $steps.resolveUser.outputs.userId
+    posts: $steps.getRecentPosts.outputs.posts

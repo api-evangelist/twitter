@@ -1,0 +1,90 @@
+arazzo: 1.0.1
+info:
+  title: X Create a Post, Like It, Then Delete It
+  summary: Publish a post, like it from the authenticated account, then remove it.
+  description: >-
+    A self-contained authoring lifecycle for the X API. The workflow creates a
+    new post for the authenticated user, immediately likes that freshly created
+    post, and then deletes it - useful for smoke-testing write access end to
+    end. Each step inlines its request body and the authenticated user id so the
+    chain can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: xApi
+  url: ../openapi/x-api-openapi.json
+  type: openapi
+workflows:
+- workflowId: post-like-cleanup
+  summary: Create a post, like it, and delete it in one lifecycle.
+  description: >-
+    Chains the create-post, like-post, and delete-post operations using the id
+    returned by the create step as the target of the like and delete steps.
+  inputs:
+    type: object
+    required:
+    - authUserId
+    - text
+    properties:
+      authUserId:
+        type: string
+        description: The numeric id of the authenticated user performing the actions.
+      text:
+        type: string
+        description: The text body of the post to create.
+      authorization:
+        type: string
+        description: OAuth2 user token to authorize the requests (e.g. "Bearer xxx").
+  steps:
+  - stepId: createPost
+    description: Create a new post for the authenticated user with the supplied text.
+    operationId: createPosts
+    requestBody:
+      contentType: application/json
+      payload:
+        text: $inputs.text
+    parameters:
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      postId: $response.body#/data/id
+      postText: $response.body#/data/text
+  - stepId: likePost
+    description: Like the post that was just created from the authenticated account.
+    operationId: likePost
+    parameters:
+    - name: id
+      in: path
+      value: $inputs.authUserId
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    requestBody:
+      contentType: application/json
+      payload:
+        tweet_id: $steps.createPost.outputs.postId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      liked: $response.body#/data/liked
+  - stepId: deletePost
+    description: Delete the created post to clean up after the lifecycle test.
+    operationId: deletePosts
+    parameters:
+    - name: id
+      in: path
+      value: $steps.createPost.outputs.postId
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      deleted: $response.body#/data/deleted
+  outputs:
+    postId: $steps.createPost.outputs.postId
+    liked: $steps.likePost.outputs.liked
+    deleted: $steps.deletePost.outputs.deleted

@@ -1,0 +1,115 @@
+arazzo: 1.0.1
+info:
+  title: X Reply to a User's Latest Post
+  summary: Resolve a handle, fetch their latest post, then reply to it.
+  description: >-
+    Lets the authenticated user reply directly to another account's most recent
+    post given only that account's @username. The workflow resolves the
+    username, retrieves the latest post id, and creates a new post whose reply
+    settings target that post. The reply step inlines its full request body so
+    the chain reads and executes without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: xApi
+  url: ../openapi/x-api-openapi.json
+  type: openapi
+workflows:
+- workflowId: reply-to-latest-post
+  summary: Resolve a user, find their latest post, and reply to it.
+  description: >-
+    Chains the username lookup endpoint into the user-posts endpoint and then
+    the create-post endpoint, using the in_reply_to_tweet_id field to thread the
+    reply. Branches to a no-op end when the user has no posts.
+  inputs:
+    type: object
+    required:
+    - username
+    - text
+    properties:
+      username:
+        type: string
+        description: The @username whose latest post to reply to, without the leading @.
+      text:
+        type: string
+        description: The text body of the reply post.
+      authorization:
+        type: string
+        description: OAuth2 user token to authorize the requests (e.g. "Bearer xxx").
+  steps:
+  - stepId: resolveUser
+    description: Resolve the username into a numeric user id.
+    operationId: getUsersByUsername
+    parameters:
+    - name: username
+      in: path
+      value: $inputs.username
+    - name: user.fields
+      in: query
+      value: id,name,username
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      userId: $response.body#/data/id
+  - stepId: latestPost
+    description: Retrieve the single most recent original post for the resolved user.
+    operationId: getUsersPosts
+    parameters:
+    - name: id
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    - name: max_results
+      in: query
+      value: 5
+    - name: exclude
+      in: query
+      value: replies,retweets
+    - name: tweet.fields
+      in: query
+      value: id,text
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      latestPostId: $response.body#/data/0/id
+    onSuccess:
+    - name: hasPosts
+      type: goto
+      stepId: reply
+      criteria:
+      - context: $response.body
+        condition: $.data.length > 0
+        type: jsonpath
+    - name: noPosts
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.length == 0
+        type: jsonpath
+  - stepId: reply
+    description: Create a reply post threaded to the resolved user's latest post.
+    operationId: createPosts
+    parameters:
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    requestBody:
+      contentType: application/json
+      payload:
+        text: $inputs.text
+        reply:
+          in_reply_to_tweet_id: $steps.latestPost.outputs.latestPostId
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      replyId: $response.body#/data/id
+      replyText: $response.body#/data/text
+  outputs:
+    userId: $steps.resolveUser.outputs.userId
+    latestPostId: $steps.latestPost.outputs.latestPostId
+    replyId: $steps.reply.outputs.replyId

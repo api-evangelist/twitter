@@ -1,0 +1,103 @@
+arazzo: 1.0.1
+info:
+  title: X Search Recent Posts and Hydrate the Top Match
+  summary: Run a recent search, then fetch full details for the first matching post.
+  description: >-
+    Searches posts from the last seven days that match a query, then takes the
+    id of the first result and retrieves the full, hydrated detail for that
+    single post. The search step inlines its tweet.fields and max_results, and
+    the detail step inlines the richer tweet.fields and expansions so the flow
+    reads and executes without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: xApi
+  url: ../openapi/x-api-openapi.json
+  type: openapi
+workflows:
+- workflowId: search-recent-get-details
+  summary: Search recent posts and hydrate the first matching post by id.
+  description: >-
+    Chains the recent-search endpoint into the single-post lookup endpoint,
+    branching to a no-op end when the search returns no results.
+  inputs:
+    type: object
+    required:
+    - query
+    properties:
+      query:
+        type: string
+        description: The search query (X search operators are supported).
+      maxResults:
+        type: integer
+        description: The maximum number of search results to return (10-100).
+        default: 10
+      authorization:
+        type: string
+        description: Bearer token to authorize the requests (e.g. "Bearer xxx").
+  steps:
+  - stepId: searchRecent
+    description: >-
+      Search the last seven days of posts for the supplied query and capture
+      the id of the first result.
+    operationId: searchPostsRecent
+    parameters:
+    - name: query
+      in: query
+      value: $inputs.query
+    - name: max_results
+      in: query
+      value: $inputs.maxResults
+    - name: tweet.fields
+      in: query
+      value: id,text,author_id,created_at
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      topPostId: $response.body#/data/0/id
+      resultCount: $response.body#/meta/result_count
+    onSuccess:
+    - name: hasResults
+      type: goto
+      stepId: getPostDetails
+      criteria:
+      - context: $response.body
+        condition: $.data.length > 0
+        type: jsonpath
+    - name: noResults
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.length == 0
+        type: jsonpath
+  - stepId: getPostDetails
+    description: >-
+      Retrieve the fully hydrated detail for the first post returned by the
+      search, including author and metrics expansions.
+    operationId: getPostsById
+    parameters:
+    - name: id
+      in: path
+      value: $steps.searchRecent.outputs.topPostId
+    - name: tweet.fields
+      in: query
+      value: id,text,author_id,created_at,public_metrics,entities
+    - name: expansions
+      in: query
+      value: author_id
+    - name: user.fields
+      in: query
+      value: id,name,username
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      post: $response.body#/data
+      includes: $response.body#/includes
+  outputs:
+    topPostId: $steps.searchRecent.outputs.topPostId
+    post: $steps.getPostDetails.outputs.post

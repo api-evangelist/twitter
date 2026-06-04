@@ -1,0 +1,74 @@
+arazzo: 1.0.1
+info:
+  title: X Unfollow a User by Their Username
+  summary: Resolve a target handle to an id, then unfollow that user.
+  description: >-
+    Lets the authenticated user unfollow another account given only that
+    account's public @username. The workflow resolves the username into a
+    numeric user id and then issues the unfollow request, supplying both the
+    source and target ids as path parameters so the chain reads and executes
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: xApi
+  url: ../openapi/x-api-openapi.json
+  type: openapi
+workflows:
+- workflowId: unfollow-user-by-username
+  summary: Resolve a username and unfollow that user as the authenticated account.
+  description: >-
+    Chains the username lookup endpoint into the unfollow-user endpoint, using
+    the resolved id as the unfollow target.
+  inputs:
+    type: object
+    required:
+    - authUserId
+    - targetUsername
+    properties:
+      authUserId:
+        type: string
+        description: The numeric id of the authenticated user who will unfollow.
+      targetUsername:
+        type: string
+        description: The @username of the account to unfollow, without the leading @.
+      authorization:
+        type: string
+        description: OAuth2 user token to authorize the requests (e.g. "Bearer xxx").
+  steps:
+  - stepId: resolveTarget
+    description: Resolve the target username into a numeric user id.
+    operationId: getUsersByUsername
+    parameters:
+    - name: username
+      in: path
+      value: $inputs.targetUsername
+    - name: user.fields
+      in: query
+      value: id,name,username
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      targetUserId: $response.body#/data/id
+  - stepId: unfollowTarget
+    description: Unfollow the resolved target user as the authenticated user.
+    operationId: unfollowUser
+    parameters:
+    - name: source_user_id
+      in: path
+      value: $inputs.authUserId
+    - name: target_user_id
+      in: path
+      value: $steps.resolveTarget.outputs.targetUserId
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      following: $response.body#/data/following
+  outputs:
+    targetUserId: $steps.resolveTarget.outputs.targetUserId
+    following: $steps.unfollowTarget.outputs.following

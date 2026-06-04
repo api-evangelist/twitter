@@ -1,0 +1,76 @@
+arazzo: 1.0.1
+info:
+  title: X Follow a User by Their Username
+  summary: Resolve a target handle to an id, then follow that user.
+  description: >-
+    Lets the authenticated user follow another account given only that
+    account's public @username. The workflow resolves the username into a
+    numeric user id and then issues the follow request, inlining the
+    target_user_id in the follow body so the chain reads and executes without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: xApi
+  url: ../openapi/x-api-openapi.json
+  type: openapi
+workflows:
+- workflowId: follow-user-by-username
+  summary: Resolve a username and follow that user as the authenticated account.
+  description: >-
+    Chains the username lookup endpoint into the follow-user endpoint, using
+    the resolved id as the follow target.
+  inputs:
+    type: object
+    required:
+    - authUserId
+    - targetUsername
+    properties:
+      authUserId:
+        type: string
+        description: The numeric id of the authenticated user who will follow.
+      targetUsername:
+        type: string
+        description: The @username of the account to follow, without the leading @.
+      authorization:
+        type: string
+        description: OAuth2 user token to authorize the requests (e.g. "Bearer xxx").
+  steps:
+  - stepId: resolveTarget
+    description: Resolve the target username into a numeric user id.
+    operationId: getUsersByUsername
+    parameters:
+    - name: username
+      in: path
+      value: $inputs.targetUsername
+    - name: user.fields
+      in: query
+      value: id,name,username
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      targetUserId: $response.body#/data/id
+  - stepId: followTarget
+    description: Follow the resolved target user as the authenticated user.
+    operationId: followUser
+    parameters:
+    - name: id
+      in: path
+      value: $inputs.authUserId
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    requestBody:
+      contentType: application/json
+      payload:
+        target_user_id: $steps.resolveTarget.outputs.targetUserId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      following: $response.body#/data/following
+      pendingFollow: $response.body#/data/pending_follow
+  outputs:
+    targetUserId: $steps.resolveTarget.outputs.targetUserId
+    following: $steps.followTarget.outputs.following

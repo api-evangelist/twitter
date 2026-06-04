@@ -1,0 +1,84 @@
+arazzo: 1.0.1
+info:
+  title: X List the Posts Mentioning a Handle
+  summary: Resolve a username to an id, then fetch posts that mention that user.
+  description: >-
+    Resolves an X account by its @username and then retrieves the most recent
+    posts that mention that account. The lookup step requests the user.fields
+    needed to chain, and the mentions step inlines the tweet.fields, expansions,
+    and max_results so the flow reads and executes without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: xApi
+  url: ../openapi/x-api-openapi.json
+  type: openapi
+workflows:
+- workflowId: mentions-of-handle
+  summary: Resolve a username and list the posts that mention that user.
+  description: >-
+    Chains the username lookup endpoint into the mentions endpoint so a caller
+    can go from a handle to the posts mentioning it.
+  inputs:
+    type: object
+    required:
+    - username
+    properties:
+      username:
+        type: string
+        description: The @username whose mentions to list, without the leading @.
+      maxResults:
+        type: integer
+        description: The maximum number of mention posts to return (5-100).
+        default: 25
+      authorization:
+        type: string
+        description: Bearer token to authorize the requests (e.g. "Bearer xxx").
+  steps:
+  - stepId: resolveUser
+    description: Resolve the username into a numeric user id.
+    operationId: getUsersByUsername
+    parameters:
+    - name: username
+      in: path
+      value: $inputs.username
+    - name: user.fields
+      in: query
+      value: id,name,username
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      userId: $response.body#/data/id
+  - stepId: getMentions
+    description: Retrieve the most recent posts that mention the resolved user.
+    operationId: getUsersMentions
+    parameters:
+    - name: id
+      in: path
+      value: $steps.resolveUser.outputs.userId
+    - name: max_results
+      in: query
+      value: $inputs.maxResults
+    - name: tweet.fields
+      in: query
+      value: id,text,author_id,created_at
+    - name: expansions
+      in: query
+      value: author_id
+    - name: user.fields
+      in: query
+      value: id,name,username
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      mentions: $response.body#/data
+      nextToken: $response.body#/meta/next_token
+  outputs:
+    userId: $steps.resolveUser.outputs.userId
+    mentions: $steps.getMentions.outputs.mentions

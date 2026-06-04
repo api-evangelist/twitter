@@ -1,0 +1,109 @@
+arazzo: 1.0.1
+info:
+  title: X Search, Bookmark a Post, Then Remove the Bookmark
+  summary: Find a post by search, bookmark it, then delete that bookmark.
+  description: >-
+    Walks the bookmark lifecycle on the X API. The workflow searches recent
+    posts for a query, bookmarks the first matching post for the authenticated
+    user, and then removes that bookmark. The bookmark step inlines its tweet_id
+    body and the removal step inlines the tweet_id path parameter so the chain
+    reads and executes without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: xApi
+  url: ../openapi/x-api-openapi.json
+  type: openapi
+workflows:
+- workflowId: bookmark-and-remove
+  summary: Search, bookmark the top result, then remove the bookmark.
+  description: >-
+    Chains the recent-search endpoint into the create-bookmark endpoint and then
+    the delete-bookmark endpoint, branching to a no-op end when no post matches.
+  inputs:
+    type: object
+    required:
+    - authUserId
+    - query
+    properties:
+      authUserId:
+        type: string
+        description: The numeric id of the authenticated user who owns the bookmarks.
+      query:
+        type: string
+        description: The search query used to find a post to bookmark.
+      authorization:
+        type: string
+        description: OAuth2 user token to authorize the requests (e.g. "Bearer xxx").
+  steps:
+  - stepId: findPost
+    description: Search recent posts and capture the id of the first match.
+    operationId: searchPostsRecent
+    parameters:
+    - name: query
+      in: query
+      value: $inputs.query
+    - name: max_results
+      in: query
+      value: 10
+    - name: tweet.fields
+      in: query
+      value: id,text,author_id
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      postId: $response.body#/data/0/id
+    onSuccess:
+    - name: hasResults
+      type: goto
+      stepId: bookmark
+      criteria:
+      - context: $response.body
+        condition: $.data.length > 0
+        type: jsonpath
+    - name: noResults
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.length == 0
+        type: jsonpath
+  - stepId: bookmark
+    description: Bookmark the first matching post for the authenticated user.
+    operationId: createUsersBookmark
+    parameters:
+    - name: id
+      in: path
+      value: $inputs.authUserId
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    requestBody:
+      contentType: application/json
+      payload:
+        tweet_id: $steps.findPost.outputs.postId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      bookmarked: $response.body#/data/bookmarked
+  - stepId: removeBookmark
+    description: Remove the bookmark to restore the original state.
+    operationId: deleteUsersBookmark
+    parameters:
+    - name: id
+      in: path
+      value: $inputs.authUserId
+    - name: tweet_id
+      in: path
+      value: $steps.findPost.outputs.postId
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      bookmarked: $response.body#/data/bookmarked
+  outputs:
+    postId: $steps.findPost.outputs.postId
+    bookmarked: $steps.bookmark.outputs.bookmarked

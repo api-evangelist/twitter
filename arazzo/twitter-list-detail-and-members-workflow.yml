@@ -1,0 +1,78 @@
+arazzo: 1.0.1
+info:
+  title: X Fetch a List's Details and Its Members
+  summary: Read a List by id, then page the members of that List.
+  description: >-
+    Retrieves the metadata for a single X List and then pulls the first page of
+    member accounts on that List. The detail step inlines its list.fields and
+    the members step inlines its user.fields and max_results so the flow reads
+    and executes without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: xApi
+  url: ../openapi/x-api-openapi.json
+  type: openapi
+workflows:
+- workflowId: list-detail-and-members
+  summary: Read a List by id and list its members.
+  description: >-
+    Chains the list lookup endpoint into the list-members endpoint so a caller
+    can confirm a List exists and then enumerate its members.
+  inputs:
+    type: object
+    required:
+    - listId
+    properties:
+      listId:
+        type: string
+        description: The numeric id of the List to read.
+      maxResults:
+        type: integer
+        description: The maximum number of members to return per page (1-100).
+        default: 100
+      authorization:
+        type: string
+        description: Bearer token to authorize the requests (e.g. "Bearer xxx").
+  steps:
+  - stepId: getList
+    description: Read the metadata for the supplied List id.
+    operationId: getListsById
+    parameters:
+    - name: id
+      in: path
+      value: $inputs.listId
+    - name: list.fields
+      in: query
+      value: id,name,member_count,follower_count,private
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      listId: $response.body#/data/id
+      listName: $response.body#/data/name
+  - stepId: getMembers
+    description: Retrieve the first page of members for the List.
+    operationId: getListsMembers
+    parameters:
+    - name: id
+      in: path
+      value: $steps.getList.outputs.listId
+    - name: max_results
+      in: query
+      value: $inputs.maxResults
+    - name: user.fields
+      in: query
+      value: id,name,username
+    - name: Authorization
+      in: header
+      value: $inputs.authorization
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      members: $response.body#/data
+      nextToken: $response.body#/meta/next_token
+  outputs:
+    listName: $steps.getList.outputs.listName
+    members: $steps.getMembers.outputs.members
