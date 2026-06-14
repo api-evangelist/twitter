@@ -1,0 +1,977 @@
+# Twitter (X) API v2 - Conceptual GraphQL Schema
+# Source: https://docs.x.com/x-api
+# Base URL: https://api.x.com/2
+# Schema type: Conceptual (REST API modeled as GraphQL)
+
+# ==========================================
+# SCALARS
+# ==========================================
+
+scalar DateTime
+scalar JSON
+scalar URL
+
+# ==========================================
+# ENUMS
+# ==========================================
+
+enum TweetType {
+  TWEET
+  RETWEET
+  QUOTED_TWEET
+  REPLY
+}
+
+enum ReferencedTweetType {
+  RETWEETED
+  QUOTED
+  REPLIED_TO
+}
+
+enum MediaType {
+  PHOTO
+  VIDEO
+  ANIMATED_GIF
+}
+
+enum SpaceState {
+  LIVE
+  SCHEDULED
+  ENDED
+}
+
+enum ListVisibility {
+  PUBLIC
+  PRIVATE
+}
+
+enum ComplianceJobType {
+  TWEETS
+  USERS
+}
+
+enum ComplianceJobStatus {
+  CREATED
+  IN_PROGRESS
+  FAILED
+  COMPLETE
+  EXPIRED
+}
+
+enum DMEventType {
+  MESSAGE_CREATE
+  PARTICIPANTS_JOIN
+  PARTICIPANTS_LEAVE
+  CONVERSATION_CREATE
+}
+
+enum PollStatus {
+  OPEN
+  CLOSED
+}
+
+enum ReplySettings {
+  EVERYONE
+  MENTIONED_USERS
+  SUBSCRIBERS
+  FOLLOWING
+}
+
+enum TweetFieldExpansion {
+  AUTHOR_ID
+  REFERENCED_TWEETS
+  ATTACHMENTS
+  ENTITIES
+  GEO
+  CONTEXT_ANNOTATIONS
+  PUBLIC_METRICS
+  NON_PUBLIC_METRICS
+  ORGANIC_METRICS
+  PROMOTED_METRICS
+  WITHHELD
+  LANG
+  POSSIBLY_SENSITIVE
+}
+
+# ==========================================
+# TWEET TYPES
+# ==========================================
+
+type Tweet {
+  id: ID!
+  text: String!
+  authorId: ID
+  author: User
+  createdAt: DateTime
+  conversationId: ID
+  inReplyToUserId: ID
+  referencedTweets: [TweetReferencedTweet]
+  attachments: TweetAttachment
+  entities: TweetEntity
+  contextAnnotations: [TweetContextAnnotation]
+  geo: TweetGeo
+  lang: String
+  possiblySensitive: Boolean
+  publicMetrics: TweetPublicMetrics
+  nonPublicMetrics: TweetNonPublicMetrics
+  organicMetrics: TweetOrganicMetrics
+  promotedMetrics: TweetMetrics
+  replySettings: ReplySettings
+  source: String
+  withheld: TweetWithheld
+  editControls: TweetEditControls
+  noteId: ID
+  tweetType: TweetType
+}
+
+type TweetData {
+  data: Tweet
+  includes: TweetExpansions
+  errors: [Error]
+}
+
+type TweetReferencedTweet {
+  type: ReferencedTweetType!
+  id: ID!
+  tweet: Tweet
+}
+
+type TweetAttachment {
+  mediaKeys: [String]
+  pollIds: [ID]
+  media: [Media]
+  polls: [Poll]
+}
+
+type TweetMention {
+  start: Int
+  end: Int
+  username: String!
+  id: ID
+}
+
+type TweetAnnotation {
+  start: Int
+  end: Int
+  probability: Float
+  type: String
+  normalizedText: String
+}
+
+type TweetContextAnnotation {
+  domain: ContextAnnotationDomain!
+  entity: ContextAnnotationEntity!
+}
+
+type TweetEntity {
+  urls: [TweetEntityUrl]
+  hashtags: [TweetEntityHashtag]
+  cashtags: [TweetEntityCashtag]
+  mentions: [TweetEntityMention]
+  annotations: [TweetAnnotation]
+}
+
+type TweetEntityUrl {
+  start: Int
+  end: Int
+  url: String!
+  expandedUrl: URL
+  displayUrl: String
+  unwoundUrl: URL
+  title: String
+  description: String
+  images: [UrlImage]
+  status: Int
+}
+
+type TweetEntityHashtag {
+  start: Int
+  end: Int
+  tag: String!
+}
+
+type TweetEntityCashtag {
+  start: Int
+  end: Int
+  tag: String!
+}
+
+type TweetEntityMention {
+  start: Int
+  end: Int
+  username: String!
+  id: ID
+}
+
+type TweetExpansions {
+  tweets: [Tweet]
+  users: [User]
+  media: [Media]
+  polls: [Poll]
+  places: [Place]
+}
+
+type TweetPublicMetrics {
+  retweetCount: Int!
+  replyCount: Int!
+  likeCount: Int!
+  quoteCount: Int!
+  bookmarkCount: Int!
+  impressionCount: Int
+}
+
+type TweetNonPublicMetrics {
+  impressionCount: Int
+  urlLinkClicks: Int
+  userProfileClicks: Int
+}
+
+type TweetOrganicMetrics {
+  impressionCount: Int
+  urlLinkClicks: Int
+  userProfileClicks: Int
+  retweetCount: Int
+  replyCount: Int
+  likeCount: Int
+}
+
+type TweetMetrics {
+  impressionCount: Int
+  urlLinkClicks: Int
+  userProfileClicks: Int
+  retweetCount: Int
+  replyCount: Int
+  likeCount: Int
+}
+
+type TweetGeo {
+  placeId: ID
+  coordinates: Coordinates
+  place: Place
+}
+
+type TweetWithheld {
+  copyright: Boolean
+  countryCodes: [String]
+  scope: String
+}
+
+type TweetEditControls {
+  editTweetIds: [ID]
+  editsRemaining: Int
+  isEditEligible: Boolean
+  editableUntil: DateTime
+}
+
+# ==========================================
+# USER TYPES
+# ==========================================
+
+type User {
+  id: ID!
+  name: String!
+  username: String!
+  createdAt: DateTime
+  description: String
+  entities: UserEntities
+  location: String
+  pinnedTweetId: ID
+  pinnedTweet: Tweet
+  profileImageUrl: URL
+  protected: Boolean
+  publicMetrics: UserPublicMetrics
+  url: URL
+  verified: Boolean
+  verifiedType: String
+  withheld: UserWithheld
+}
+
+type UserData {
+  data: User
+  includes: TweetExpansions
+  errors: [Error]
+}
+
+type UserEntities {
+  url: UserUrl
+  description: UserDescription
+}
+
+type UserUrl {
+  urls: [TweetEntityUrl]
+}
+
+type UserDescription {
+  urls: [TweetEntityUrl]
+  hashtags: [TweetEntityHashtag]
+  cashtags: [TweetEntityCashtag]
+  mentions: [TweetEntityMention]
+}
+
+type UserMentions {
+  data: [User]
+  meta: PaginationMeta
+  includes: TweetExpansions
+}
+
+type UserVerified {
+  verified: Boolean!
+  verifiedType: String
+}
+
+type UserProtected {
+  protected: Boolean!
+}
+
+type UserPublicMetrics {
+  followersCount: Int!
+  followingCount: Int!
+  tweetCount: Int!
+  listedCount: Int!
+}
+
+type UserMetrics {
+  followersCount: Int
+  followingCount: Int
+  tweetCount: Int
+  listedCount: Int
+}
+
+type UserWithheld {
+  countryCodes: [String]
+  scope: String
+}
+
+# ==========================================
+# SPACE TYPES
+# ==========================================
+
+type Space {
+  id: ID!
+  state: SpaceState!
+  title: String
+  hostIds: [ID]
+  hosts: [User]
+  creatorId: ID
+  creator: User
+  createdAt: DateTime
+  startedAt: DateTime
+  endedAt: DateTime
+  scheduledStart: DateTime
+  participantCount: Int
+  subscriberCount: Int
+  speakerIds: [ID]
+  speakers: [SpaceParticipant]
+  invitedUserIds: [ID]
+  invitedUsers: [SpaceInvitedUser]
+  isTicketed: Boolean
+  lang: String
+  topics: [SpaceTopic]
+  updatedAt: DateTime
+}
+
+type SpaceTopic {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type SpaceParticipant {
+  userId: ID!
+  user: User
+  role: String
+  start: DateTime
+}
+
+type SpaceInvitedUser {
+  userId: ID!
+  user: User
+}
+
+# ==========================================
+# LIST TYPES
+# ==========================================
+
+type List {
+  id: ID!
+  name: String!
+  description: String
+  private: Boolean
+  visibility: ListVisibility
+  ownerId: ID
+  owner: User
+  createdAt: DateTime
+  followerCount: Int
+  memberCount: Int
+}
+
+type ListMember {
+  data: [User]
+  meta: PaginationMeta
+}
+
+# ==========================================
+# MEDIA TYPES
+# ==========================================
+
+type Media {
+  mediaKey: String!
+  type: MediaType!
+  url: URL
+  previewImageUrl: URL
+  durationMs: Int
+  height: Int
+  width: Int
+  altText: String
+  variants: [MediaVariant]
+  publicMetrics: TweetPublicMetrics
+  nonPublicMetrics: MediaNonPublicMetrics
+  organicMetrics: MediaOrganicMetrics
+  promotedMetrics: MediaPromotedMetrics
+}
+
+type Video {
+  mediaKey: String!
+  type: MediaType!
+  durationMs: Int
+  height: Int
+  width: Int
+  previewImageUrl: URL
+  publicMetrics: TweetPublicMetrics
+  nonPublicMetrics: MediaNonPublicMetrics
+  organicMetrics: MediaOrganicMetrics
+  promotedMetrics: MediaPromotedMetrics
+  variants: [MediaVariant]
+}
+
+type Gif {
+  mediaKey: String!
+  type: MediaType!
+  height: Int
+  width: Int
+  previewImageUrl: URL
+  variants: [MediaVariant]
+}
+
+type Photo {
+  mediaKey: String!
+  type: MediaType!
+  url: URL!
+  height: Int
+  width: Int
+  altText: String
+}
+
+type MediaVariant {
+  bitRate: Int
+  contentType: String
+  url: URL!
+}
+
+type MediaMetrics {
+  viewCount: Int
+}
+
+type MediaNonPublicMetrics {
+  playback0Count: Int
+  playback25Count: Int
+  playback50Count: Int
+  playback75Count: Int
+  playback100Count: Int
+}
+
+type MediaOrganicMetrics {
+  viewCount: Int
+  playback0Count: Int
+  playback25Count: Int
+  playback50Count: Int
+  playback75Count: Int
+  playback100Count: Int
+}
+
+type MediaPromotedMetrics {
+  viewCount: Int
+  playback0Count: Int
+  playback25Count: Int
+  playback50Count: Int
+  playback75Count: Int
+  playback100Count: Int
+}
+
+type UrlImage {
+  url: URL
+  width: Int
+  height: Int
+}
+
+# ==========================================
+# POLL TYPES
+# ==========================================
+
+type Poll {
+  id: ID!
+  options: [PollOption!]!
+  durationMinutes: Int
+  endDatetime: DateTime
+  votingStatus: PollStatus
+}
+
+type PollOption {
+  position: Int!
+  label: String!
+  votes: Int
+}
+
+# ==========================================
+# DIRECT MESSAGE TYPES
+# ==========================================
+
+type DirectMessage {
+  id: ID!
+  text: String
+  senderId: ID
+  sender: User
+  createdAt: DateTime
+  attachments: DMAttachment
+  eventType: DMEventType
+  referencedTweets: [TweetReferencedTweet]
+}
+
+type DMConversation {
+  conversationId: ID!
+  dmConversationId: String!
+  participants: [DMParticipant]
+  messages: [DirectMessage]
+  createdAt: DateTime
+}
+
+type DMParticipant {
+  userId: ID!
+  user: User
+}
+
+type DMEvent {
+  id: ID!
+  eventType: DMEventType!
+  text: String
+  senderId: ID
+  sender: User
+  participantIds: [ID]
+  referencedTweets: [TweetReferencedTweet]
+  attachments: DMAttachment
+  createdAt: DateTime
+}
+
+type DMAttachment {
+  mediaKeys: [String]
+  media: [Media]
+}
+
+# ==========================================
+# STREAM TYPES
+# ==========================================
+
+type StreamRule {
+  id: ID!
+  value: String!
+  tag: String
+  createdAt: DateTime
+}
+
+type FilterRule {
+  id: ID!
+  value: String!
+  tag: String
+}
+
+type StreamRuleTag {
+  tag: String!
+  ruleIds: [ID]
+}
+
+# ==========================================
+# SEARCH AND TIMELINE TYPES
+# ==========================================
+
+type SearchResult {
+  data: [Tweet]
+  meta: SearchMeta
+  includes: TweetExpansions
+  errors: [Error]
+}
+
+type TimelinesResult {
+  data: [Tweet]
+  meta: PaginationMeta
+  includes: TweetExpansions
+  errors: [Error]
+}
+
+type SearchMeta {
+  newestId: ID
+  oldestId: ID
+  resultCount: Int
+  nextToken: String
+}
+
+# ==========================================
+# PLACE AND GEO TYPES
+# ==========================================
+
+type Place {
+  id: ID!
+  fullName: String!
+  name: String
+  placeType: String
+  country: String
+  countryCode: String
+  geo: PlaceGeo
+  containedWithin: [ID]
+}
+
+type PlaceGeo {
+  type: String
+  bbox: [Float]
+  properties: JSON
+}
+
+type Coordinates {
+  type: String
+  coordinates: [Float]
+}
+
+# ==========================================
+# CONTEXT ANNOTATION TYPES
+# ==========================================
+
+type ContextAnnotationDomain {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type ContextAnnotationEntity {
+  id: ID!
+  name: String!
+  description: String
+}
+
+# ==========================================
+# COMPLIANCE TYPES
+# ==========================================
+
+type ComplianceEvent {
+  id: ID
+  type: String
+  userId: ID
+  tweetId: ID
+  reason: String
+  timestamp: DateTime
+}
+
+type ComplianceJob {
+  id: ID!
+  type: ComplianceJobType!
+  status: ComplianceJobStatus!
+  uploadUrl: URL
+  downloadUrl: URL
+  createdAt: DateTime
+  uploadExpiry: DateTime
+  downloadExpiry: DateTime
+}
+
+type ComplianceJobResult {
+  data: ComplianceJob
+}
+
+# ==========================================
+# USAGE TYPES
+# ==========================================
+
+type UsageTweet {
+  dailyProjectUsage: [UsageData]
+  cappedAt: Int
+}
+
+type UsageData {
+  date: DateTime
+  appId: ID
+  usage: [UsageCategory]
+}
+
+type UsageCategory {
+  appType: String
+  usages: [UsageCount]
+}
+
+type UsageCount {
+  endpoint: String
+  count: Int
+}
+
+# ==========================================
+# EXPANSION TYPES
+# ==========================================
+
+type Expansion {
+  tweetFields: [TweetFieldExpansion]
+  userFields: [String]
+  mediaFields: [String]
+  placeFields: [String]
+  pollFields: [String]
+}
+
+# ==========================================
+# AUTH TYPES
+# ==========================================
+
+type AccessToken {
+  accessToken: String!
+  tokenType: String!
+  expiresIn: Int
+  refreshToken: String
+  scope: String
+}
+
+type ApiKey {
+  apiKey: String!
+  apiKeySecret: String!
+  bearerToken: String
+}
+
+type OAuthToken {
+  oauthToken: String!
+  oauthTokenSecret: String
+  userId: ID
+  screenName: String
+}
+
+# ==========================================
+# ERROR TYPES
+# ==========================================
+
+type Error {
+  title: String
+  detail: String
+  type: String
+  status: Int
+  resourceType: String
+  resourceId: String
+  parameter: String
+  value: String
+}
+
+type Problem {
+  title: String!
+  type: String!
+  detail: String
+}
+
+type ResourceNotFoundProblem {
+  title: String!
+  type: String!
+  detail: String
+  parameter: String
+  value: String
+  resourceId: String
+  resourceType: String
+}
+
+type AuthorizationProblem {
+  title: String!
+  type: String!
+  detail: String
+}
+
+type GenericProblem {
+  title: String!
+  type: String!
+  detail: String
+  status: Int
+}
+
+# ==========================================
+# PAGINATION & META
+# ==========================================
+
+type Meta {
+  resultCount: Int
+  newestId: ID
+  oldestId: ID
+  nextToken: String
+  previousToken: String
+}
+
+type PaginationMeta {
+  resultCount: Int
+  nextToken: String
+  previousToken: String
+}
+
+# ==========================================
+# TREND TYPES
+# ==========================================
+
+type Trend {
+  trendName: String!
+  tweetCount: Int
+  woeid: Int
+}
+
+# ==========================================
+# COMMUNITY TYPES
+# ==========================================
+
+type Community {
+  id: ID!
+  name: String!
+  description: String
+  createdAt: DateTime
+  memberCount: Int
+  role: String
+  rules: [CommunityRule]
+}
+
+type CommunityRule {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type CommunityMember {
+  userId: ID!
+  user: User
+  role: String
+}
+
+# ==========================================
+# INPUT TYPES
+# ==========================================
+
+input CreateTweetInput {
+  text: String!
+  replySettings: ReplySettings
+  inReplyToTweetId: ID
+  quoteTweetId: ID
+  mediaIds: [ID]
+  pollOptions: [String]
+  pollDurationMinutes: Int
+  geo: TweetGeoInput
+  directMessageDeepLink: String
+  forSuperFollowersOnly: Boolean
+}
+
+input TweetGeoInput {
+  placeId: ID
+}
+
+input CreateListInput {
+  name: String!
+  description: String
+  private: Boolean
+}
+
+input UpdateListInput {
+  name: String
+  description: String
+  private: Boolean
+}
+
+input CreateStreamRuleInput {
+  value: String!
+  tag: String
+}
+
+input SendDirectMessageInput {
+  conversationId: ID
+  participantId: ID
+  text: String!
+  mediaId: ID
+  referencedTweetId: ID
+}
+
+input CreateComplianceJobInput {
+  type: ComplianceJobType!
+  resumeToken: String
+}
+
+# ==========================================
+# QUERY
+# ==========================================
+
+type Query {
+  tweet(id: ID!, expansions: [String], tweetFields: [String], userFields: [String], mediaFields: [String], placeFields: [String], pollFields: [String]): TweetData
+  tweets(ids: [ID!]!, expansions: [String], tweetFields: [String], userFields: [String], mediaFields: [String]): SearchResult
+  searchRecent(query: String!, maxResults: Int, nextToken: String, startTime: DateTime, endTime: DateTime, sinceId: ID, untilId: ID, expansions: [String], tweetFields: [String], userFields: [String]): SearchResult
+  searchAll(query: String!, maxResults: Int, nextToken: String, startTime: DateTime, endTime: DateTime, sinceId: ID, untilId: ID, expansions: [String], tweetFields: [String], userFields: [String]): SearchResult
+  user(id: ID!, expansions: [String], userFields: [String], tweetFields: [String]): UserData
+  userByUsername(username: String!, expansions: [String], userFields: [String], tweetFields: [String]): UserData
+  users(ids: [ID!]!, expansions: [String], userFields: [String]): UserMentions
+  usersByUsernames(usernames: [String!]!, expansions: [String], userFields: [String]): UserMentions
+  userTimeline(userId: ID!, maxResults: Int, paginationToken: String, startTime: DateTime, endTime: DateTime, expansions: [String], tweetFields: [String]): TimelinesResult
+  userMentionsTimeline(userId: ID!, maxResults: Int, paginationToken: String, startTime: DateTime, endTime: DateTime, expansions: [String], tweetFields: [String]): TimelinesResult
+  userLikedTweets(userId: ID!, maxResults: Int, paginationToken: String, expansions: [String], tweetFields: [String]): TimelinesResult
+  userBookmarks(userId: ID!, maxResults: Int, paginationToken: String, expansions: [String], tweetFields: [String]): TimelinesResult
+  userFollowers(userId: ID!, maxResults: Int, paginationToken: String, expansions: [String], userFields: [String]): UserMentions
+  userFollowing(userId: ID!, maxResults: Int, paginationToken: String, expansions: [String], userFields: [String]): UserMentions
+  userBlockedUsers(userId: ID!, maxResults: Int, paginationToken: String): UserMentions
+  userMutedUsers(userId: ID!, maxResults: Int, paginationToken: String): UserMentions
+  list(id: ID!, expansions: [String], listFields: [String], userFields: [String]): List
+  lists(userId: ID!, maxResults: Int, paginationToken: String): ListMember
+  listMembers(listId: ID!, maxResults: Int, paginationToken: String, expansions: [String], userFields: [String]): ListMember
+  listFollowers(listId: ID!, maxResults: Int, paginationToken: String, expansions: [String], userFields: [String]): ListMember
+  listTweets(listId: ID!, maxResults: Int, paginationToken: String, expansions: [String], tweetFields: [String]): TimelinesResult
+  space(id: ID!, expansions: [String], spaceFields: [String], userFields: [String]): Space
+  spaces(ids: [ID!]!, expansions: [String], spaceFields: [String]): Space
+  spacesByCreators(userIds: [ID!]!, expansions: [String], spaceFields: [String]): Space
+  trends(woeid: Int): [Trend]
+  streamRules: [StreamRule]
+  usageStats(granularity: String): UsageTweet
+  complianceJobs(type: ComplianceJobType!, status: ComplianceJobStatus): [ComplianceJob]
+  complianceJob(id: ID!): ComplianceJob
+  dmConversation(conversationId: ID!, maxResults: Int, paginationToken: String): DMConversation
+}
+
+# ==========================================
+# MUTATION
+# ==========================================
+
+type Mutation {
+  createTweet(input: CreateTweetInput!): TweetData
+  deleteTweet(id: ID!): Boolean
+  likeTweet(userId: ID!, tweetId: ID!): Boolean
+  unlikeTweet(userId: ID!, tweetId: ID!): Boolean
+  retweet(userId: ID!, tweetId: ID!): Boolean
+  deleteRetweet(userId: ID!, sourceTweetId: ID!): Boolean
+  bookmarkTweet(userId: ID!, tweetId: ID!): Boolean
+  deleteBookmark(userId: ID!, tweetId: ID!): Boolean
+  followUser(userId: ID!, targetUserId: ID!): Boolean
+  unfollowUser(userId: ID!, targetUserId: ID!): Boolean
+  blockUser(userId: ID!, targetUserId: ID!): Boolean
+  unblockUser(userId: ID!, targetUserId: ID!): Boolean
+  muteUser(userId: ID!, targetUserId: ID!): Boolean
+  unmuteUser(userId: ID!, targetUserId: ID!): Boolean
+  createList(input: CreateListInput!): List
+  updateList(id: ID!, input: UpdateListInput!): List
+  deleteList(id: ID!): Boolean
+  addListMember(listId: ID!, userId: ID!): Boolean
+  removeListMember(listId: ID!, userId: ID!): Boolean
+  followList(userId: ID!, listId: ID!): Boolean
+  unfollowList(userId: ID!, listId: ID!): Boolean
+  pinList(userId: ID!, listId: ID!): Boolean
+  unpinList(userId: ID!, listId: ID!): Boolean
+  createStreamRule(input: CreateStreamRuleInput!): StreamRule
+  deleteStreamRules(ids: [ID!]!): Boolean
+  sendDirectMessage(input: SendDirectMessageInput!): DirectMessage
+  createComplianceJob(input: CreateComplianceJobInput!): ComplianceJob
+}
+
+# ==========================================
+# SUBSCRIPTION
+# ==========================================
+
+type Subscription {
+  filteredStream: Tweet
+  sampledStream: Tweet
+  activityStream(userId: ID!): DMEvent
+}
