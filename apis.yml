@@ -42,10 +42,10 @@ apis:
     url: https://docs.x.com/resources/fundamentals/authentication
   - type: RateLimits
     url: https://docs.x.com/x-api/fundamentals/rate-limits
-  - type: SDK
+  - type: SDKs
     url: https://docs.x.com/sdks-and-tools/python-xdk
     title: Python XDK
-  - type: SDK
+  - type: SDKs
     url: https://docs.x.com/sdks-and-tools/typescript-xdk
     title: TypeScript XDK
   - type: OpenAPI
@@ -105,66 +105,63 @@ apis:
   - Streaming
   - Webhooks
 common:
-- type: ArazzoWorkflows
-  url: arazzo/
-  workflows:
-  - url: arazzo/twitter-bookmark-and-remove-workflow.yml
-    name: X Search, Bookmark a Post, Then Remove the Bookmark
-    summary: Find a post by search, bookmark it, then delete that bookmark.
-  - url: arazzo/twitter-create-list-add-member-workflow.yml
-    name: X Create a List and Add a Member by Username
-    summary: Create a new List, resolve a member handle, and add them to the List.
-  - url: arazzo/twitter-follow-list-by-id-workflow.yml
-    name: X Confirm a List and Follow It
-    summary: Read a List by id to confirm it exists, then follow that List.
-  - url: arazzo/twitter-follow-user-by-username-workflow.yml
-    name: X Follow a User by Their Username
-    summary: Resolve a target handle to an id, then follow that user.
-  - url: arazzo/twitter-followers-of-handle-workflow.yml
-    name: X List the Followers of a Handle
-    summary: Resolve a username to an id, then page that user's followers.
-  - url: arazzo/twitter-liked-posts-of-handle-workflow.yml
-    name: X List the Posts a Handle Has Liked
-    summary: Resolve a username to an id, then fetch that user's liked posts.
-  - url: arazzo/twitter-list-detail-and-members-workflow.yml
-    name: X Fetch a List's Details and Its Members
-    summary: Read a List by id, then page the members of that List.
-  - url: arazzo/twitter-mentions-of-handle-workflow.yml
-    name: X List the Posts Mentioning a Handle
-    summary: Resolve a username to an id, then fetch posts that mention that user.
-  - url: arazzo/twitter-mute-user-by-username-workflow.yml
-    name: X Mute a User by Their Username
-    summary: Resolve a target handle to an id, then mute that user.
-  - url: arazzo/twitter-pin-owned-list-workflow.yml
-    name: X Pin the Authenticated User's First Owned List
-    summary: List the owned Lists, then pin the first one to the user's profile.
-  - url: arazzo/twitter-post-engagement-audit-workflow.yml
-    name: X Audit Engagement on a User's Latest Post
-    summary: Resolve a handle, get their latest post, then list who liked it.
-  - url: arazzo/twitter-post-like-cleanup-workflow.yml
-    name: X Create a Post, Like It, Then Delete It
-    summary: Publish a post, like it from the authenticated account, then remove it.
-  - url: arazzo/twitter-quote-post-from-search-workflow.yml
-    name: X Quote a Post Found by Search
-    summary: Search recent posts, then publish a quote post of the top match.
-  - url: arazzo/twitter-reply-to-latest-post-workflow.yml
-    name: X Reply to a User's Latest Post
-    summary: Resolve a handle, fetch their latest post, then reply to it.
-  - url: arazzo/twitter-repost-then-undo-workflow.yml
-    name: X Find a Post, Repost It, Then Undo the Repost
-    summary: Search for a post, repost the top match, then remove the repost.
-  - url: arazzo/twitter-reposters-of-latest-post-workflow.yml
-    name: X List Who Reposted a Handle's Latest Post
-    summary: Resolve a handle, get their latest post, then list who reposted it.
-  - url: arazzo/twitter-search-recent-get-details-workflow.yml
-    name: X Search Recent Posts and Hydrate the Top Match
-    summary: Run a recent search, then fetch full details for the first matching post.
-  - url: arazzo/twitter-unfollow-user-by-username-workflow.yml
-    name: X Unfollow a User by Their Username
-    summary: Resolve a target handle to an id, then unfollow that user.
-  - url: arazzo/twitter-user-lookup-recent-posts-workflow.yml
-    name: X Resolve User and List Their Recent Posts
-    summary: Look up a user by username, then pull their most recent posts.
+- type: Arazzo
+  url: arazzo/twitter-bookmark-and-remove-workflow.yml
+  name: X Search, Bookmark a Post, Then Remove the Bookmark
+- type: Arazzo
+  url: arazzo/twitter-create-list-add-member-workflow.yml
+  name: X Create a List and Add a Member by Username
+- type: Arazzo
+  url: arazzo/twitter-follow-list-by-id-workflow.yml
+  name: X Confirm a List and Follow It
+- type: Arazzo
+  url: arazzo/twitter-follow-user-by-username-workflow.yml
+  name: X Follow a User by Their Username
+- type: Arazzo
+  url: arazzo/twitter-followers-of-handle-workflow.yml
+  name: X List the Followers of a Handle
+- type: Arazzo
+  url: arazzo/twitter-liked-posts-of-handle-workflow.yml
+  name: X List the Posts a Handle Has Liked
+- type: Arazzo
+  url: arazzo/twitter-list-detail-and-members-workflow.yml
+  name: X Fetch a List's Details and Its Members
+- type: Arazzo
+  url: arazzo/twitter-mentions-of-handle-workflow.yml
+  name: X List the Posts Mentioning a Handle
+- type: Arazzo
+  url: arazzo/twitter-mute-user-by-username-workflow.yml
+  name: X Mute a User by Their Username
+- type: Arazzo
+  url: arazzo/twitter-pin-owned-list-workflow.yml
+  name: X Pin the Authenticated User's First Owned List
+- type: Arazzo
+  url: arazzo/twitter-post-engagement-audit-workflow.yml
+  name: X Audit Engagement on a User's Latest Post
+- type: Arazzo
+  url: arazzo/twitter-post-like-cleanup-workflow.yml
+  name: X Create a Post, Like It, Then Delete It
+- type: Arazzo
+  url: arazzo/twitter-quote-post-from-search-workflow.yml
+  name: X Quote a Post Found by Search
+- type: Arazzo
+  url: arazzo/twitter-reply-to-latest-post-workflow.yml
+  name: X Reply to a User's Latest Post
+- type: Arazzo
+  url: arazzo/twitter-repost-then-undo-workflow.yml
+  name: X Find a Post, Repost It, Then Undo the Repost
+- type: Arazzo
+  url: arazzo/twitter-reposters-of-latest-post-workflow.yml
+  name: X List Who Reposted a Handle's Latest Post
+- type: Arazzo
+  url: arazzo/twitter-search-recent-get-details-workflow.yml
+  name: X Search Recent Posts and Hydrate the Top Match
+- type: Arazzo
+  url: arazzo/twitter-unfollow-user-by-username-workflow.yml
+  name: X Unfollow a User by Their Username
+- type: Arazzo
+  url: arazzo/twitter-user-lookup-recent-posts-workflow.yml
+  name: X Resolve User and List Their Recent Posts
 - type: LinkedIn
   url: https://www.linkedin.com/company/x-corp
 - type: Portal
@@ -173,14 +170,14 @@ common:
   url: https://docs.x.com/x-api/getting-started/make-your-first-request
 - type: Console
   url: https://developer.x.com/en/portal/dashboard
-- type: SignUp
+- type: Signup
   url: https://developer.x.com/en/portal/petition/essential/basic-info
 - type: Authentication
   url: https://docs.x.com/resources/fundamentals/authentication
-- type: SDK
+- type: SDKs
   url: https://docs.x.com/sdks-and-tools/python-xdk
   title: Python XDK
-- type: SDK
+- type: SDKs
   url: https://docs.x.com/sdks-and-tools/typescript-xdk
   title: TypeScript XDK
 - type: CLI

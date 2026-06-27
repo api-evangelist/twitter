@@ -3,13 +3,10 @@
   "feeds": [
     {
       "source": "https://blog.x.com/developer",
-      "error": "HTTPError"
-    },
-    {
-      "source": "https://devcommunity.x.com/",
-      "error": "HTTPError"
+      "saved": 0,
+      "error": "HTTP 403 Forbidden"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-06-14T20:42:17Z"
+  "fetched": "2026-06-27T13:18:15Z"
 }
