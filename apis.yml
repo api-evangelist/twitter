@@ -105,6 +105,10 @@ apis:
   - Streaming
   - Webhooks
 common:
+- type: Authentication
+  url: authentication/twitter-authentication.yml
+- type: OAuthScopes
+  url: scopes/twitter-scopes.yml
 - type: Arazzo
   url: arazzo/twitter-bookmark-and-remove-workflow.yml
   name: X Search, Bookmark a Post, Then Remove the Bookmark
