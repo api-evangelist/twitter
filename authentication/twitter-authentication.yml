@@ -1,0 +1,29 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/x-api-openapi.json
+summary:
+  types:
+  - http
+  - oauth2
+  oauth2_flows:
+  - authorizationCode
+schemes:
+- name: BearerToken
+  type: http
+  scheme: bearer
+  sources:
+  - openapi/x-api-openapi.json
+- name: OAuth2UserToken
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://api.x.com/2/oauth2/authorize
+    tokenUrl: https://api.x.com/2/oauth2/token
+    scopes: 21
+  sources:
+  - openapi/x-api-openapi.json
+- name: UserToken
+  type: http
+  scheme: OAuth
+  sources:
+  - openapi/x-api-openapi.json
