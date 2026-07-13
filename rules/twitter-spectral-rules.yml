@@ -1,9 +1,24 @@
+# twitter — Spectral ruleset (strengthened)
+# Plain Spectral. Existing hand-authored rules preserved; measured rules added
+# from this provider's own OpenAPI conventions by strengthen_ruleset.py,
+# then self-validated against the spec.
+#
+# Provenance:
+#   - servers-https-only: 100% of servers already https (error)
+#   - servers-expected-domain: 1/1 servers on x.com
+#   - path-params-casing: snake @ 100% (n=103)
+#   - query-params-casing: snake @ 56% (n=505)
+#   - operationid-casing: camel @ 100% (n=163)
+#   - schema-names-casing: pascal @ 100% (n=440)
+#   - schema-properties-casing: snake @ 98% (n=1033)
+#   - operation-security-required: 162/163 ops declare per-op security
+#   - error-schema-defined: Error
+#   - pagination params observed: ['max_results', 'next_token']
+#   - merge: kept 53 existing, added 1 measured, upgraded 0
+#   - added: error-schema-defined
+extends:
+  - spectral:oas
 rules:
-
-  # ============================================================
-  # INFO / METADATA
-  # ============================================================
-
   info-title-required:
     description: API title must be present and non-empty.
     severity: error
@@ -11,7 +26,6 @@ rules:
     then:
       field: title
       function: truthy
-
   info-title-format:
     description: API title should follow the pattern "X API" or "X [Name] API".
     severity: warn
@@ -19,8 +33,7 @@ rules:
     then:
       function: pattern
       functionOptions:
-        match: "^X "
-
+        match: '^X '
   info-description-required:
     description: API description must be present and meaningful.
     severity: error
@@ -28,7 +41,6 @@ rules:
     then:
       field: description
       function: truthy
-
   info-description-min-length:
     description: API description should be at least 50 characters.
     severity: warn
@@ -37,7 +49,6 @@ rules:
       function: length
       functionOptions:
         min: 50
-
   info-version-required:
     description: API version must be specified.
     severity: error
@@ -45,7 +56,6 @@ rules:
     then:
       field: version
       function: truthy
-
   info-contact-required:
     description: Contact information should be provided.
     severity: warn
@@ -53,7 +63,6 @@ rules:
     then:
       field: contact
       function: truthy
-
   info-license-required:
     description: License information should be provided.
     severity: info
@@ -61,11 +70,6 @@ rules:
     then:
       field: license
       function: truthy
-
-  # ============================================================
-  # OPENAPI VERSION
-  # ============================================================
-
   openapi-version-3:
     description: OpenAPI version must be 3.0.x.
     severity: error
@@ -74,12 +78,7 @@ rules:
       field: openapi
       function: pattern
       functionOptions:
-        match: "^3\\.0\\."
-
-  # ============================================================
-  # SERVERS
-  # ============================================================
-
+        match: ^3\.0\.
   servers-defined:
     description: At least one server must be defined.
     severity: error
@@ -87,7 +86,6 @@ rules:
     then:
       field: servers
       function: truthy
-
   servers-https-only:
     description: Server URLs must use HTTPS.
     severity: error
@@ -95,8 +93,7 @@ rules:
     then:
       function: pattern
       functionOptions:
-        match: "^https://"
-
+        match: ^https://
   servers-description:
     description: Server entries should have descriptions.
     severity: info
@@ -104,7 +101,6 @@ rules:
     then:
       field: description
       function: truthy
-
   servers-x-domain:
     description: Server URLs should use api.x.com or ads-api.x.com domains.
     severity: info
@@ -112,66 +108,52 @@ rules:
     then:
       function: pattern
       functionOptions:
-        match: "(api\\.x\\.com|ads-api\\.x\\.com)"
-
-  # ============================================================
-  # PATHS — NAMING CONVENTIONS
-  # ============================================================
-
+        match: (api\.x\.com|ads-api\.x\.com)
   paths-version-prefix:
     description: Paths should start with a version prefix (e.g., /2/).
     severity: warn
     given: $.paths
     then:
-      field: "@key"
+      field: '@key'
       function: pattern
       functionOptions:
-        match: "^\\/[0-9]"
-
+        match: ^\/[0-9]
   paths-no-trailing-slash:
     description: Paths must not have trailing slashes.
     severity: error
     given: $.paths
     then:
-      field: "@key"
+      field: '@key'
       function: pattern
       functionOptions:
-        notMatch: "\\/$"
-
+        notMatch: \/$
   paths-no-query-strings:
     description: Paths must not contain query strings.
     severity: error
     given: $.paths
     then:
-      field: "@key"
+      field: '@key'
       function: pattern
       functionOptions:
-        notMatch: "\\?"
-
+        notMatch: \?
   paths-snake-case:
     description: Path segments should use snake_case (the dominant X API convention).
     severity: info
     given: $.paths
     then:
-      field: "@key"
+      field: '@key'
       function: pattern
       functionOptions:
-        notMatch: "\\/[a-z]+[A-Z]"
-
+        notMatch: \/[a-z]+[A-Z]
   paths-path-params-snake-case:
     description: Path parameters should use snake_case.
     severity: warn
     given: $.paths
     then:
-      field: "@key"
+      field: '@key'
       function: pattern
       functionOptions:
-        notMatch: "\\{[a-z]+[A-Z]"
-
-  # ============================================================
-  # OPERATIONS
-  # ============================================================
-
+        notMatch: \{[a-z]+[A-Z]
   operation-summary-required:
     description: Every operation must have a summary.
     severity: warn
@@ -179,7 +161,6 @@ rules:
     then:
       field: summary
       function: truthy
-
   operation-description-required:
     description: Every operation must have a description.
     severity: error
@@ -187,7 +168,6 @@ rules:
     then:
       field: description
       function: truthy
-
   operation-operationid-required:
     description: Every operation must have an operationId.
     severity: error
@@ -195,14 +175,12 @@ rules:
     then:
       field: operationId
       function: truthy
-
   operation-operationid-unique:
     description: Operation IDs must be unique across the API.
     severity: error
     given: $
     then:
       function: oasOpId
-
   operation-operationid-camelcase:
     description: Operation IDs should use camelCase with verb prefixes (e.g., getTweets, createPost, deleteUser).
     severity: warn
@@ -210,8 +188,7 @@ rules:
     then:
       function: pattern
       functionOptions:
-        match: "^[a-z][a-zA-Z0-9]*$"
-
+        match: ^[a-z][a-zA-Z0-9]*$
   operation-tags-required:
     description: Every operation must have at least one tag.
     severity: warn
@@ -219,11 +196,6 @@ rules:
     then:
       field: tags
       function: truthy
-
-  # ============================================================
-  # TAGS
-  # ============================================================
-
   tags-defined:
     description: Global tags array should be defined.
     severity: warn
@@ -231,7 +203,6 @@ rules:
     then:
       field: tags
       function: truthy
-
   tags-title-case:
     description: Tag names should use Title Case (e.g., "Direct Messages", "Community Notes").
     severity: info
@@ -239,12 +210,7 @@ rules:
     then:
       function: pattern
       functionOptions:
-        match: "^[A-Z][a-zA-Z0-9]*(\\s[A-Za-z0-9]+)*$"
-
-  # ============================================================
-  # PARAMETERS
-  # ============================================================
-
+        match: ^[A-Z][a-zA-Z0-9]*(\s[A-Za-z0-9]+)*$
   parameter-description-required:
     description: All parameters must have a description.
     severity: error
@@ -252,7 +218,6 @@ rules:
     then:
       field: description
       function: truthy
-
   parameter-snake-case:
     description: Parameter names should use snake_case (the dominant X API convention).
     severity: warn
@@ -261,8 +226,7 @@ rules:
       field: name
       function: pattern
       functionOptions:
-        match: "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
-
+        match: ^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)*$
   parameter-schema-type:
     description: Parameters must have a schema with a type defined.
     severity: error
@@ -270,7 +234,6 @@ rules:
     then:
       field: type
       function: truthy
-
   parameter-pagination-max-results:
     description: Pagination limit parameters should be named max_results.
     severity: info
@@ -279,8 +242,7 @@ rules:
       field: name
       function: pattern
       functionOptions:
-        notMatch: "^(page_size|per_page|limit|count|size)$"
-
+        notMatch: ^(page_size|per_page|limit|count|size)$
   parameter-pagination-token:
     description: Pagination cursor parameters should use next_token or pagination_token.
     severity: info
@@ -289,8 +251,7 @@ rules:
       field: name
       function: pattern
       functionOptions:
-        notMatch: "^(cursor|page_token|continuation_token|offset)$"
-
+        notMatch: ^(cursor|page_token|continuation_token|offset)$
   parameter-expansions:
     description: Expansion parameters should be named expansions for including related objects.
     severity: info
@@ -299,12 +260,7 @@ rules:
       field: name
       function: pattern
       functionOptions:
-        notMatch: "^(expand|include|embed)$"
-
-  # ============================================================
-  # REQUEST BODIES
-  # ============================================================
-
+        notMatch: ^(expand|include|embed)$
   request-body-json-content:
     description: Request bodies should use application/json content type.
     severity: warn
@@ -312,11 +268,6 @@ rules:
     then:
       field: application/json
       function: truthy
-
-  # ============================================================
-  # RESPONSES
-  # ============================================================
-
   response-success-required:
     description: Every operation must define a success response (2xx).
     severity: error
@@ -326,10 +277,12 @@ rules:
       functionOptions:
         schema:
           anyOf:
-            - required: ["200"]
-            - required: ["201"]
-            - required: ["204"]
-
+          - required:
+            - '200'
+          - required:
+            - '201'
+          - required:
+            - '204'
   response-description-required:
     description: All responses must have a description.
     severity: error
@@ -337,7 +290,6 @@ rules:
     then:
       field: description
       function: truthy
-
   response-default-error:
     description: Operations should define a default error response for unexpected errors.
     severity: info
@@ -345,7 +297,6 @@ rules:
     then:
       field: default
       function: truthy
-
   response-success-json:
     description: Success responses should use application/json content type.
     severity: warn
@@ -353,21 +304,15 @@ rules:
     then:
       field: application/json
       function: truthy
-
-  # ============================================================
-  # SCHEMAS — PROPERTY NAMING
-  # ============================================================
-
   schema-names-pascalcase:
     description: Schema names should use PascalCase.
     severity: warn
     given: $.components.schemas
     then:
-      field: "@key"
+      field: '@key'
       function: pattern
       functionOptions:
-        match: "^[A-Z][a-zA-Z0-9]*$"
-
+        match: ^[A-Z][a-zA-Z0-9]*$
   schema-type-required:
     description: Schemas should have a type defined.
     severity: warn
@@ -375,17 +320,15 @@ rules:
     then:
       field: type
       function: truthy
-
   schema-properties-snake-case:
     description: Schema properties should use snake_case (the dominant X API convention).
     severity: info
     given: $.components.schemas[*].properties
     then:
-      field: "@key"
+      field: '@key'
       function: pattern
       functionOptions:
-        match: "^[a-z][a-z0-9]*(_[a-z0-9]+)*$"
-
+        match: ^[a-z][a-z0-9]*(_[a-z0-9]+)*$
   schema-description-top-level:
     description: Top-level schemas should have a description.
     severity: info
@@ -393,11 +336,6 @@ rules:
     then:
       field: description
       function: truthy
-
-  # ============================================================
-  # SECURITY
-  # ============================================================
-
   security-schemes-defined:
     description: Security schemes should be defined in components.
     severity: warn
@@ -405,7 +343,6 @@ rules:
     then:
       field: securitySchemes
       function: truthy
-
   security-bearer-token:
     description: A BearerToken security scheme should be defined for app-only auth.
     severity: info
@@ -413,7 +350,6 @@ rules:
     then:
       field: BearerToken
       function: truthy
-
   security-oauth2-user:
     description: An OAuth2UserToken security scheme should be defined for user context auth.
     severity: info
@@ -421,7 +357,6 @@ rules:
     then:
       field: OAuth2UserToken
       function: truthy
-
   security-operation-defined:
     description: Every operation should define its security requirements.
     severity: warn
@@ -429,11 +364,6 @@ rules:
     then:
       field: security
       function: truthy
-
-  # ============================================================
-  # HTTP METHOD CONVENTIONS
-  # ============================================================
-
   get-no-request-body:
     description: GET operations must not have a request body.
     severity: error
@@ -441,7 +371,6 @@ rules:
     then:
       field: requestBody
       function: falsy
-
   delete-no-request-body:
     description: DELETE operations should not have a request body.
     severity: warn
@@ -449,7 +378,6 @@ rules:
     then:
       field: requestBody
       function: falsy
-
   post-request-body:
     description: POST operations should have a request body.
     severity: info
@@ -457,11 +385,6 @@ rules:
     then:
       field: requestBody
       function: truthy
-
-  # ============================================================
-  # X API SPECIFIC PATTERNS
-  # ============================================================
-
   response-data-wrapper:
     description: Success responses should use a data wrapper object for consistency.
     severity: info
@@ -469,7 +392,6 @@ rules:
     then:
       field: data
       function: truthy
-
   response-errors-array:
     description: Error responses should include an errors array.
     severity: info
@@ -477,28 +399,22 @@ rules:
     then:
       field: properties.errors
       function: truthy
-
   parameter-fields-dot-notation:
-    description: Field selection parameters should use dot notation (e.g., tweet.fields, user.fields, media.fields).
+    description: Field selection parameters should use dot notation (e.g., tweet.fields, user.fields,
+      media.fields).
     severity: info
     given: $.paths[*].get.parameters[?(@.name)]
     then:
       field: name
       function: pattern
       functionOptions:
-        notMatch: "^(fields|select_fields|include_fields)$"
-
-  # ============================================================
-  # GENERAL QUALITY
-  # ============================================================
-
+        notMatch: ^(fields|select_fields|include_fields)$
   no-empty-descriptions:
     description: Descriptions must not be empty strings.
     severity: error
-    given: "$..description"
+    given: $..description
     then:
       function: truthy
-
   external-docs-encouraged:
     description: External documentation link should be provided.
     severity: info
@@ -506,7 +422,6 @@ rules:
     then:
       field: externalDocs
       function: truthy
-
   deprecated-description:
     description: Deprecated operations should explain the deprecation in their description.
     severity: warn
@@ -515,4 +430,11 @@ rules:
       field: description
       function: pattern
       functionOptions:
-        match: "[Dd]eprecated|[Ss]unset|[Rr]etired|[Rr]eplaced|[Mm]igrat"
+        match: '[Dd]eprecated|[Ss]unset|[Rr]etired|[Rr]eplaced|[Mm]igrat'
+  error-schema-defined:
+    description: A shared error schema (Error) should be defined for error payloads.
+    severity: warn
+    given: $.components.schemas
+    then:
+      field: Error
+      function: truthy
