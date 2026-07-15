@@ -1,0 +1,2447 @@
+generated: '2026-07-15'
+method: generated
+source: openapi/x-api-openapi.json
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 163
+  by_action_class:
+    acting: 67
+    connected: 96
+  by_consequence:
+    write: 62
+    read: 96
+    physical: 2
+    safety-critical: 3
+  human_in_the_loop_required: 3
+operations:
+- path: /2/account_activity/replay/webhooks/{webhook_id}/subscriptions/all
+  method: post
+  operationId: createAccountActivityReplayJob
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/account_activity/subscriptions/count
+  method: get
+  operationId: getAccountActivitySubscriptionCount
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/account_activity/webhooks/{webhook_id}/subscriptions/all
+  method: get
+  operationId: validateAccountActivitySubscription
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - dm.read
+    - dm.write
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/account_activity/webhooks/{webhook_id}/subscriptions/all
+  method: post
+  operationId: createAccountActivitySubscription
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - dm.read
+    - dm.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/account_activity/webhooks/{webhook_id}/subscriptions/all/list
+  method: get
+  operationId: getAccountActivitySubscriptions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/account_activity/webhooks/{webhook_id}/subscriptions/{user_id}/all
+  method: delete
+  operationId: deleteAccountActivitySubscription
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/activity/stream
+  method: get
+  operationId: activityStream
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/activity/subscriptions
+  method: delete
+  operationId: deleteActivitySubscriptionsByIds
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/activity/subscriptions
+  method: get
+  operationId: getActivitySubscriptions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/activity/subscriptions
+  method: post
+  operationId: createActivitySubscription
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - dm.read
+    - tweet.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/activity/subscriptions/{subscription_id}
+  method: delete
+  operationId: deleteActivitySubscription
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/activity/subscriptions/{subscription_id}
+  method: put
+  operationId: updateActivitySubscription
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/chat/conversations
+  method: get
+  operationId: getChatConversations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - dm.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/chat/conversations/group
+  method: post
+  operationId: createChatConversation
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - dm.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/chat/conversations/group/initialize
+  method: post
+  operationId: initializeChatGroup
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - dm.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/chat/conversations/{id}
+  method: get
+  operationId: getChatConversation
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - dm.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/chat/conversations/{id}/keys
+  method: post
+  operationId: initializeChatConversationKeys
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - dm.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/chat/conversations/{id}/members
+  method: post
+  operationId: addChatGroupMembers
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - dm.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/chat/conversations/{id}/messages
+  method: post
+  operationId: sendChatMessage
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    scope:
+    - dm.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/chat/conversations/{id}/read
+  method: post
+  operationId: markChatConversationRead
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - dm.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/chat/conversations/{id}/typing
+  method: post
+  operationId: sendChatTypingIndicator
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    scope:
+    - dm.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/chat/media/upload/initialize
+  method: post
+  operationId: chatMediaUploadInitialize
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - media.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/chat/media/upload/{id}/append
+  method: post
+  operationId: chatMediaUploadAppend
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - media.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/chat/media/upload/{id}/finalize
+  method: post
+  operationId: chatMediaUploadFinalize
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - media.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/chat/media/{id}/{media_hash_key}
+  method: get
+  operationId: chatMediaDownload
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - media.write
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/communities/search
+  method: get
+  operationId: searchCommunities
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/communities/{id}
+  method: get
+  operationId: getCommunitiesById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - list.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/compliance/jobs
+  method: get
+  operationId: getComplianceJobs
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/compliance/jobs
+  method: post
+  operationId: createComplianceJobs
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/compliance/jobs/{id}
+  method: get
+  operationId: getComplianceJobsById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/connections
+  method: delete
+  operationId: deleteConnectionsByUuids
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /2/connections
+  method: get
+  operationId: getConnectionHistory
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/connections/all
+  method: delete
+  operationId: deleteAllConnections
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /2/connections/{endpoint_id}
+  method: delete
+  operationId: deleteConnectionsByEndpoint
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /2/dm_conversations
+  method: post
+  operationId: createDirectMessagesConversation
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - dm.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/dm_conversations/media/{dm_id}/{media_id}/{resource_id}
+  method: get
+  operationId: dmConversationsMediaDownload
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - dm.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/dm_conversations/with/{participant_id}/dm_events
+  method: get
+  operationId: getDirectMessagesEventsByParticipantId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - dm.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/dm_conversations/with/{participant_id}/messages
+  method: post
+  operationId: createDirectMessagesByParticipantId
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - dm.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/dm_conversations/{dm_conversation_id}/messages
+  method: post
+  operationId: createDirectMessagesByConversationId
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - dm.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/dm_conversations/{id}/dm_events
+  method: get
+  operationId: getDirectMessagesEventsByConversationId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - dm.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/dm_events
+  method: get
+  operationId: getDirectMessagesEvents
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - dm.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/dm_events/{event_id}
+  method: delete
+  operationId: deleteDirectMessagesEvents
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - dm.read
+    - dm.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/dm_events/{event_id}
+  method: get
+  operationId: getDirectMessagesEventsById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - dm.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/evaluate_note
+  method: post
+  operationId: evaluateCommunityNotes
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - tweet.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/insights/28hr
+  method: get
+  operationId: getInsights28Hr
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/insights/historical
+  method: get
+  operationId: getInsightsHistorical
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/likes/compliance/stream
+  method: get
+  operationId: streamLikesCompliance
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/likes/firehose/stream
+  method: get
+  operationId: streamLikesFirehose
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/likes/sample10/stream
+  method: get
+  operationId: streamLikesSample10
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/lists
+  method: post
+  operationId: createLists
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - list.read
+    - list.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/lists/{id}
+  method: delete
+  operationId: deleteLists
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - list.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/lists/{id}
+  method: get
+  operationId: getListsById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - list.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/lists/{id}
+  method: put
+  operationId: updateLists
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - list.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/lists/{id}/followers
+  method: get
+  operationId: getListsFollowers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - list.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/lists/{id}/members
+  method: get
+  operationId: getListsMembers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - list.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/lists/{id}/members
+  method: post
+  operationId: addListsMember
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - list.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/lists/{id}/members/{user_id}
+  method: delete
+  operationId: removeListsMemberByUserId
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - list.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/lists/{id}/tweets
+  method: get
+  operationId: getListsPosts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - list.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/media
+  method: get
+  operationId: getMediaByMediaKeys
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/media/analytics
+  method: get
+  operationId: getMediaAnalytics
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/media/metadata
+  method: post
+  operationId: createMediaMetadata
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - media.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/media/subtitles
+  method: delete
+  operationId: deleteMediaSubtitles
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - media.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/media/subtitles
+  method: post
+  operationId: createMediaSubtitles
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - media.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/media/upload
+  method: get
+  operationId: getMediaUploadStatus
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - media.write
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/media/upload
+  method: post
+  operationId: mediaUpload
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - media.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/media/upload/initialize
+  method: post
+  operationId: initializeMediaUpload
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - media.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/media/upload/{id}/append
+  method: post
+  operationId: appendMediaUpload
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - media.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/media/upload/{id}/finalize
+  method: post
+  operationId: finalizeMediaUpload
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - media.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/media/{media_key}
+  method: get
+  operationId: getMediaByMediaKey
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/news/search
+  method: get
+  operationId: searchNews
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/news/{id}
+  method: get
+  operationId: getNews
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/notes
+  method: post
+  operationId: createCommunityNotes
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - tweet.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/notes/search/notes_written
+  method: get
+  operationId: searchCommunityNotesWritten
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/notes/search/posts_eligible_for_notes
+  method: get
+  operationId: searchEligiblePosts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/notes/{id}
+  method: delete
+  operationId: deleteCommunityNotes
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - tweet.write
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/openapi.json
+  method: get
+  operationId: getOpenApiSpec
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/spaces
+  method: get
+  operationId: getSpacesByIds
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - space.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/spaces/by/creator_ids
+  method: get
+  operationId: getSpacesByCreatorIds
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - space.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/spaces/search
+  method: get
+  operationId: searchSpaces
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - space.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/spaces/{id}
+  method: get
+  operationId: getSpacesById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - space.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/spaces/{id}/buyers
+  method: get
+  operationId: getSpacesBuyers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - space.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/spaces/{id}/tweets
+  method: get
+  operationId: getSpacesPosts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - space.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/trends/by/woeid/{woeid}
+  method: get
+  operationId: getTrendsByWoeid
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets
+  method: get
+  operationId: getPostsByIds
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets
+  method: post
+  operationId: createPosts
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - tweet.read
+    - tweet.write
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/tweets/analytics
+  method: get
+  operationId: getPostsAnalytics
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/compliance/stream
+  method: get
+  operationId: streamPostsCompliance
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/counts/all
+  method: get
+  operationId: getPostsCountsAll
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/counts/recent
+  method: get
+  operationId: getPostsCountsRecent
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/firehose/stream
+  method: get
+  operationId: streamPostsFirehose
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/firehose/stream/lang/en
+  method: get
+  operationId: streamPostsFirehoseEn
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/firehose/stream/lang/ja
+  method: get
+  operationId: streamPostsFirehoseJa
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/firehose/stream/lang/ko
+  method: get
+  operationId: streamPostsFirehoseKo
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/firehose/stream/lang/pt
+  method: get
+  operationId: streamPostsFirehosePt
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/label/stream
+  method: get
+  operationId: streamLabelsCompliance
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/sample/stream
+  method: get
+  operationId: streamPostsSample
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/sample10/stream
+  method: get
+  operationId: streamPostsSample10
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/search/all
+  method: get
+  operationId: searchPostsAll
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/search/recent
+  method: get
+  operationId: searchPostsRecent
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/search/stream
+  method: get
+  operationId: streamPosts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/search/stream/rules
+  method: get
+  operationId: getRules
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/search/stream/rules
+  method: post
+  operationId: updateRules
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/tweets/search/stream/rules/counts
+  method: get
+  operationId: getRuleCounts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/search/webhooks
+  method: get
+  operationId: getWebhooksStreamLinks
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/search/webhooks/{webhook_id}
+  method: delete
+  operationId: deleteWebhooksStreamLink
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/tweets/search/webhooks/{webhook_id}
+  method: post
+  operationId: createWebhooksStreamLink
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/tweets/{id}
+  method: delete
+  operationId: deletePosts
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - tweet.read
+    - tweet.write
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/tweets/{id}
+  method: get
+  operationId: getPostsById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/{id}/liking_users
+  method: get
+  operationId: getPostsLikingUsers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - like.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/{id}/quote_tweets
+  method: get
+  operationId: getPostsQuotedPosts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/{id}/retweeted_by
+  method: get
+  operationId: getPostsRepostedBy
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/{id}/retweets
+  method: get
+  operationId: getPostsReposts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/tweets/{tweet_id}/hidden
+  method: put
+  operationId: hidePostsReply
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - tweet.moderate.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/usage/tweets
+  method: get
+  operationId: getUsage
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users
+  method: get
+  operationId: getUsersByIds
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/by
+  method: get
+  operationId: getUsersByUsernames
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/by/username/{username}
+  method: get
+  operationId: getUsersByUsername
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/compliance/stream
+  method: get
+  operationId: streamUsersCompliance
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/me
+  method: get
+  operationId: getUsersMe
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/personalized_trends
+  method: get
+  operationId: getTrendsPersonalizedTrends
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/public_keys
+  method: get
+  operationId: getUsersPublicKeys
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - dm.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/reposts_of_me
+  method: get
+  operationId: getUsersRepostsOfMe
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - timeline.read
+    - tweet.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/search
+  method: get
+  operationId: searchUsers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}
+  method: get
+  operationId: getUsersById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/affiliates
+  method: get
+  operationId: getUsersAffiliates
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/blocking
+  method: get
+  operationId: getUsersBlocking
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - block.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/bookmarks
+  method: get
+  operationId: getUsersBookmarks
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - bookmark.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/bookmarks
+  method: post
+  operationId: createUsersBookmark
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - bookmark.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/bookmarks/folders
+  method: get
+  operationId: getUsersBookmarkFolders
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - bookmark.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/bookmarks/folders/{folder_id}
+  method: get
+  operationId: getUsersBookmarksByFolderId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - bookmark.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/bookmarks/{tweet_id}
+  method: delete
+  operationId: deleteUsersBookmark
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - bookmark.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/dm/block
+  method: post
+  operationId: blockUsersDms
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - dm.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/dm/unblock
+  method: post
+  operationId: unblockUsersDms
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - dm.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/followed_lists
+  method: get
+  operationId: getUsersFollowedLists
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - list.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/followed_lists
+  method: post
+  operationId: followList
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - list.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/followed_lists/{list_id}
+  method: delete
+  operationId: unfollowList
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - list.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/followers
+  method: get
+  operationId: getUsersFollowers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - follows.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/following
+  method: get
+  operationId: getUsersFollowing
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - follows.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/following
+  method: post
+  operationId: followUser
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - follows.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/liked_tweets
+  method: get
+  operationId: getUsersLikedPosts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - like.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/likes
+  method: post
+  operationId: likePost
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - like.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/likes/{tweet_id}
+  method: delete
+  operationId: unlikePost
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - like.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/list_memberships
+  method: get
+  operationId: getUsersListMemberships
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - list.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/mentions
+  method: get
+  operationId: getUsersMentions
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/muting
+  method: get
+  operationId: getUsersMuting
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - mute.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/muting
+  method: post
+  operationId: muteUser
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - mute.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/owned_lists
+  method: get
+  operationId: getUsersOwnedLists
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - list.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/pinned_lists
+  method: get
+  operationId: getUsersPinnedLists
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - list.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/pinned_lists
+  method: post
+  operationId: pinList
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - list.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/pinned_lists/{list_id}
+  method: delete
+  operationId: unpinList
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - list.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/public_keys
+  method: get
+  operationId: getUsersPublicKey
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - dm.read
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/public_keys
+  method: post
+  operationId: addUserPublicKey
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - dm.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/retweets
+  method: post
+  operationId: repostPost
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - tweet.read
+    - tweet.write
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/retweets/{source_tweet_id}
+  method: delete
+  operationId: unrepostPost
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - tweet.read
+    - tweet.write
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{id}/timelines/reverse_chronological
+  method: get
+  operationId: getUsersTimeline
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{id}/tweets
+  method: get
+  operationId: getUsersPosts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    scope:
+    - tweet.read
+    - users.read
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/users/{source_user_id}/following/{target_user_id}
+  method: delete
+  operationId: unfollowUser
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - follows.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/users/{source_user_id}/muting/{target_user_id}
+  method: delete
+  operationId: unmuteUser
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    scope:
+    - mute.write
+    - tweet.read
+    - users.read
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/webhooks
+  method: get
+  operationId: getWebhooks
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /2/webhooks
+  method: post
+  operationId: createWebhooks
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/webhooks/replay
+  method: post
+  operationId: createWebhookReplayJob
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/webhooks/{webhook_id}
+  method: delete
+  operationId: deleteWebhooks
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /2/webhooks/{webhook_id}
+  method: put
+  operationId: validateWebhooks
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required

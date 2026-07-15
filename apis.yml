@@ -105,6 +105,8 @@ apis:
   - Streaming
   - Webhooks
 common:
+- type: AgenticAccess
+  url: agentic-access/twitter-agentic-access.yml
 - type: Authentication
   url: authentication/twitter-authentication.yml
 - type: OAuthScopes
