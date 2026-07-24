@@ -1,0 +1,489 @@
+openapi: 3.0.0
+info:
+  description: X API v2 available endpoints
+  version: '2.161'
+  title: X API v2 Account Activity Connections API
+  termsOfService: https://developer.x.com/en/developer-terms/agreement-and-policy.html
+  contact:
+    name: X Developers
+    url: https://developer.x.com/
+  license:
+    name: X Developer Agreement and Policy
+    url: https://developer.x.com/en/developer-terms/agreement-and-policy.html
+servers:
+- description: X API
+  url: https://api.x.com
+tags:
+- name: Connections
+  description: Endpoints related to streaming connections
+  externalDocs:
+    description: Find out more
+    url: https://developer.x.com/en/docs/x-api/connections
+paths:
+  /2/connections:
+    delete:
+      security:
+      - BearerToken: []
+      tags:
+      - Connections
+      summary: X Terminate Multiple Connections
+      description: Terminates multiple streaming connections by their UUIDs for the authenticated application.
+      operationId: deleteConnectionsByUuids
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KillConnectionsByUuidsRequest'
+        required: true
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KillConnectionsByUuidsResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Connections
+      summary: X Get Connection History
+      description: Returns active and historical streaming connections with disconnect reasons for the authenticated application.
+      operationId: getConnectionHistory
+      parameters:
+      - name: status
+        in: query
+        description: Filter by connection status. Use 'active' for current connections, 'inactive' for historical/disconnected connections, or 'all' for both.
+        required: false
+        schema:
+          type: string
+          enum:
+          - active
+          - inactive
+          - all
+          default: active
+        style: form
+        example: active
+      - name: endpoints
+        in: query
+        description: Filter by streaming endpoint. Specify one or more endpoint names to filter results.
+        required: false
+        schema:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - filtered_stream
+            - sample_stream
+            - sample10_stream
+            - firehose_stream
+            - tweets_compliance_stream
+            - users_compliance_stream
+            - tweet_label_stream
+            - firehose_stream_lang_en
+            - firehose_stream_lang_ja
+            - firehose_stream_lang_ko
+            - firehose_stream_lang_pt
+            - likes_firehose_stream
+            - likes_sample10_stream
+            - likes_compliance_stream
+        explode: false
+        style: form
+        example:
+        - filtered_stream
+      - name: max_results
+        in: query
+        description: The maximum number of results to return per page.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          format: int32
+          default: 10
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: Token for paginating through results. Use the value from 'next_token' in the previous response.
+        required: false
+        schema:
+          type: string
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/ConnectionFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2ConnectionsResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/connections/all:
+    delete:
+      security:
+      - BearerToken: []
+      tags:
+      - Connections
+      summary: X Terminate All Connections
+      description: Terminates all active streaming connections for the authenticated application.
+      externalDocs:
+        url: https://docs.x.com/x-api/connections/terminate-all-connections
+      operationId: deleteAllConnections
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KillAllConnectionsResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/connections/{endpoint_id}:
+    delete:
+      security:
+      - BearerToken: []
+      tags:
+      - Connections
+      summary: X Terminate Connections by Endpoint
+      description: Terminates all streaming connections for a specific endpoint ID for the authenticated application.
+      operationId: deleteConnectionsByEndpoint
+      parameters:
+      - name: endpoint_id
+        in: path
+        description: The endpoint ID to terminate connections for.
+        required: true
+        schema:
+          type: string
+          enum:
+          - filtered_stream
+          - sample_stream
+          - sample10_stream
+          - firehose_stream
+          - tweets_compliance_stream
+          - users_compliance_stream
+          - tweet_label_stream
+          - firehose_stream_lang_en
+          - firehose_stream_lang_ja
+          - firehose_stream_lang_ko
+          - firehose_stream_lang_pt
+          - likes_firehose_stream
+          - likes_sample10_stream
+          - likes_compliance_stream
+        style: simple
+        example: filtered_stream
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KillConnectionsByEndpointResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    KillAllConnectionsResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            failed_kills:
+              type: integer
+            results:
+              type: array
+              items:
+                type: object
+                properties:
+                  error_message:
+                    type: string
+                  success:
+                    type: boolean
+                  uuid:
+                    type: string
+            successful_kills:
+              type: integer
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    NextToken:
+      type: string
+      description: The next token.
+      minLength: 1
+    KillConnectionsByUuidsResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            failed_kills:
+              type: integer
+            results:
+              type: array
+              items:
+                type: object
+                properties:
+                  error_message:
+                    type: string
+                  success:
+                    type: boolean
+                  uuid:
+                    type: string
+            successful_kills:
+              type: integer
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    KillConnectionsByEndpointResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            failed_kills:
+              type: integer
+            results:
+              type: array
+              items:
+                type: object
+                properties:
+                  error_message:
+                    type: string
+                  success:
+                    type: boolean
+                  uuid:
+                    type: string
+            successful_kills:
+              type: integer
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    Problem:
+      type: object
+      description: An HTTP Problem Details object, as defined in IETF RFC 7807 (https://tools.ietf.org/html/rfc7807).
+      required:
+      - type
+      - title
+      properties:
+        detail:
+          type: string
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          about:blank: '#/components/schemas/GenericProblem'
+          https://api.twitter.com/2/problems/client-disconnected: '#/components/schemas/ClientDisconnectedProblem'
+          https://api.twitter.com/2/problems/client-forbidden: '#/components/schemas/ClientForbiddenProblem'
+          https://api.twitter.com/2/problems/conflict: '#/components/schemas/ConflictProblem'
+          https://api.twitter.com/2/problems/disallowed-resource: '#/components/schemas/DisallowedResourceProblem'
+          https://api.twitter.com/2/problems/duplicate-rules: '#/components/schemas/DuplicateRuleProblem'
+          https://api.twitter.com/2/problems/invalid-request: '#/components/schemas/InvalidRequestProblem'
+          https://api.twitter.com/2/problems/invalid-rules: '#/components/schemas/InvalidRuleProblem'
+          https://api.twitter.com/2/problems/noncompliant-rules: '#/components/schemas/NonCompliantRulesProblem'
+          https://api.twitter.com/2/problems/not-authorized-for-field: '#/components/schemas/FieldUnauthorizedProblem'
+          https://api.twitter.com/2/problems/not-authorized-for-resource: '#/components/schemas/ResourceUnauthorizedProblem'
+          https://api.twitter.com/2/problems/operational-disconnect: '#/components/schemas/OperationalDisconnectProblem'
+          https://api.twitter.com/2/problems/resource-not-found: '#/components/schemas/ResourceNotFoundProblem'
+          https://api.twitter.com/2/problems/resource-unavailable: '#/components/schemas/ResourceUnavailableProblem'
+          https://api.twitter.com/2/problems/rule-cap: '#/components/schemas/RulesCapProblem'
+          https://api.twitter.com/2/problems/streaming-connection: '#/components/schemas/ConnectionExceptionProblem'
+          https://api.twitter.com/2/problems/unsupported-authentication: '#/components/schemas/UnsupportedAuthenticationProblem'
+          https://api.twitter.com/2/problems/usage-capped: '#/components/schemas/UsageCapExceededProblem'
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    Connection:
+      type: object
+      required:
+      - connected_at
+      - endpoint_name
+      properties:
+        client_ip:
+          type: string
+          description: The IP address of the connected client.
+          example: example_value
+        connected_at:
+          type: string
+          description: The timestamp when the connection was established.
+          format: date-time
+          example: '2026-04-17T12:00:00Z'
+        disconnect_reason:
+          type: string
+          description: The reason for disconnection, if the connection is inactive.
+          example: operator_disconnect
+        disconnected_at:
+          type: string
+          description: The timestamp when the connection was disconnected, if applicable.
+          format: date-time
+          example: '2026-04-17T12:00:00Z'
+        endpoint_name:
+          type: string
+          description: The name of the streaming endpoint.
+          example: sample_stream
+    ResultCount:
+      type: integer
+      description: The number of results returned in this response.
+      format: int32
+    KillConnectionsByUuidsRequest:
+      type: object
+      required:
+      - uuids
+      properties:
+        uuids:
+          type: array
+          description: Array of connection UUIDs to terminate
+          minItems: 1
+          maxItems: 100
+          items:
+            type: string
+    Get2ConnectionsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Connection'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+  parameters:
+    ConnectionFieldsParameter:
+      name: connection.fields
+      in: query
+      description: A comma separated list of Connection fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a Connection object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - client_ip
+          - connected_at
+          - disconnect_reason
+          - disconnected_at
+          - endpoint_name
+          - id
+        example:
+        - client_ip
+        - connected_at
+        - disconnect_reason
+        - disconnected_at
+        - endpoint_name
+        - id
+      explode: false
+      style: form
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+    OAuth2UserToken:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.x.com/2/oauth2/authorize
+          tokenUrl: https://api.x.com/2/oauth2/token
+          scopes:
+            block.read: View accounts you have blocked.
+            bookmark.read: Read your bookmarked Posts.
+            bookmark.write: Create and delete your bookmarks.
+            dm.read: Read all your Direct Messages.
+            dm.write: Send and manage your Direct Messages.
+            follows.read: View accounts you follow and accounts following you.
+            follows.write: Follow and unfollow accounts on your behalf.
+            like.read: View Posts you have liked and likes you can see.
+            like.write: Like and unlike Posts on your behalf.
+            list.read: View Lists, members, and followers of Lists you created or are a member of, including private Lists.
+            list.write: Create and manage Lists on your behalf.
+            media.write: Upload media, such as photos and videos, on your behalf.
+            mute.read: View accounts you have muted.
+            mute.write: Mute and unmute accounts on your behalf.
+            offline.access: Request a refresh token for the app.
+            space.read: View all Spaces you have access to.
+            timeline.read: View all Custom Timelines you can see, including public Custom Timelines from other developers.
+            tweet.moderate.write: Hide and unhide replies to your Posts.
+            tweet.read: View all Posts you can see, including those from protected accounts.
+            tweet.write: Post and repost on your behalf.
+            users.read: View any account you can see, including protected accounts.
+    UserToken:
+      type: http
+      scheme: OAuth

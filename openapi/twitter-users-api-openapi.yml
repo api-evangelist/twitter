@@ -1,0 +1,5067 @@
+openapi: 3.0.0
+info:
+  description: X API v2 available endpoints
+  version: '2.161'
+  title: X API v2 Account Activity Users API
+  termsOfService: https://developer.x.com/en/developer-terms/agreement-and-policy.html
+  contact:
+    name: X Developers
+    url: https://developer.x.com/
+  license:
+    name: X Developer Agreement and Policy
+    url: https://developer.x.com/en/developer-terms/agreement-and-policy.html
+servers:
+- description: X API
+  url: https://api.x.com
+tags:
+- name: Users
+  description: Endpoints related to retrieving, managing relationships of Users
+  externalDocs:
+    description: Find out more
+    url: https://developer.twitter.com/en/docs/twitter-api/users/lookup
+paths:
+  /2/lists/{id}/followers:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - list.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get List Followers
+      description: Retrieves a list of Users who follow a specific List by its ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-followers
+      operationId: getListsFollowers
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the List.
+        required: true
+        schema:
+          $ref: '#/components/schemas/ListId'
+        style: simple
+        example: '1234567890'
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          format: int32
+          default: 100
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get a specified 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationTokenLong'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2ListsIdFollowersResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/lists/{id}/members:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - list.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get List Members
+      description: Retrieves a list of Users who are members of a specific List by its ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/lists/list-members/api-reference/get-users-id-list_memberships
+      operationId: getListsMembers
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the List.
+        required: true
+        schema:
+          $ref: '#/components/schemas/ListId'
+        style: simple
+        example: '1234567890'
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          format: int32
+          default: 100
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get a specified 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationTokenLong'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2ListsIdMembersResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/{id}/liking_users:
+    get:
+      security:
+      - OAuth2UserToken:
+        - like.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Liking Users
+      description: Retrieves a list of Users who liked a specific Post by its ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/likes/api-reference/get-tweets-id-liking_users
+      operationId: getPostsLikingUsers
+      parameters:
+      - name: id
+        in: path
+        description: A single Post ID.
+        required: true
+        schema:
+          $ref: '#/components/schemas/TweetId'
+        style: simple
+        example: '1234567890'
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          format: int32
+          default: 100
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get the next 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationToken36'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2TweetsIdLikingUsersResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/{id}/retweeted_by:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Reposted by
+      description: Retrieves a list of Users who reposted a specific Post by its ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/retweets/api-reference/get-tweets-id-retweeted_by
+      operationId: getPostsRepostedBy
+      parameters:
+      - name: id
+        in: path
+        description: A single Post ID.
+        required: true
+        schema:
+          $ref: '#/components/schemas/TweetId'
+        style: simple
+        example: '1234567890'
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          format: int32
+          default: 100
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get the next 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationToken36'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2TweetsIdRetweetedByResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Users by IDs
+      description: Retrieves details of multiple Users by their IDs.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users
+      operationId: getUsersByIds
+      parameters:
+      - name: ids
+        in: query
+        description: A list of User IDs, comma-separated. You can specify up to 100 IDs.
+        required: true
+        example: 2244994945,6253282,12
+        schema:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/UserId'
+        explode: false
+        style: form
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/by:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Users by Usernames
+      description: Retrieves details of multiple Users by their usernames.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by
+      operationId: getUsersByUsernames
+      parameters:
+      - name: usernames
+        in: query
+        description: A list of usernames, comma-separated.
+        required: true
+        schema:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            type: string
+            description: The X handle (screen name) of this User.
+            pattern: ^[A-Za-z0-9_]{1,15}$
+          example: TwitterDev,TwitterAPI
+        explode: false
+        style: form
+        example: TwitterDev,TwitterAPI
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersByResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/by/username/{username}:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get User by Username
+      description: Retrieves details of a specific User by their username.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-by-username-username
+      operationId: getUsersByUsername
+      parameters:
+      - name: username
+        in: path
+        description: A username.
+        required: true
+        example: TwitterDev
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9_]{1,15}$
+        style: simple
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersByUsernameUsernameResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/me:
+    get:
+      security:
+      - OAuth2UserToken:
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get My User
+      description: Retrieves details of the authenticated user.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-me
+      operationId: getUsersMe
+      parameters:
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersMeResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/public_keys:
+    get:
+      security:
+      - OAuth2UserToken:
+        - dm.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Public Keys for Multiple Users
+      description: Returns the public keys and Juicebox configuration for the specified users.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: getUsersPublicKeys
+      parameters:
+      - name: ids
+        in: query
+        description: A list of User IDs, comma-separated. You can specify up to 100 IDs.
+        required: true
+        example: 2244994945,6253282,12
+        schema:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/UserId'
+        explode: false
+        style: form
+      - $ref: '#/components/parameters/PublicKeyFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersPublicKeysResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/reposts_of_me:
+    get:
+      security:
+      - OAuth2UserToken:
+        - timeline.read
+        - tweet.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Reposts of Me
+      description: Retrieves a list of Posts that repost content from the authenticated user.
+      externalDocs:
+        url: https://docs.x.com/x-api/posts/retweets/quickstart/retweets-of-me#retweets-of-me
+      operationId: getUsersRepostsOfMe
+      parameters:
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          format: int32
+          default: 100
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get the next 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationToken36'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      - $ref: '#/components/parameters/TweetExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/PollFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/PlaceFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersRepostsOfMeResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/search:
+    get:
+      security:
+      - OAuth2UserToken:
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Search Users
+      description: Retrieves a list of Users matching a search query.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-search
+      operationId: searchUsers
+      parameters:
+      - name: query
+        in: query
+        description: TThe the query string by which to query for users.
+        required: true
+        example: someXUser
+        schema:
+          $ref: '#/components/schemas/UserSearchQueryVnext'
+        style: form
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          format: int32
+          default: 100
+        style: form
+        example: 10
+      - name: next_token
+        in: query
+        description: This parameter is used to get the next 'page' of results. The value used with the parameter is pulled directly from the response provided by the API, and should not be modified.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationToken36'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersSearchResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get User by ID
+      description: Retrieves details of a specific User by their ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/lookup/api-reference/get-users-id
+      operationId: getUsersById
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the User to lookup.
+        required: true
+        example: '2244994945'
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/affiliates:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Affiliates
+      description: Retrieves a list of Users who are affiliated with a specific organization User by their ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/affiliates/api-reference/get-users-id-affiliates
+      operationId: getUsersAffiliates
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the User to lookup.
+        required: true
+        example: '2244994945'
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          format: int32
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get a specified 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationTokenLong'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdAffiliatesResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/blocking:
+    get:
+      security:
+      - OAuth2UserToken:
+        - block.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Blocking
+      description: Retrieves a list of Users blocked by the specified User ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/blocks/api-reference/get-users-blocking
+      operationId: getUsersBlocking
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User for whom to return results.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          format: int32
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get a specified 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationToken32'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdBlockingResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/bookmarks:
+    get:
+      security:
+      - OAuth2UserToken:
+        - bookmark.read
+        - tweet.read
+        - users.read
+      tags:
+      - Users
+      summary: X Get Bookmarks
+      description: Retrieves a list of Posts bookmarked by the authenticated user.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/bookmarks/api-reference/get-users-id-bookmarks
+      operationId: getUsersBookmarks
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User for whom to return results.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          format: int32
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get the next 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationToken36'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      - $ref: '#/components/parameters/TweetExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/PollFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/PlaceFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdBookmarksResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      security:
+      - OAuth2UserToken:
+        - bookmark.write
+        - tweet.read
+        - users.read
+      tags:
+      - Users
+      summary: X Create Bookmark
+      description: Adds a post to the authenticated user’s bookmarks.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/bookmarks/api-reference/post-users-id-bookmarks
+      operationId: createUsersBookmark
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User for whom to add bookmarks.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookmarkAddRequest'
+        required: true
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookmarkMutationResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/bookmarks/folders:
+    get:
+      security:
+      - OAuth2UserToken:
+        - bookmark.read
+        - users.read
+      tags:
+      - Users
+      summary: X Get Bookmark Folders
+      description: Retrieves a list of Bookmark folders created by the authenticated user.
+      externalDocs:
+        url: https://developer.x.com
+      operationId: getUsersBookmarkFolders
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User for whom to return results.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          format: int32
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get the next 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationToken36'
+        style: form
+        example: next_token_abc123
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookmarkFoldersResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/bookmarks/folders/{folder_id}:
+    get:
+      security:
+      - OAuth2UserToken:
+        - bookmark.read
+        - tweet.read
+        - users.read
+      tags:
+      - Users
+      summary: X Get Bookmarks by Folder ID
+      description: Retrieves Posts in a specific Bookmark folder by its ID for the authenticated user.
+      externalDocs:
+        url: https://developer.x.com
+      operationId: getUsersBookmarksByFolderId
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User for whom to return results.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      - name: folder_id
+        in: path
+        description: The ID of the Bookmark Folder that the authenticated User is trying to fetch Posts for.
+        required: true
+        schema:
+          $ref: '#/components/schemas/BookmarkFolderId'
+        style: simple
+        example: '1234567890'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookmarkFolderPostsResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/bookmarks/{tweet_id}:
+    delete:
+      security:
+      - OAuth2UserToken:
+        - bookmark.write
+        - tweet.read
+        - users.read
+      tags:
+      - Users
+      summary: X Delete Bookmark
+      description: Removes a Post from the authenticated user’s Bookmarks by its ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/bookmarks/api-reference/delete-users-id-bookmarks-tweet_id
+      operationId: deleteUsersBookmark
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User whose bookmark is to be removed.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      - name: tweet_id
+        in: path
+        description: The ID of the Post that the source User is removing from bookmarks.
+        required: true
+        schema:
+          $ref: '#/components/schemas/TweetId'
+        style: simple
+        example: '1234567890'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookmarkMutationResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/dm/block:
+    post:
+      security:
+      - OAuth2UserToken:
+        - dm.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Block DMs
+      description: Blocks direct messages to or from a specific User by their ID for the authenticated user.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: blockUsersDms
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the target User that the authenticated user requesting to block dms for.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+        example: '1234567890'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersDMBlockCreateResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/dm/unblock:
+    post:
+      security:
+      - OAuth2UserToken:
+        - dm.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Unblock DMs
+      description: Unblocks direct messages to or from a specific User by their ID for the authenticated user.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: unblockUsersDms
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the target User that the authenticated user requesting to unblock dms for.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+        example: '1234567890'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersDMUnBlockCreateResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/followed_lists:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - list.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Followed Lists
+      description: Retrieves a list of Lists followed by a specific User by their ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/lists/list-follows/api-reference/get-users-id-followed_lists
+      operationId: getUsersFollowedLists
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the User to lookup.
+        required: true
+        example: '2244994945'
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          format: int32
+          default: 100
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get a specified 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationTokenLong'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/ListFieldsParameter'
+      - $ref: '#/components/parameters/ListExpansionsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdFollowedListsResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      security:
+      - OAuth2UserToken:
+        - list.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Follow List
+      description: Causes the authenticated user to follow a specific List by its ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/lists/list-follows/api-reference/post-users-id-followed-lists
+      operationId: followList
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User that will follow the List.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListFollowedRequest'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListFollowedResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/followed_lists/{list_id}:
+    delete:
+      security:
+      - OAuth2UserToken:
+        - list.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Unfollow List
+      description: Causes the authenticated user to unfollow a specific List by its ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/lists/list-follows/api-reference/delete-users-id-followed-lists-list_id
+      operationId: unfollowList
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User that will unfollow the List.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      - name: list_id
+        in: path
+        description: The ID of the List to unfollow.
+        required: true
+        schema:
+          $ref: '#/components/schemas/ListId'
+        style: simple
+        example: '1234567890'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListFollowedResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/followers:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - follows.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Followers
+      description: Retrieves a list of Users who follow a specific User by their ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-followers
+      operationId: getUsersFollowers
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the User to lookup.
+        required: true
+        example: '2244994945'
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          format: int32
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get a specified 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationToken32'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdFollowersResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/following:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - follows.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Following
+      description: Retrieves a list of Users followed by a specific User by their ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/get-users-id-following
+      operationId: getUsersFollowing
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the User to lookup.
+        required: true
+        example: '2244994945'
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          format: int32
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get a specified 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationToken32'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdFollowingResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      security:
+      - OAuth2UserToken:
+        - follows.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Follow User
+      description: Causes the authenticated user to follow a specific user by their ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/post-users-source_user_id-following
+      operationId: followUser
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User that is requesting to follow the target User.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersFollowingCreateRequest'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersFollowingCreateResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/liked_tweets:
+    get:
+      security:
+      - OAuth2UserToken:
+        - like.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Liked Posts
+      description: Retrieves a list of Posts liked by a specific User by their ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/likes/api-reference/get-users-id-liked_tweets
+      operationId: getUsersLikedPosts
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the User to lookup.
+        required: true
+        example: '2244994945'
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 5
+          maximum: 100
+          format: int32
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get the next 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationToken36'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      - $ref: '#/components/parameters/TweetExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/PollFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/PlaceFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdLikedTweetsResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/likes:
+    post:
+      security:
+      - OAuth2UserToken:
+        - like.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Like Post
+      description: Causes the authenticated user to Like a specific Post by its ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/likes/api-reference/post-users-id-likes
+      operationId: likePost
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User that is requesting to like the Post.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersLikesCreateRequest'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersLikesCreateResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/likes/{tweet_id}:
+    delete:
+      security:
+      - OAuth2UserToken:
+        - like.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Unlike Post
+      description: Causes the authenticated user to Unlike a specific Post by its ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/likes/api-reference/delete-users-id-likes-tweet_id
+      operationId: unlikePost
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User that is requesting to unlike the Post.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      - name: tweet_id
+        in: path
+        description: The ID of the Post that the User is requesting to unlike.
+        required: true
+        schema:
+          $ref: '#/components/schemas/TweetId'
+        style: simple
+        example: '1234567890'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersLikesDeleteResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/list_memberships:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - list.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get List Memberships
+      description: Retrieves a list of Lists that a specific User is a member of by their ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/lists/list-members/api-reference/get-users-id-list_memberships
+      operationId: getUsersListMemberships
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the User to lookup.
+        required: true
+        example: '2244994945'
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          format: int32
+          default: 100
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get a specified 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationTokenLong'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/ListFieldsParameter'
+      - $ref: '#/components/parameters/ListExpansionsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdListMembershipsResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/mentions:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Mentions
+      description: Retrieves a list of Posts that mention a specific User by their ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-mentions
+      operationId: getUsersMentions
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the User to lookup.
+        required: true
+        example: '2244994945'
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+      - name: since_id
+        in: query
+        description: The minimum Post ID to be included in the result set. This parameter takes precedence over start_time if both are specified.
+        required: false
+        schema:
+          $ref: '#/components/schemas/TweetId'
+        style: form
+        example: '1234567890'
+      - name: until_id
+        in: query
+        description: The maximum Post ID to be included in the result set. This parameter takes precedence over end_time if both are specified.
+        required: false
+        example: '1346889436626259968'
+        schema:
+          $ref: '#/components/schemas/TweetId'
+        style: form
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 5
+          maximum: 100
+          format: int32
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get the next 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationToken36'
+        style: form
+        example: next_token_abc123
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Posts will be provided. The since_id parameter takes precedence if it is also specified.
+        required: false
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided. The until_id parameter takes precedence if it is also specified.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      - $ref: '#/components/parameters/TweetExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/PollFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/PlaceFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdMentionsResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/muting:
+    get:
+      security:
+      - OAuth2UserToken:
+        - mute.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Muting
+      description: Retrieves a list of Users muted by the authenticated user.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/mutes/api-reference/get-users-muting
+      operationId: getUsersMuting
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User for whom to return results.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          format: int32
+          default: 100
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get the next 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationTokenLong'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/UserExpansionsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdMutingResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      security:
+      - OAuth2UserToken:
+        - mute.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Mute User
+      description: Causes the authenticated user to mute a specific User by their ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/mutes/api-reference/post-users-user_id-muting
+      operationId: muteUser
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User that is requesting to mute the target User.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MuteUserRequest'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MuteUserMutationResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/owned_lists:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - list.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Owned Lists
+      description: Retrieves a list of Lists owned by a specific User by their ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/lists/list-lookup/api-reference/get-users-id-owned_lists
+      operationId: getUsersOwnedLists
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the User to lookup.
+        required: true
+        example: '2244994945'
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          format: int32
+          default: 100
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get a specified 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationTokenLong'
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/ListFieldsParameter'
+      - $ref: '#/components/parameters/ListExpansionsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdOwnedListsResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/pinned_lists:
+    get:
+      security:
+      - OAuth2UserToken:
+        - list.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Pinned Lists
+      description: Retrieves a list of Lists pinned by the authenticated user.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/lists/pinned-lists/api-reference/get-users-id-pinned_lists
+      operationId: getUsersPinnedLists
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User for whom to return results.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      - $ref: '#/components/parameters/ListFieldsParameter'
+      - $ref: '#/components/parameters/ListExpansionsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdPinnedListsResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      security:
+      - OAuth2UserToken:
+        - list.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Pin List
+      description: Causes the authenticated user to pin a specific List by its ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/lists/pinned-lists/api-reference/post-users-id-pinned-lists
+      operationId: pinList
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User that will pin the List.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListPinnedRequest'
+        required: true
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPinnedResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/pinned_lists/{list_id}:
+    delete:
+      security:
+      - OAuth2UserToken:
+        - list.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Unpin List
+      description: Causes the authenticated user to unpin a specific List by its ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/lists/pinned-lists/api-reference/delete-users-id-pinned-lists-list_id
+      operationId: unpinList
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User for whom to return results.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      - name: list_id
+        in: path
+        description: The ID of the List to unpin.
+        required: true
+        schema:
+          $ref: '#/components/schemas/ListId'
+        style: simple
+        example: '1234567890'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListUnpinResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/public_keys:
+    get:
+      security:
+      - OAuth2UserToken:
+        - dm.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get User Public Keys
+      description: Returns the public keys and Juicebox configuration for the specified user.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: getUsersPublicKey
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the User to lookup.
+        required: true
+        example: '2244994945'
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+      - $ref: '#/components/parameters/PublicKeyFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdPublicKeysResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/retweets:
+    post:
+      security:
+      - OAuth2UserToken:
+        - tweet.read
+        - tweet.write
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Repost Post
+      description: Causes the authenticated user to repost a specific Post by its ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/retweets/api-reference/post-users-id-retweets
+      operationId: repostPost
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User that is requesting to repost the Post.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersRetweetsCreateRequest'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersRetweetsCreateResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/retweets/{source_tweet_id}:
+    delete:
+      security:
+      - OAuth2UserToken:
+        - tweet.read
+        - tweet.write
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Unrepost Post
+      description: Causes the authenticated user to unrepost a specific Post by its ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/retweets/api-reference/delete-users-id-retweets-tweet_id
+      operationId: unrepostPost
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User that is requesting to repost the Post.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      - name: source_tweet_id
+        in: path
+        description: The ID of the Post that the User is requesting to unretweet.
+        required: true
+        schema:
+          $ref: '#/components/schemas/TweetId'
+        style: simple
+        example: '1234567890'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersRetweetsDeleteResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/timelines/reverse_chronological:
+    get:
+      security:
+      - OAuth2UserToken:
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Timeline
+      description: Retrieves a reverse chronological list of Posts in the authenticated User’s Timeline.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-reverse-chronological
+      operationId: getUsersTimeline
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the authenticated source User to list Reverse Chronological Timeline Posts of.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      - name: since_id
+        in: query
+        description: The minimum Post ID to be included in the result set. This parameter takes precedence over start_time if both are specified.
+        required: false
+        example: '791775337160081409'
+        schema:
+          $ref: '#/components/schemas/TweetId'
+        style: form
+      - name: until_id
+        in: query
+        description: The maximum Post ID to be included in the result set. This parameter takes precedence over end_time if both are specified.
+        required: false
+        example: '1346889436626259968'
+        schema:
+          $ref: '#/components/schemas/TweetId'
+        style: form
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          format: int32
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get the next 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationToken36'
+        style: form
+        example: next_token_abc123
+      - name: exclude
+        in: query
+        description: The set of entities to exclude (e.g. 'replies' or 'retweets').
+        required: false
+        schema:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - replies
+            - retweets
+          example:
+          - replies
+          - retweets
+        explode: false
+        style: form
+        example:
+        - replies
+        - retweets
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Posts will be provided. The since_id parameter takes precedence if it is also specified.
+        required: false
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided. The until_id parameter takes precedence if it is also specified.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      - $ref: '#/components/parameters/TweetExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/PollFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/PlaceFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdTimelinesReverseChronologicalResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/tweets:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Get Posts
+      description: Retrieves a list of posts authored by a specific User by their ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/api-reference/get-users-id-tweets
+      operationId: getUsersPosts
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the User to lookup.
+        required: true
+        example: '2244994945'
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+      - name: since_id
+        in: query
+        description: The minimum Post ID to be included in the result set. This parameter takes precedence over start_time if both are specified.
+        required: false
+        example: '791775337160081409'
+        schema:
+          $ref: '#/components/schemas/TweetId'
+        style: form
+      - name: until_id
+        in: query
+        description: The maximum Post ID to be included in the result set. This parameter takes precedence over end_time if both are specified.
+        required: false
+        example: '1346889436626259968'
+        schema:
+          $ref: '#/components/schemas/TweetId'
+        style: form
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 5
+          maximum: 100
+          format: int32
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This parameter is used to get the next 'page' of results.
+        required: false
+        schema:
+          $ref: '#/components/schemas/PaginationToken36'
+        style: form
+        example: next_token_abc123
+      - name: exclude
+        in: query
+        description: The set of entities to exclude (e.g. 'replies' or 'retweets').
+        required: false
+        schema:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - replies
+            - retweets
+          example:
+          - replies
+          - retweets
+        explode: false
+        style: form
+        example:
+        - replies
+        - retweets
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Posts will be provided. The since_id parameter takes precedence if it is also specified.
+        required: false
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided. The until_id parameter takes precedence if it is also specified.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      - $ref: '#/components/parameters/TweetExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/PollFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/PlaceFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdTweetsResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{source_user_id}/following/{target_user_id}:
+    delete:
+      security:
+      - OAuth2UserToken:
+        - follows.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Unfollow User
+      description: Causes the authenticated user to unfollow a specific user by their ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/follows/api-reference/delete-users-source_id-following
+      operationId: unfollowUser
+      parameters:
+      - name: source_user_id
+        in: path
+        description: The ID of the authenticated source User that is requesting to unfollow the target User.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      - name: target_user_id
+        in: path
+        description: The ID of the User that the source User is requesting to unfollow.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+        example: '1234567890'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersFollowingDeleteResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{source_user_id}/muting/{target_user_id}:
+    delete:
+      security:
+      - OAuth2UserToken:
+        - mute.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Users
+      summary: X Unmute User
+      description: Causes the authenticated user to unmute a specific user by their ID.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/users/mutes/api-reference/delete-users-user_id-muting
+      operationId: unmuteUser
+      parameters:
+      - name: source_user_id
+        in: path
+        description: The ID of the authenticated source User that is requesting to unmute the target User.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserIdMatchesAuthenticatedUser'
+        style: simple
+        example: '1234567890'
+      - name: target_user_id
+        in: path
+        description: The ID of the User that the source User is requesting to unmute.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+        example: '1234567890'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MuteUserMutationResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    List:
+      type: object
+      description: A X List is a curated group of accounts.
+      required:
+      - id
+      - name
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        description:
+          type: string
+        follower_count:
+          type: integer
+        id:
+          $ref: '#/components/schemas/ListId'
+        member_count:
+          type: integer
+        name:
+          type: string
+          description: The name of this List.
+        owner_id:
+          $ref: '#/components/schemas/UserId'
+        private:
+          type: boolean
+    Get2UsersIdAffiliatesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    PollId:
+      type: string
+      description: Unique identifier of this poll.
+      pattern: ^[0-9]{1,19}$
+      example: '1365059861688410112'
+    Media:
+      type: object
+      required:
+      - type
+      properties:
+        height:
+          $ref: '#/components/schemas/MediaHeight'
+        media_key:
+          $ref: '#/components/schemas/MediaKey'
+        type:
+          type: string
+        width:
+          $ref: '#/components/schemas/MediaWidth'
+      discriminator:
+        propertyName: type
+        mapping:
+          animated_gif: '#/components/schemas/AnimatedGif'
+          photo: '#/components/schemas/Photo'
+          video: '#/components/schemas/Video'
+    ListPinnedResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            pinned:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    UsersFollowingCreateRequest:
+      type: object
+      required:
+      - target_user_id
+      properties:
+        target_user_id:
+          $ref: '#/components/schemas/UserId'
+    Geo:
+      type: object
+      required:
+      - type
+      - bbox
+      - properties
+      properties:
+        bbox:
+          type: array
+          minItems: 4
+          maxItems: 4
+          items:
+            type: number
+            minimum: -180
+            maximum: 180
+            format: double
+          example:
+          - -105.193475
+          - 39.60973
+          - -105.053164
+          - 39.761974
+        geometry:
+          $ref: '#/components/schemas/Point'
+        properties:
+          type: object
+        type:
+          type: string
+          enum:
+          - Feature
+    Get2UsersIdTweetsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Tweet'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            newest_id:
+              $ref: '#/components/schemas/NewestId'
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            oldest_id:
+              $ref: '#/components/schemas/OldestId'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    PlaceId:
+      type: string
+      description: The identifier for this place.
+      example: f7eb2fa2fea288b1
+    ContextAnnotationDomainFields:
+      type: object
+      description: Represents the data for the context annotation domain.
+      required:
+      - id
+      properties:
+        description:
+          type: string
+          description: Description of the context annotation domain.
+          example: Example description for this resource.
+        id:
+          type: string
+          description: The unique id for a context annotation domain.
+          pattern: ^[0-9]{1,19}$
+          example: '1234567890'
+        name:
+          type: string
+          description: Name of the context annotation domain.
+          example: Example User
+    PreviousToken:
+      type: string
+      description: The previous token.
+      minLength: 1
+    MentionFields:
+      type: object
+      description: Represent the portion of text recognized as a User mention, and its start and end position within the text.
+      required:
+      - username
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+        username:
+          $ref: '#/components/schemas/UserName'
+    HashtagEntity:
+      allOf:
+      - $ref: '#/components/schemas/EntityIndicesInclusiveExclusive'
+      - $ref: '#/components/schemas/HashtagFields'
+    Get2UsersPublicKeysResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/PublicKey'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    Get2UsersIdFollowingResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    Get2UsersIdResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+    ReplySettingsWithVerifiedUsers:
+      type: string
+      description: Shows who can reply a Tweet. Fields returned are everyone, mentioned_users, subscribers, verified and following.
+      pattern: ^[A-Za-z]{1,12}$
+      enum:
+      - everyone
+      - mentionedUsers
+      - following
+      - other
+      - subscribers
+      - verified
+    Get2UsersIdLikedTweetsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Tweet'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    Get2UsersByResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+    Topic:
+      type: object
+      description: The topic of a Space, as selected by its creator.
+      required:
+      - id
+      - name
+      properties:
+        description:
+          type: string
+          description: The description of the given topic.
+          example: All about technology
+        id:
+          $ref: '#/components/schemas/TopicId'
+        name:
+          type: string
+          description: The name of the given topic.
+          example: Technology
+    UsersLikesCreateRequest:
+      type: object
+      required:
+      - tweet_id
+      properties:
+        tweet_id:
+          $ref: '#/components/schemas/TweetId'
+    UsersDMBlockCreateResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            blocked:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    Place:
+      type: object
+      required:
+      - id
+      - full_name
+      properties:
+        contained_within:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/PlaceId'
+        country:
+          type: string
+          description: The full name of the county in which this place exists.
+          example: United States
+        country_code:
+          $ref: '#/components/schemas/CountryCode'
+        full_name:
+          type: string
+          description: The full name of this place.
+          example: Lakewood, CO
+        geo:
+          $ref: '#/components/schemas/Geo'
+        id:
+          $ref: '#/components/schemas/PlaceId'
+        name:
+          type: string
+          description: The human readable name of this place.
+          example: Lakewood
+        place_type:
+          $ref: '#/components/schemas/PlaceType'
+    BookmarkMutationResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            bookmarked:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+    UserWithheld:
+      type: object
+      description: Indicates withholding details for [withheld content](https://help.twitter.com/en/rules-and-policies/tweet-withheld-by-country).
+      required:
+      - country_codes
+      properties:
+        country_codes:
+          type: array
+          description: Provides a list of countries where this content is not available.
+          minItems: 1
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/CountryCode'
+        scope:
+          type: string
+          description: Indicates that the content being withheld is a `user`.
+          enum:
+          - user
+    CountryCode:
+      type: string
+      description: A two-letter ISO 3166-1 alpha-2 country code.
+      pattern: ^[A-Z]{2}$
+      example: US
+    PollOption:
+      type: object
+      description: Describes a choice in a Poll object.
+      required:
+      - position
+      - label
+      - votes
+      properties:
+        label:
+          $ref: '#/components/schemas/PollOptionLabel'
+        position:
+          type: integer
+          description: Position of this choice in the poll.
+        votes:
+          type: integer
+          description: Number of users who voted for this choice.
+    CashtagEntity:
+      allOf:
+      - $ref: '#/components/schemas/EntityIndicesInclusiveExclusive'
+      - $ref: '#/components/schemas/CashtagFields'
+    PaginationToken32:
+      type: string
+      description: A base32 pagination token.
+      minLength: 16
+    Get2TweetsIdRetweetedByResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    ListUnpinResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            pinned:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    Get2UsersResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+    Get2UsersIdListMembershipsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/List'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    UsersRetweetsCreateResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/TweetId'
+            retweeted:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    UsersLikesDeleteResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            liked:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    UserSearchQueryVnext:
+      type: string
+      description: The the search string by which to query for users.
+      pattern: ^[A-Za-z0-9_' ]{1,50}$
+    PublicKey:
+      type: object
+      description: Public key information for Chat encryption
+      properties:
+        public_key:
+          type: string
+          description: Identity public key (base64 encoded).
+        signing_public_key:
+          type: string
+          description: Signing public key (base64 encoded).
+        token_map:
+          type: object
+          description: Juicebox configuration.
+          properties:
+            key_store_token_map_json:
+              type: string
+              description: Raw JSON for Juicebox SDK.
+            max_guess_count:
+              type: integer
+              description: Maximum guess count for Juicebox.
+            realms:
+              type: array
+              description: List of Juicebox realms.
+              items:
+                type: object
+                properties:
+                  address:
+                    type: string
+                    description: Realm URL.
+                  realm_id:
+                    type: string
+                    description: Realm identifier.
+                  token:
+                    type: string
+                    description: JWT auth token for realm.
+        version:
+          type: string
+          description: Public key version.
+    NoteTweetText:
+      type: string
+      description: The note content of the Tweet.
+      example: Learn how to use the user Tweet timeline and user mention timeline endpoints in the X API v2 to explore Tweet\u2026 https:\/\/t.co\/56a0vZUx7i
+    OldestId:
+      type: string
+      description: The oldest id in this response.
+    Point:
+      type: object
+      description: A [GeoJson Point](https://tools.ietf.org/html/rfc7946#section-3.1.2) geometry object.
+      required:
+      - type
+      - coordinates
+      properties:
+        coordinates:
+          $ref: '#/components/schemas/Position'
+        type:
+          type: string
+          enum:
+          - Point
+          example: Point
+    Get2UsersIdOwnedListsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/List'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    UserIdMatchesAuthenticatedUser:
+      type: string
+      description: Unique identifier of this User. The value must be the same as the authenticated user.
+      example: '2244994945'
+    PollOptionLabel:
+      type: string
+      description: The text of a poll choice.
+      minLength: 1
+      maxLength: 25
+    Get2ListsIdMembersResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    PlaceType:
+      type: string
+      enum:
+      - poi
+      - neighborhood
+      - city
+      - admin
+      - country
+      - unknown
+      example: city
+    CommunityId:
+      type: string
+      description: The unique identifier of this Community.
+      pattern: ^[0-9]{1,19}$
+      example: '1146654567674912769'
+    Get2UsersIdPublicKeysResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/PublicKey'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    Get2UsersIdBlockingResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    DisplayTextRange:
+      type: array
+      description: Represent a boundary range (start and end zero-based indices) for the portion of text that is displayed for a post. `start` must be smaller than `end`. The start index is inclusive, the end index is exclusive.
+      minItems: 2
+      maxItems: 2
+      items:
+        type: integer
+        minimum: 0
+    User:
+      type: object
+      description: The X User object.
+      required:
+      - id
+      - name
+      - username
+      properties:
+        affiliation:
+          type: object
+          description: Metadata about a user's affiliation.
+          properties:
+            badge_url:
+              type: string
+              description: The badge URL corresponding to the affiliation.
+              format: uri
+            description:
+              type: string
+              description: The description of the affiliation.
+            url:
+              type: string
+              description: The URL, if available, to details about an affiliation.
+              format: uri
+            user_id:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/UserId'
+        connection_status:
+          type: array
+          description: Returns detailed information about the relationship between two users.
+          minItems: 0
+          items:
+            type: string
+            description: Type of connection between users.
+            enum:
+            - follow_request_received
+            - follow_request_sent
+            - blocking
+            - followed_by
+            - following
+            - muting
+        created_at:
+          type: string
+          description: Creation time of this User.
+          format: date-time
+        description:
+          type: string
+          description: The text of this User's profile description (also known as bio), if the User provided one.
+        entities:
+          type: object
+          description: A list of metadata found in the User's profile description.
+          properties:
+            description:
+              $ref: '#/components/schemas/FullTextEntities'
+            url:
+              type: object
+              description: Expanded details for the URL specified in the User's profile, with start and end indices.
+              properties:
+                urls:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/UrlEntity'
+        id:
+          $ref: '#/components/schemas/UserId'
+        location:
+          type: string
+          description: The location specified in the User's profile, if the User provided one. As this is a freeform value, it may not indicate a valid location, but it may be fuzzily evaluated when performing searches with location queries.
+        most_recent_tweet_id:
+          $ref: '#/components/schemas/TweetId'
+        name:
+          type: string
+          description: The friendly name of this User, as shown on their profile.
+        pinned_tweet_id:
+          $ref: '#/components/schemas/TweetId'
+        profile_banner_url:
+          type: string
+          description: The URL to the profile banner for this User.
+          format: uri
+        profile_image_url:
+          type: string
+          description: The URL to the profile image for this User.
+          format: uri
+        protected:
+          type: boolean
+          description: Indicates if this User has chosen to protect their Posts (in other words, if this User's Posts are private).
+        public_metrics:
+          type: object
+          description: A list of metrics for this User.
+          required:
+          - followers_count
+          - following_count
+          - tweet_count
+          - listed_count
+          properties:
+            followers_count:
+              type: integer
+              description: Number of Users who are following this User.
+            following_count:
+              type: integer
+              description: Number of Users this User is following.
+            like_count:
+              type: integer
+              description: The number of likes created by this User.
+            listed_count:
+              type: integer
+              description: The number of lists that include this User.
+            tweet_count:
+              type: integer
+              description: The number of Posts (including Retweets) posted by this User.
+        receives_your_dm:
+          type: boolean
+          description: Indicates if you can send a DM to this User
+        subscription_type:
+          type: string
+          description: 'The X Blue subscription type of the user, eg: Basic, Premium, PremiumPlus or None.'
+          enum:
+          - Basic
+          - Premium
+          - PremiumPlus
+          - None
+        url:
+          type: string
+          description: The URL specified in the User's profile.
+        username:
+          $ref: '#/components/schemas/UserName'
+        verified:
+          type: boolean
+          description: Indicate if this User is a verified X User.
+        verified_type:
+          type: string
+          description: 'The X Blue verified type of the user, eg: blue, government, business or none.'
+          enum:
+          - blue
+          - government
+          - business
+          - none
+        withheld:
+          $ref: '#/components/schemas/UserWithheld'
+      example:
+        created_at: '2013-12-14T04:35:55Z'
+        id: '2244994945'
+        name: X Dev
+        protected: false
+        username: TwitterDev
+    MentionEntity:
+      allOf:
+      - $ref: '#/components/schemas/EntityIndicesInclusiveExclusive'
+      - $ref: '#/components/schemas/MentionFields'
+    Get2UsersIdBookmarksResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Tweet'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    FullTextEntities:
+      type: object
+      properties:
+        annotations:
+          type: array
+          minItems: 1
+          items:
+            description: Annotation for entities based on the Tweet text.
+            allOf:
+            - $ref: '#/components/schemas/EntityIndicesInclusiveInclusive'
+            - type: object
+              description: Represents the data for the annotation.
+              properties:
+                normalized_text:
+                  type: string
+                  description: Text used to determine annotation.
+                  example: Barack Obama
+                probability:
+                  type: number
+                  description: Confidence factor for annotation type.
+                  minimum: 0
+                  maximum: 1
+                  format: double
+                type:
+                  type: string
+                  description: Annotation type.
+                  example: Person
+        cashtags:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/CashtagEntity'
+        hashtags:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/HashtagEntity'
+        mentions:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/MentionEntity'
+        urls:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/UrlEntity'
+    UrlFields:
+      type: object
+      description: Represent the portion of text recognized as a URL.
+      required:
+      - url
+      properties:
+        description:
+          type: string
+          description: Description of the URL landing page.
+          example: This is a description of the website.
+        display_url:
+          type: string
+          description: The URL as displayed in the X client.
+          example: twittercommunity.com/t/introducing-…
+        expanded_url:
+          $ref: '#/components/schemas/Url'
+        images:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/UrlImage'
+        media_key:
+          $ref: '#/components/schemas/MediaKey'
+        status:
+          $ref: '#/components/schemas/HttpStatusCode'
+        title:
+          type: string
+          description: Title of the page the URL points to.
+          example: Introducing the v2 follow lookup endpoints
+        unwound_url:
+          type: string
+          description: Fully resolved url.
+          format: uri
+          example: https://twittercommunity.com/t/introducing-the-v2-follow-lookup-endpoints/147118
+        url:
+          $ref: '#/components/schemas/Url'
+    UsersFollowingDeleteResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            following:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    Tweet:
+      type: object
+      properties:
+        attachments:
+          type: object
+          description: Specifies the type of attachments (if any) present in this Tweet.
+          properties:
+            media_keys:
+              type: array
+              description: A list of Media Keys for each one of the media attachments (if media are attached).
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/MediaKey'
+            media_source_tweet_id:
+              type: array
+              description: A list of Posts the media on this Tweet was originally posted in. For example, if the media on a tweet is re-used in another Tweet, this refers to the original, source Tweet..
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/TweetId'
+            poll_ids:
+              type: array
+              description: A list of poll IDs (if polls are attached).
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/PollId'
+        author_id:
+          $ref: '#/components/schemas/UserId'
+        community_id:
+          $ref: '#/components/schemas/CommunityId'
+        context_annotations:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ContextAnnotation'
+        conversation_id:
+          $ref: '#/components/schemas/TweetId'
+        created_at:
+          type: string
+          description: Creation time of the Tweet.
+          format: date-time
+          example: '2021-01-06T18:40:40.000Z'
+        display_text_range:
+          $ref: '#/components/schemas/DisplayTextRange'
+        edit_controls:
+          type: object
+          required:
+          - is_edit_eligible
+          - editable_until
+          - edits_remaining
+          properties:
+            editable_until:
+              type: string
+              description: Time when Tweet is no longer editable.
+              format: date-time
+              example: '2021-01-06T18:40:40.000Z'
+            edits_remaining:
+              type: integer
+              description: Number of times this Tweet can be edited.
+            is_edit_eligible:
+              type: boolean
+              description: Indicates if this Tweet is eligible to be edited.
+              example: false
+        edit_history_tweet_ids:
+          type: array
+          description: A list of Tweet Ids in this Tweet chain.
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/TweetId'
+        entities:
+          $ref: '#/components/schemas/FullTextEntities'
+        geo:
+          type: object
+          description: The location tagged on the Tweet, if the user provided one.
+          properties:
+            coordinates:
+              $ref: '#/components/schemas/Point'
+            place_id:
+              $ref: '#/components/schemas/PlaceId'
+        id:
+          $ref: '#/components/schemas/TweetId'
+        in_reply_to_user_id:
+          $ref: '#/components/schemas/UserId'
+        lang:
+          type: string
+          description: Language of the Tweet, if detected by X. Returned as a BCP47 language tag.
+          example: en
+        non_public_metrics:
+          type: object
+          description: Nonpublic engagement metrics for the Tweet at the time of the request.
+          properties:
+            impression_count:
+              type: integer
+              description: Number of times this Tweet has been viewed.
+              format: int32
+        note_tweet:
+          type: object
+          description: The full-content of the Tweet, including text beyond 280 characters.
+          properties:
+            entities:
+              type: object
+              properties:
+                cashtags:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/CashtagEntity'
+                hashtags:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/HashtagEntity'
+                mentions:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/MentionEntity'
+                urls:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/UrlEntity'
+            text:
+              $ref: '#/components/schemas/NoteTweetText'
+        organic_metrics:
+          type: object
+          description: Organic nonpublic engagement metrics for the Tweet at the time of the request.
+          required:
+          - impression_count
+          - retweet_count
+          - reply_count
+          - like_count
+          properties:
+            impression_count:
+              type: integer
+              description: Number of times this Tweet has been viewed.
+            like_count:
+              type: integer
+              description: Number of times this Tweet has been liked.
+            reply_count:
+              type: integer
+              description: Number of times this Tweet has been replied to.
+            retweet_count:
+              type: integer
+              description: Number of times this Tweet has been Retweeted.
+        possibly_sensitive:
+          type: boolean
+          description: Indicates if this Tweet contains URLs marked as sensitive, for example content suitable for mature audiences.
+          example: false
+        promoted_metrics:
+          type: object
+          description: Promoted nonpublic engagement metrics for the Tweet at the time of the request.
+          properties:
+            impression_count:
+              type: integer
+              description: Number of times this Tweet has been viewed.
+              format: int32
+            like_count:
+              type: integer
+              description: Number of times this Tweet has been liked.
+              format: int32
+            reply_count:
+              type: integer
+              description: Number of times this Tweet has been replied to.
+              format: int32
+            retweet_count:
+              type: integer
+              description: Number of times this Tweet has been Retweeted.
+              format: int32
+        public_metrics:
+          type: object
+          description: Engagement metrics for the Tweet at the time of the request.
+          required:
+          - retweet_count
+          - reply_count
+          - like_count
+          - impression_count
+          - bookmark_count
+          properties:
+            bookmark_count:
+              type: integer
+              description: Number of times this Tweet has been bookmarked.
+              format: int32
+            impression_count:
+              type: integer
+              description: Number of times this Tweet has been viewed.
+              format: int32
+            like_count:
+              type: integer
+              description: Number of times this Tweet has been liked.
+            quote_count:
+              type: integer
+              description: Number of times this Tweet has been quoted.
+            reply_count:
+              type: integer
+              description: Number of times this Tweet has been replied to.
+            retweet_count:
+              type: integer
+              description: Number of times this Tweet has been Retweeted.
+        referenced_tweets:
+          type: array
+          description: A list of Posts this Tweet refers to. For example, if the parent Tweet is a Retweet, a Quoted Tweet or a Reply, it will include the related Tweet referenced to by its parent.
+          minItems: 1
+          items:
+            type: object
+            required:
+            - type
+            - id
+            properties:
+              id:
+                $ref: '#/components/schemas/TweetId'
+              type:
+                type: string
+                enum:
+                - retweeted
+                - quoted
+                - replied_to
+        reply_settings:
+          $ref: '#/components/schemas/ReplySettingsWithVerifiedUsers'
+        scopes:
+          type: object
+          description: The scopes for this tweet
+          properties:
+            followers:
+              type: boolean
+              description: Indicates if this Tweet is viewable by followers without the Tweet ID
+              example: false
+        source:
+          type: string
+          description: This is deprecated.
+        suggested_source_links:
+          type: array
+          minItems: 0
+          items:
+            $ref: '#/components/schemas/UrlEntity'
+        suggested_source_links_with_counts:
+          type: object
+          description: Suggested source links and the number of requests that included each link.
+          properties:
+            count:
+              type: integer
+              description: Number of note requests that included the source link.
+            url:
+              $ref: '#/components/schemas/UrlEntity'
+        text:
+          $ref: '#/components/schemas/TweetText'
+        username:
+          $ref: '#/components/schemas/UserName'
+        withheld:
+          $ref: '#/components/schemas/TweetWithheld'
+      example:
+        author_id: '2244994945'
+        created_at: Wed Jan 06 18:40:40 +0000 2021
+        id: '1346889436626259968'
+        text: Learn how to use the user Tweet timeline and user mention timeline endpoints in the X API v2 to explore Tweet\u2026 https:\/\/t.co\/56a0vZUx7i
+        username: XDevelopers
+    Problem:
+      type: object
+      description: An HTTP Problem Details object, as defined in IETF RFC 7807 (https://tools.ietf.org/html/rfc7807).
+      required:
+      - type
+      - title
+      properties:
+        detail:
+          type: string
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          about:blank: '#/components/schemas/GenericProblem'
+          https://api.twitter.com/2/problems/client-disconnected: '#/components/schemas/ClientDisconnectedProblem'
+          https://api.twitter.com/2/problems/client-forbidden: '#/components/schemas/ClientForbiddenProblem'
+          https://api.twitter.com/2/problems/conflict: '#/components/schemas/ConflictProblem'
+          https://api.twitter.com/2/problems/disallowed-resource: '#/components/schemas/DisallowedResourceProblem'
+          https://api.twitter.com/2/problems/duplicate-rules: '#/components/schemas/DuplicateRuleProblem'
+          https://api.twitter.com/2/problems/invalid-request: '#/components/schemas/InvalidRequestProblem'
+          https://api.twitter.com/2/problems/invalid-rules: '#/components/schemas/InvalidRuleProblem'
+          https://api.twitter.com/2/problems/noncompliant-rules: '#/components/schemas/NonCompliantRulesProblem'
+          https://api.twitter.com/2/problems/not-authorized-for-field: '#/components/schemas/FieldUnauthorizedProblem'
+          https://api.twitter.com/2/problems/not-authorized-for-resource: '#/components/schemas/ResourceUnauthorizedProblem'
+          https://api.twitter.com/2/problems/operational-disconnect: '#/components/schemas/OperationalDisconnectProblem'
+          https://api.twitter.com/2/problems/resource-not-found: '#/components/schemas/ResourceNotFoundProblem'
+          https://api.twitter.com/2/problems/resource-unavailable: '#/components/schemas/ResourceUnavailableProblem'
+          https://api.twitter.com/2/problems/rule-cap: '#/components/schemas/RulesCapProblem'
+          https://api.twitter.com/2/problems/streaming-connection: '#/components/schemas/ConnectionExceptionProblem'
+          https://api.twitter.com/2/problems/unsupported-authentication: '#/components/schemas/UnsupportedAuthenticationProblem'
+          https://api.twitter.com/2/problems/usage-capped: '#/components/schemas/UsageCapExceededProblem'
+    Get2ListsIdFollowersResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    TweetWithheld:
+      type: object
+      description: Indicates withholding details for [withheld content](https://help.twitter.com/en/rules-and-policies/tweet-withheld-by-country).
+      required:
+      - copyright
+      - country_codes
+      properties:
+        copyright:
+          type: boolean
+          description: Indicates if the content is being withheld for on the basis of copyright infringement.
+        country_codes:
+          type: array
+          description: Provides a list of countries where this content is not available.
+          minItems: 1
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/CountryCode'
+        scope:
+          type: string
+          description: Indicates whether the content being withheld is the `tweet` or a `user`.
+          enum:
+          - tweet
+          - user
+    Url:
+      type: string
+      description: A validly formatted URL.
+      format: uri
+      example: https://developer.twitter.com/en/docs/twitter-api
+    Expansions:
+      type: object
+      properties:
+        media:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Media'
+        places:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Place'
+        polls:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Poll'
+        topics:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Topic'
+        tweets:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Tweet'
+        users:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+    Get2UsersIdFollowedListsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/List'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    EntityIndicesInclusiveInclusive:
+      type: object
+      description: Represent a boundary range (start and end index) for a recognized entity (for example a hashtag or a mention). `start` must be smaller than `end`.  The start index is inclusive, the end index is inclusive.
+      required:
+      - start
+      - end
+      properties:
+        end:
+          type: integer
+          description: Index (zero-based) at which position this entity ends.  The index is inclusive.
+          minimum: 0
+          example: 61
+        start:
+          type: integer
+          description: Index (zero-based) at which position this entity starts.  The index is inclusive.
+          minimum: 0
+          example: 50
+    TweetText:
+      type: string
+      description: The content of the Tweet.
+      example: Learn how to use the user Tweet timeline and user mention timeline endpoints in the X API v2 to explore Tweet\u2026 https:\/\/t.co\/56a0vZUx7i
+    Get2UsersByUsernameUsernameResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+    Get2UsersIdMutingResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    Get2UsersIdTimelinesReverseChronologicalResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Tweet'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            newest_id:
+              $ref: '#/components/schemas/NewestId'
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            oldest_id:
+              $ref: '#/components/schemas/OldestId'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    PaginationTokenLong:
+      type: string
+      description: A 'long' pagination token.
+      minLength: 1
+      maxLength: 19
+    ContextAnnotationEntityFields:
+      type: object
+      description: Represents the data for the context annotation entity.
+      required:
+      - id
+      properties:
+        description:
+          type: string
+          description: Description of the context annotation entity.
+          example: Example description for this resource.
+        id:
+          type: string
+          description: The unique id for a context annotation entity.
+          pattern: ^[0-9]{1,19}$
+          example: '1234567890'
+        name:
+          type: string
+          description: Name of the context annotation entity.
+          example: Example User
+    UsersFollowingCreateResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            following:
+              type: boolean
+            pending_follow:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    UrlEntity:
+      description: Represent the portion of text recognized as a URL, and its start and end position within the text.
+      allOf:
+      - $ref: '#/components/schemas/EntityIndicesInclusiveExclusive'
+      - $ref: '#/components/schemas/UrlFields'
+    Get2UsersMeResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+    ListId:
+      type: string
+      description: The unique identifier of this List.
+      pattern: ^[0-9]{1,19}$
+      example: '1146654567674912769'
+    UsersDMUnBlockCreateResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            blocked:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    PaginationToken36:
+      type: string
+      description: A base36 pagination token.
+      minLength: 1
+    HttpStatusCode:
+      type: integer
+      description: HTTP Status Code.
+      minimum: 100
+      maximum: 599
+    Get2TweetsIdLikingUsersResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    EntityIndicesInclusiveExclusive:
+      type: object
+      description: Represent a boundary range (start and end index) for a recognized entity (for example a hashtag or a mention). `start` must be smaller than `end`.  The start index is inclusive, the end index is exclusive.
+      required:
+      - start
+      - end
+      properties:
+        end:
+          type: integer
+          description: Index (zero-based) at which position this entity ends.  The index is exclusive.
+          minimum: 0
+          example: 61
+        start:
+          type: integer
+          description: Index (zero-based) at which position this entity starts.  The index is inclusive.
+          minimum: 0
+          example: 50
+    MuteUserMutationResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            muting:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    TweetId:
+      type: string
+      description: Unique identifier of this Tweet. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.
+      pattern: ^[0-9]{1,19}$
+      example: '1346889436626259968'
+    MediaKey:
+      type: string
+      description: The Media Key identifier for this attachment.
+      pattern: ^([0-9]+)_([0-9]+)$
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    Get2UsersIdPinnedListsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/List'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    CashtagFields:
+      type: object
+      description: Represent the portion of text recognized as a Cashtag, and its start and end position within the text.
+      required:
+      - tag
+      properties:
+        tag:
+          type: string
+          example: TWTR
+    ResultCount:
+      type: integer
+      description: The number of results returned in this response.
+      format: int32
+    MediaWidth:
+      type: integer
+      description: The width of the media in pixels.
+      minimum: 0
+    Get2UsersIdFollowersResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    Position:
+      type: array
+      description: A [GeoJson Position](https://tools.ietf.org/html/rfc7946#section-3.1.1) in the format `[longitude,latitude]`.
+      minItems: 2
+      maxItems: 2
+      items:
+        type: number
+      example:
+      - -105.18816086351444
+      - 40.247749999999996
+    BookmarkFolderPostsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                $ref: '#/components/schemas/TweetId'
+          example: []
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+    UsersLikesCreateResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            liked:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    UrlImage:
+      type: object
+      description: Represent the information for the URL image.
+      properties:
+        height:
+          $ref: '#/components/schemas/MediaHeight'
+        url:
+          $ref: '#/components/schemas/Url'
+        width:
+          $ref: '#/components/schemas/MediaWidth'
+    UserName:
+      type: string
+      description: The X handle (screen name) of this user.
+      pattern: ^[A-Za-z0-9_]{1,15}$
+    BookmarkAddRequest:
+      type: object
+      required:
+      - tweet_id
+      properties:
+        tweet_id:
+          $ref: '#/components/schemas/TweetId'
+    ContextAnnotation:
+      type: object
+      description: Annotation inferred from the Tweet text.
+      required:
+      - domain
+      - entity
+      properties:
+        domain:
+          $ref: '#/components/schemas/ContextAnnotationDomainFields'
+        entity:
+          $ref: '#/components/schemas/ContextAnnotationEntityFields'
+    NextToken:
+      type: string
+      description: The next token.
+      minLength: 1
+    ListPinnedRequest:
+      type: object
+      required:
+      - list_id
+      properties:
+        list_id:
+          $ref: '#/components/schemas/ListId'
+    ListFollowedResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            following:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    Get2UsersIdMentionsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Tweet'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            newest_id:
+              $ref: '#/components/schemas/NewestId'
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            oldest_id:
+              $ref: '#/components/schemas/OldestId'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    Poll:
+      type: object
+      description: Represent a Poll attached to a Tweet.
+      required:
+      - id
+      - options
+      properties:
+        duration_minutes:
+          type: integer
+          minimum: 5
+          maximum: 10080
+          format: int32
+        end_datetime:
+          type: string
+          format: date-time
+        id:
+          $ref: '#/components/schemas/PollId'
+        options:
+          type: array
+          minItems: 2
+          maxItems: 4
+          items:
+            $ref: '#/components/schemas/PollOption'
+        voting_status:
+          type: string
+          enum:
+          - open
+          - closed
+    BookmarkFoldersResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                $ref: '#/components/schemas/BookmarkFolderId'
+              name:
+                type: string
+          example: []
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+    HashtagFields:
+      type: object
+      description: Represent the portion of text recognized as a Hashtag, and its start and end position within the text.
+      required:
+      - tag
+      properties:
+        tag:
+          type: string
+          description: The text of the Hashtag.
+          example: MondayMotivation
+    MediaHeight:
+      type: integer
+      description: The height of the media in pixels.
+      minimum: 0
+    ListFollowedRequest:
+      type: object
+      required:
+      - list_id
+      properties:
+        list_id:
+          $ref: '#/components/schemas/ListId'
+    UsersRetweetsCreateRequest:
+      type: object
+      required:
+      - tweet_id
+      properties:
+        tweet_id:
+          $ref: '#/components/schemas/TweetId'
+      additionalProperties: false
+    Get2UsersRepostsOfMeResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Tweet'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+            result_count:
+              $ref: '#/components/schemas/ResultCount'
+    TopicId:
+      type: string
+      description: Unique identifier of this Topic.
+    Get2UsersSearchResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            next_token:
+              $ref: '#/components/schemas/NextToken'
+            previous_token:
+              $ref: '#/components/schemas/PreviousToken'
+    UsersRetweetsDeleteResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            retweeted:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    BookmarkFolderId:
+      type: string
+      description: The unique identifier of this Bookmark folder.
+      pattern: ^[0-9]{1,19}$
+      example: '1146654567674912769'
+    UserId:
+      type: string
+      description: Unique identifier of this User. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.
+      pattern: ^[0-9]{1,19}$
+      example: '2244994945'
+    NewestId:
+      type: string
+      description: The newest id in this response.
+    MuteUserRequest:
+      type: object
+      required:
+      - target_user_id
+      properties:
+        target_user_id:
+          $ref: '#/components/schemas/UserId'
+  parameters:
+    ListExpansionsParameter:
+      name: expansions
+      in: query
+      description: A comma separated list of fields to expand.
+      schema:
+        type: array
+        description: The list of fields you can expand for a [List](#List) object. If the field has an ID, it can be expanded into a full object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - owner_id
+        example:
+        - owner_id
+      explode: false
+      style: form
+    PublicKeyFieldsParameter:
+      name: public_key.fields
+      in: query
+      description: A comma separated list of PublicKey fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a PublicKey object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - juicebox_config
+          - public_key
+          - signing_public_key
+          - version
+        example:
+        - juicebox_config
+        - public_key
+        - signing_public_key
+        - version
+      explode: false
+      style: form
+    ListFieldsParameter:
+      name: list.fields
+      in: query
+      description: A comma separated list of List fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a List object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - created_at
+          - description
+          - follower_count
+          - id
+          - member_count
+          - name
+          - owner_id
+          - private
+        example:
+        - created_at
+        - description
+        - follower_count
+        - id
+        - member_count
+        - name
+        - owner_id
+        - private
+      explode: false
+      style: form
+    PollFieldsParameter:
+      name: poll.fields
+      in: query
+      description: A comma separated list of Poll fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a Poll object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - duration_minutes
+          - end_datetime
+          - id
+          - options
+          - voting_status
+        example:
+        - duration_minutes
+        - end_datetime
+        - id
+        - options
+        - voting_status
+      explode: false
+      style: form
+    MediaFieldsParameter:
+      name: media.fields
+      in: query
+      description: A comma separated list of Media fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a Media object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - alt_text
+          - duration_ms
+          - height
+          - media_key
+          - non_public_metrics
+          - organic_metrics
+          - preview_image_url
+          - promoted_metrics
+          - public_metrics
+          - type
+          - url
+          - variants
+          - width
+        example:
+        - alt_text
+        - duration_ms
+        - height
+        - media_key
+        - non_public_metrics
+        - organic_metrics
+        - preview_image_url
+        - promoted_metrics
+        - public_metrics
+        - type
+        - url
+        - variants
+        - width
+      explode: false
+      style: form
+    UserFieldsParameter:
+      name: user.fields
+      in: query
+      description: A comma separated list of User fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a User object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - affiliation
+          - confirmed_email
+          - connection_status
+          - created_at
+          - description
+          - entities
+          - id
+          - is_identity_verified
+          - location
+          - most_recent_tweet_id
+          - name
+          - parody
+          - pinned_tweet_id
+          - profile_banner_url
+          - profile_image_url
+          - protected
+          - public_metrics
+          - receives_your_dm
+          - subscription
+          - subscription_type
+          - url
+          - username
+          - verified
+          - verified_followers_count
+          - verified_type
+          - withheld
+        example:
+        - affiliation
+        - confirmed_email
+        - connection_status
+        - created_at
+        - description
+        - entities
+        - id
+        - is_identity_verified
+        - location
+        - most_recent_tweet_id
+        - name
+        - parody
+        - pinned_tweet_id
+        - profile_banner_url
+        - profile_image_url
+        - protected
+        - public_metrics
+        - receives_your_dm
+        - subscription
+        - subscription_type
+        - url
+        - username
+        - verified
+        - verified_followers_count
+        - verified_type
+        - withheld
+      explode: false
+      style: form
+    PlaceFieldsParameter:
+      name: place.fields
+      in: query
+      description: A comma separated list of Place fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a Place object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - contained_within
+          - country
+          - country_code
+          - full_name
+          - geo
+          - id
+          - name
+          - place_type
+        example:
+        - contained_within
+        - country
+        - country_code
+        - full_name
+        - geo
+        - id
+        - name
+        - place_type
+      explode: false
+      style: form
+    TweetExpansionsParameter:
+      name: expansions
+      in: query
+      description: A comma separated list of fields to expand.
+      schema:
+        type: array
+        description: The list of fields you can expand for a [Tweet](#Tweet) object. If the field has an ID, it can be expanded into a full object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - article.cover_media
+          - article.media_entities
+          - attachments.media_keys
+          - attachments.media_source_tweet
+          - attachments.poll_ids
+          - author_id
+          - edit_history_tweet_ids
+          - entities.mentions.username
+          - geo.place_id
+          - in_reply_to_user_id
+          - entities.note.mentions.username
+          - referenced_tweets.id
+          - referenced_tweets.id.attachments.media_keys
+          - referenced_tweets.id.author_id
+        example:
+        - article.cover_media
+        - article.media_entities
+        - attachments.media_keys
+        - attachments.media_source_tweet
+        - attachments.poll_ids
+        - author_id
+        - edit_history_tweet_ids
+        - entities.mentions.username
+        - geo.place_id
+        - in_reply_to_user_id
+        - entities.note.mentions.username
+        - referenced_tweets.id
+        - referenced_tweets.id.attachments.media_keys
+        - referenced_tweets.id.author_id
+      explode: false
+      style: form
+    UserExpansionsParameter:
+      name: expansions
+      in: query
+      description: A comma separated list of fields to expand.
+      schema:
+        type: array
+        description: The list of fields you can expand for a [User](#User) object. If the field has an ID, it can be expanded into a full object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - affiliation.user_id
+          - most_recent_tweet_id
+          - pinned_tweet_id
+        example:
+        - affiliation.user_id
+        - most_recent_tweet_id
+        - pinned_tweet_id
+      explode: false
+      style: form
+    TweetFieldsParameter:
+      name: tweet.fields
+      in: query
+      description: A comma separated list of Tweet fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a Tweet object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - article
+          - attachments
+          - author_id
+          - card_uri
+          - community_id
+          - context_annotations
+          - conversation_id
+          - created_at
+          - display_text_range
+          - edit_controls
+          - edit_history_tweet_ids
+          - entities
+          - geo
+          - id
+          - in_reply_to_user_id
+          - lang
+          - media_metadata
+          - non_public_metrics
+          - note_tweet
+          - organic_metrics
+          - possibly_sensitive
+          - promoted_metrics
+          - public_metrics
+          - referenced_tweets
+          - reply_settings
+          - scopes
+          - source
+          - suggested_source_links
+          - suggested_source_links_with_counts
+          - text
+          - withheld
+        example:
+        - article
+        - attachments
+        - author_id
+        - card_uri
+        - community_id
+        - context_annotations
+        - conversation_id
+        - created_at
+        - display_text_range
+        - edit_controls
+        - edit_history_tweet_ids
+        - entities
+        - geo
+        - id
+        - in_reply_to_user_id
+        - lang
+        - media_metadata
+        - non_public_metrics
+        - note_tweet
+        - organic_metrics
+        - possibly_sensitive
+        - promoted_metrics
+        - public_metrics
+        - referenced_tweets
+        - reply_settings
+        - scopes
+        - source
+        - suggested_source_links
+        - suggested_source_links_with_counts
+        - text
+        - withheld
+      explode: false
+      style: form
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+    OAuth2UserToken:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.x.com/2/oauth2/authorize
+          tokenUrl: https://api.x.com/2/oauth2/token
+          scopes:
+            block.read: View accounts you have blocked.
+            bookmark.read: Read your bookmarked Posts.
+            bookmark.write: Create and delete your bookmarks.
+            dm.read: Read all your Direct Messages.
+            dm.write: Send and manage your Direct Messages.
+            follows.read: View accounts you follow and accounts following you.
+            follows.write: Follow and unfollow accounts on your behalf.
+            like.read: View Posts you have liked and likes you can see.
+            like.write: Like and unlike Posts on your behalf.
+            list.read: View Lists, members, and followers of Lists you created or are a member of, including private Lists.
+            list.write: Create and manage Lists on your behalf.
+            media.write: Upload media, such as photos and videos, on your behalf.
+            mute.read: View accounts you have muted.
+            mute.write: Mute and unmute accounts on your behalf.
+            offline.access: Request a refresh token for the app.
+            space.read: View all Spaces you have access to.
+            timeline.read: View all Custom Timelines you can see, including public Custom Timelines from other developers.
+            tweet.moderate.write: Hide and unhide replies to your Posts.
+            tweet.read: View all Posts you can see, including those from protected accounts.
+            tweet.write: Post and repost on your behalf.
+            users.read: View any account you can see, including protected accounts.
+    UserToken:
+      type: http
+      scheme: OAuth

@@ -1,0 +1,3862 @@
+openapi: 3.0.0
+info:
+  description: X API v2 available endpoints
+  version: '2.161'
+  title: X API v2 Account Activity Stream API
+  termsOfService: https://developer.x.com/en/developer-terms/agreement-and-policy.html
+  contact:
+    name: X Developers
+    url: https://developer.x.com/
+  license:
+    name: X Developer Agreement and Policy
+    url: https://developer.x.com/en/developer-terms/agreement-and-policy.html
+servers:
+- description: X API
+  url: https://api.x.com
+tags:
+- name: Stream
+  description: Endpoints related to streaming
+  externalDocs:
+    description: Find out more
+    url: https://developer.x.com
+paths:
+  /2/activity/stream:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Activity Stream
+      description: Stream of X Activities
+      externalDocs:
+        url: https://docs.x.com/x-api/activity/activity-stream
+      operationId: activityStream
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Post labels will be provided.
+        required: false
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the Post labels will be provided.
+        required: false
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityStreamingResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/activity/subscriptions:
+    post:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - dm.read
+        - tweet.read
+      - UserToken: []
+      tags:
+      - Stream
+      summary: X Create X Activity Subscription
+      description: Creates a subscription for an X activity event
+      externalDocs:
+        url: https://docs.x.com/x-api/activity/create-x-activity-subscription
+      operationId: createActivitySubscription
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivitySubscriptionCreateRequest'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivitySubscriptionCreateResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/likes/compliance/stream:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Stream Likes Compliance Data
+      description: Streams all compliance data related to Likes for Users.
+      operationId: streamLikesCompliance
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Likes Compliance events will be provided.
+        required: false
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the Likes Compliance events will be provided.
+        required: false
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LikesComplianceStreamResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/likes/firehose/stream:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Stream All Likes
+      description: Streams all public Likes in real-time.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/get-likes-firehose-stream
+      operationId: streamLikesFirehose
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - name: partition
+        in: query
+        description: The partition number.
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 20
+          format: int32
+        style: form
+        example: 42
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Likes will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - $ref: '#/components/parameters/LikeWithTweetAuthorFieldsParameter'
+      - $ref: '#/components/parameters/LikeWithTweetAuthorExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamingLikeResponseV2'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/likes/sample10/stream:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Stream Sampled Likes
+      description: Streams a 10% sample of public Likes in real-time.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/likes/firehose/api-reference/get-likes-sample10-stream
+      operationId: streamLikesSample10
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - name: partition
+        in: query
+        description: The partition number.
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 2
+          format: int32
+        style: form
+        example: 42
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Likes will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - $ref: '#/components/parameters/LikeWithTweetAuthorFieldsParameter'
+      - $ref: '#/components/parameters/LikeWithTweetAuthorExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamingLikeResponseV2'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/compliance/stream:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Stream Posts Compliance Data
+      description: Streams all compliance data related to Posts.
+      operationId: streamPostsCompliance
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - name: partition
+        in: query
+        description: The partition number.
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 4
+          format: int32
+        style: form
+        example: 42
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Post Compliance events will be provided.
+        required: false
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Post Compliance events will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TweetComplianceStreamResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/firehose/stream:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Stream All Posts
+      description: Streams all public Posts in real-time.
+      operationId: streamPostsFirehose
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - name: partition
+        in: query
+        description: The partition number.
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 20
+          format: int32
+        style: form
+        example: 42
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      - $ref: '#/components/parameters/TweetExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/PollFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/PlaceFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamingTweetResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/firehose/stream/lang/en:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Stream English Posts
+      description: Streams all public English-language Posts in real-time.
+      operationId: streamPostsFirehoseEn
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - name: partition
+        in: query
+        description: The partition number.
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 8
+          format: int32
+        style: form
+        example: 42
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      - $ref: '#/components/parameters/TweetExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/PollFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/PlaceFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamingTweetResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/firehose/stream/lang/ja:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Stream Japanese Posts
+      description: Streams all public Japanese-language Posts in real-time.
+      operationId: streamPostsFirehoseJa
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - name: partition
+        in: query
+        description: The partition number.
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 2
+          format: int32
+        style: form
+        example: 42
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      - $ref: '#/components/parameters/TweetExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/PollFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/PlaceFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamingTweetResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/firehose/stream/lang/ko:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Stream Korean Posts
+      description: Streams all public Korean-language Posts in real-time.
+      operationId: streamPostsFirehoseKo
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - name: partition
+        in: query
+        description: The partition number.
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 2
+          format: int32
+        style: form
+        example: 42
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      - $ref: '#/components/parameters/TweetExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/PollFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/PlaceFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamingTweetResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/firehose/stream/lang/pt:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Stream Portuguese Posts
+      description: Streams all public Portuguese-language Posts in real-time.
+      operationId: streamPostsFirehosePt
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - name: partition
+        in: query
+        description: The partition number.
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 2
+          format: int32
+        style: form
+        example: 42
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      - $ref: '#/components/parameters/TweetExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/PollFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/PlaceFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamingTweetResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/label/stream:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Stream Post Labels
+      description: Streams all labeling events applied to Posts.
+      operationId: streamLabelsCompliance
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Post labels will be provided.
+        required: false
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the Post labels will be provided.
+        required: false
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TweetLabelStreamResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/sample/stream:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Stream Sampled Posts
+      description: Streams a 1% sample of public Posts in real-time.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/volume-streams/api-reference/get-tweets-sample-stream
+      operationId: streamPostsSample
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      - $ref: '#/components/parameters/TweetExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/PollFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/PlaceFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamingTweetResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/sample10/stream:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Stream 10% Sampled Posts
+      description: Streams a 10% sample of public Posts in real-time.
+      operationId: streamPostsSample10
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - name: partition
+        in: query
+        description: The partition number.
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 2
+          format: int32
+        style: form
+        example: 42
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      - $ref: '#/components/parameters/TweetExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/PollFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/PlaceFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2TweetsSample10StreamResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/search/stream:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Stream Filtered Posts
+      description: Streams Posts in real-time matching the active rule set.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/get-tweets-search-stream
+      operationId: streamPosts
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Posts will be provided.
+        required: false
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided.
+        required: false
+        example: '2021-02-14T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - $ref: '#/components/parameters/TweetFieldsParameter'
+      - $ref: '#/components/parameters/TweetExpansionsParameter'
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      - $ref: '#/components/parameters/PollFieldsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      - $ref: '#/components/parameters/PlaceFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilteredStreamingTweetResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/search/stream/rules:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Get Stream Rules
+      description: Retrieves the active rule set or a subset of rules for the filtered stream.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/get-tweets-search-stream-rules
+      operationId: getRules
+      parameters:
+      - name: ids
+        in: query
+        description: A comma-separated list of Rule IDs.
+        required: false
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleId'
+        style: form
+        example: []
+      - name: max_results
+        in: query
+        description: The maximum number of results.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          format: int32
+          default: 1000
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: This value is populated by passing the 'next_token' returned in a request to paginate through results.
+        required: false
+        schema:
+          type: string
+          minLength: 16
+          maxLength: 16
+        style: form
+        example: next_token_abc123
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RulesLookupResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Update Stream Rules
+      description: Adds or deletes rules from the active rule set for the filtered stream.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/post-tweets-search-stream-rules
+      operationId: updateRules
+      parameters:
+      - name: dry_run
+        in: query
+        description: Dry Run can be used with both the add and delete action, with the expected result given, but without actually taking any action in the system (meaning the end state will always be as it was when the request was submitted). This is particularly useful to validate rule changes.
+        required: false
+        schema:
+          type: boolean
+        style: form
+        example: true
+      - name: delete_all
+        in: query
+        description: Delete All can be used to delete all of the rules associated this client app, it should be specified with no other parameters. Once deleted, rules cannot be recovered.
+        required: false
+        schema:
+          type: boolean
+        style: form
+        example: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddOrDeleteRulesRequest'
+        required: true
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddOrDeleteRulesResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/search/stream/rules/counts:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Get Stream Rule Counts
+      description: Retrieves the count of rules in the active rule set for the filtered stream.
+      externalDocs:
+        url: https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/api-reference/get-tweets-search-stream-rules-counts
+      operationId: getRuleCounts
+      parameters:
+      - $ref: '#/components/parameters/RulesCountFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2TweetsSearchStreamRulesCountsResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/search/webhooks:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Get Stream Links
+      description: Get a list of webhook links associated with a filtered stream ruleset.
+      externalDocs:
+        url: https://docs.x.com/x-api/webhooks/introduction
+      operationId: getWebhooksStreamLinks
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookLinksGetResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/tweets/search/webhooks/{webhook_id}:
+    delete:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Delete Stream Link
+      description: Deletes a link from FilteredStream events to the given webhook.
+      externalDocs:
+        url: https://docs.x.com/x-api/webhooks/introduction
+      operationId: deleteWebhooksStreamLink
+      parameters:
+      - name: webhook_id
+        in: path
+        description: The webhook ID to link to your FilteredStream ruleset.
+        required: true
+        schema:
+          $ref: '#/components/schemas/WebhookConfigId'
+        style: simple
+        example: '1234567890'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookLinksDeleteResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Create Stream Link
+      description: Creates a link to deliver FilteredStream events to the given webhook.
+      externalDocs:
+        url: https://docs.x.com/x-api/webhooks/introduction
+      operationId: createWebhooksStreamLink
+      parameters:
+      - name: webhook_id
+        in: path
+        description: The webhook ID to link to your FilteredStream ruleset.
+        required: true
+        schema:
+          $ref: '#/components/schemas/WebhookConfigId'
+        style: simple
+        example: '1234567890'
+      - name: tweet.fields
+        in: query
+        description: A comma separated list of Tweet fields to display.
+        required: false
+        schema:
+          type: string
+        style: form
+        example: example_value
+      - name: expansions
+        in: query
+        description: A comma separated list of fields to expand.
+        required: false
+        schema:
+          type: string
+        style: form
+        example: example_value
+      - name: media.fields
+        in: query
+        description: A comma separated list of Media fields to display.
+        required: false
+        schema:
+          type: string
+        style: form
+        example: example_value
+      - name: poll.fields
+        in: query
+        description: A comma separated list of Poll fields to display.
+        required: false
+        schema:
+          type: string
+        style: form
+        example: example_value
+      - name: user.fields
+        in: query
+        description: A comma separated list of User fields to display.
+        required: false
+        schema:
+          type: string
+        style: form
+        example: example_value
+      - name: place.fields
+        in: query
+        description: A comma separated list of Place fields to display.
+        required: false
+        schema:
+          type: string
+        style: form
+        example: example_value
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookLinksCreateResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/compliance/stream:
+    get:
+      security:
+      - BearerToken: []
+      tags:
+      - Stream
+      summary: X Stream Users Compliance Data
+      description: Streams all compliance data related to Users.
+      operationId: streamUsersCompliance
+      parameters:
+      - name: backfill_minutes
+        in: query
+        description: The number of minutes of backfill requested.
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 5
+          format: int32
+        style: form
+        example: 42
+      - name: partition
+        in: query
+        description: The partition number.
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 4
+          format: int32
+        style: form
+        example: 42
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the User Compliance events will be provided.
+        required: false
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the User Compliance events will be provided.
+        required: false
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserComplianceStreamResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-twitter-streaming: true
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    TweetNotice:
+      type: object
+      required:
+      - tweet
+      - event_type
+      - event_at
+      - application
+      properties:
+        application:
+          type: string
+          description: If the label is being applied or removed. Possible values are ‘apply’ or ‘remove’.
+          example: apply
+        details:
+          type: string
+          description: Information shown on the Tweet label
+        event_at:
+          type: string
+          description: Event time.
+          format: date-time
+          example: '2021-07-06T18:40:40.000Z'
+        event_type:
+          type: string
+          description: The type of label on the Tweet
+          example: misleading
+        extended_details_url:
+          type: string
+          description: Link to more information about this kind of label
+        label_title:
+          type: string
+          description: Title/header of the Tweet label
+        tweet:
+          type: object
+          required:
+          - id
+          - author_id
+          properties:
+            author_id:
+              $ref: '#/components/schemas/UserId'
+            id:
+              $ref: '#/components/schemas/TweetId'
+    AddOrDeleteRulesRequest:
+      oneOf:
+      - $ref: '#/components/schemas/AddRulesRequest'
+      - $ref: '#/components/schemas/DeleteRulesRequest'
+    PollId:
+      type: string
+      description: Unique identifier of this poll.
+      pattern: ^[0-9]{1,19}$
+      example: '1365059861688410112'
+    Media:
+      type: object
+      required:
+      - type
+      properties:
+        height:
+          $ref: '#/components/schemas/MediaHeight'
+        media_key:
+          $ref: '#/components/schemas/MediaKey'
+        type:
+          type: string
+        width:
+          $ref: '#/components/schemas/MediaWidth'
+      discriminator:
+        propertyName: type
+        mapping:
+          animated_gif: '#/components/schemas/AnimatedGif'
+          photo: '#/components/schemas/Photo'
+          video: '#/components/schemas/Video'
+    UserScrubGeoObjectSchema:
+      type: object
+      required:
+      - user
+      - up_to_tweet_id
+      - event_at
+      properties:
+        event_at:
+          type: string
+          description: Event time.
+          format: date-time
+          example: '2021-07-06T18:40:40.000Z'
+        up_to_tweet_id:
+          $ref: '#/components/schemas/TweetId'
+        user:
+          type: object
+          required:
+          - id
+          properties:
+            id:
+              $ref: '#/components/schemas/UserId'
+    UserProtectComplianceSchema:
+      type: object
+      required:
+      - user_protect
+      properties:
+        user_protect:
+          $ref: '#/components/schemas/UserComplianceSchema'
+    AllProjectClientApps:
+      type: array
+      description: Client App Rule Counts for all applications in the project
+      items:
+        $ref: '#/components/schemas/AppRulesCount'
+    TweetWithheldComplianceSchema:
+      type: object
+      required:
+      - withheld
+      properties:
+        withheld:
+          $ref: '#/components/schemas/TweetTakedownComplianceSchema'
+    Geo:
+      type: object
+      required:
+      - type
+      - bbox
+      - properties
+      properties:
+        bbox:
+          type: array
+          minItems: 4
+          maxItems: 4
+          items:
+            type: number
+            minimum: -180
+            maximum: 180
+            format: double
+          example:
+          - -105.193475
+          - 39.60973
+          - -105.053164
+          - 39.761974
+        geometry:
+          $ref: '#/components/schemas/Point'
+        properties:
+          type: object
+        type:
+          type: string
+          enum:
+          - Feature
+    LikeWithTweetAuthor:
+      type: object
+      description: A Like event, with the tweet author user and the tweet being liked
+      properties:
+        created_at:
+          type: string
+          description: Creation time of the Tweet.
+          format: date-time
+          example: '2021-01-06T18:40:40.000Z'
+        id:
+          $ref: '#/components/schemas/LikeId'
+        liked_tweet_id:
+          $ref: '#/components/schemas/TweetId'
+        timestamp_ms:
+          type: integer
+          description: Timestamp in milliseconds of creation.
+          format: int32
+        tweet_author_id:
+          $ref: '#/components/schemas/UserId'
+    TweetEditComplianceSchema:
+      type: object
+      required:
+      - tweet_edit
+      properties:
+        tweet_edit:
+          $ref: '#/components/schemas/TweetEditComplianceObjectSchema'
+    TweetComplianceSchema:
+      type: object
+      required:
+      - tweet
+      - event_at
+      properties:
+        event_at:
+          type: string
+          description: Event time.
+          format: date-time
+          example: '2021-07-06T18:40:40.000Z'
+        quote_tweet_id:
+          $ref: '#/components/schemas/TweetId'
+        tweet:
+          type: object
+          required:
+          - id
+          - author_id
+          properties:
+            author_id:
+              $ref: '#/components/schemas/UserId'
+            id:
+              $ref: '#/components/schemas/TweetId'
+    PlaceId:
+      type: string
+      description: The identifier for this place.
+      example: f7eb2fa2fea288b1
+    ContextAnnotationDomainFields:
+      type: object
+      description: Represents the data for the context annotation domain.
+      required:
+      - id
+      properties:
+        description:
+          type: string
+          description: Description of the context annotation domain.
+          example: Example description for this resource.
+        id:
+          type: string
+          description: The unique id for a context annotation domain.
+          pattern: ^[0-9]{1,19}$
+          example: '1234567890'
+        name:
+          type: string
+          description: Name of the context annotation domain.
+          example: Example User
+    Get2TweetsSample10StreamResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Tweet'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+    MentionFields:
+      type: object
+      description: Represent the portion of text recognized as a User mention, and its start and end position within the text.
+      required:
+      - username
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+        username:
+          $ref: '#/components/schemas/UserName'
+    HashtagEntity:
+      allOf:
+      - $ref: '#/components/schemas/EntityIndicesInclusiveExclusive'
+      - $ref: '#/components/schemas/HashtagFields'
+    TweetComplianceStreamResponse:
+      description: Tweet compliance stream events.
+      oneOf:
+      - type: object
+        description: Compliance event.
+        required:
+        - data
+        properties:
+          data:
+            $ref: '#/components/schemas/TweetComplianceData'
+      - type: object
+        required:
+        - errors
+        properties:
+          errors:
+            type: array
+            minItems: 1
+            items:
+              $ref: '#/components/schemas/Problem'
+    UserUnsuspendComplianceSchema:
+      type: object
+      required:
+      - user_unsuspend
+      properties:
+        user_unsuspend:
+          $ref: '#/components/schemas/UserComplianceSchema'
+    ReplySettingsWithVerifiedUsers:
+      type: string
+      description: Shows who can reply a Tweet. Fields returned are everyone, mentioned_users, subscribers, verified and following.
+      pattern: ^[A-Za-z]{1,12}$
+      enum:
+      - everyone
+      - mentionedUsers
+      - following
+      - other
+      - subscribers
+      - verified
+    Topic:
+      type: object
+      description: The topic of a Space, as selected by its creator.
+      required:
+      - id
+      - name
+      properties:
+        description:
+          type: string
+          description: The description of the given topic.
+          example: All about technology
+        id:
+          $ref: '#/components/schemas/TopicId'
+        name:
+          type: string
+          description: The name of the given topic.
+          example: Technology
+    Place:
+      type: object
+      required:
+      - id
+      - full_name
+      properties:
+        contained_within:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/PlaceId'
+        country:
+          type: string
+          description: The full name of the county in which this place exists.
+          example: United States
+        country_code:
+          $ref: '#/components/schemas/CountryCode'
+        full_name:
+          type: string
+          description: The full name of this place.
+          example: Lakewood, CO
+        geo:
+          $ref: '#/components/schemas/Geo'
+        id:
+          $ref: '#/components/schemas/PlaceId'
+        name:
+          type: string
+          description: The human readable name of this place.
+          example: Lakewood
+        place_type:
+          $ref: '#/components/schemas/PlaceType'
+    UserWithheld:
+      type: object
+      description: Indicates withholding details for [withheld content](https://help.twitter.com/en/rules-and-policies/tweet-withheld-by-country).
+      required:
+      - country_codes
+      properties:
+        country_codes:
+          type: array
+          description: Provides a list of countries where this content is not available.
+          minItems: 1
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/CountryCode'
+        scope:
+          type: string
+          description: Indicates that the content being withheld is a `user`.
+          enum:
+          - user
+    CountryCode:
+      type: string
+      description: A two-letter ISO 3166-1 alpha-2 country code.
+      pattern: ^[A-Z]{2}$
+      example: US
+    StreamingTweetResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Tweet'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+    PollOption:
+      type: object
+      description: Describes a choice in a Poll object.
+      required:
+      - position
+      - label
+      - votes
+      properties:
+        label:
+          $ref: '#/components/schemas/PollOptionLabel'
+        position:
+          type: integer
+          description: Position of this choice in the poll.
+        votes:
+          type: integer
+          description: Number of users who voted for this choice.
+    UserWithheldComplianceSchema:
+      type: object
+      required:
+      - user_withheld
+      properties:
+        user_withheld:
+          $ref: '#/components/schemas/UserTakedownComplianceSchema'
+    TweetDeleteComplianceSchema:
+      type: object
+      required:
+      - delete
+      properties:
+        delete:
+          $ref: '#/components/schemas/TweetComplianceSchema'
+    DeleteRulesRequest:
+      type: object
+      description: A response from deleting user-specified stream filtering rules.
+      required:
+      - delete
+      properties:
+        delete:
+          type: object
+          description: IDs and values of all deleted user-specified stream filtering rules.
+          properties:
+            ids:
+              type: array
+              description: IDs of all deleted user-specified stream filtering rules.
+              items:
+                $ref: '#/components/schemas/RuleId'
+            values:
+              type: array
+              description: Values of all deleted user-specified stream filtering rules.
+              items:
+                $ref: '#/components/schemas/RuleValue'
+    UserComplianceSchema:
+      type: object
+      required:
+      - user
+      - event_at
+      properties:
+        event_at:
+          type: string
+          description: Event time.
+          format: date-time
+          example: '2021-07-06T18:40:40.000Z'
+        user:
+          type: object
+          required:
+          - id
+          properties:
+            id:
+              $ref: '#/components/schemas/UserId'
+    CashtagEntity:
+      allOf:
+      - $ref: '#/components/schemas/EntityIndicesInclusiveExclusive'
+      - $ref: '#/components/schemas/CashtagFields'
+    ClientAppId:
+      type: string
+      description: The ID of the client application
+      minLength: 1
+      maxLength: 19
+    TweetDropComplianceSchema:
+      type: object
+      required:
+      - drop
+      properties:
+        drop:
+          $ref: '#/components/schemas/TweetComplianceSchema'
+    TweetEditComplianceObjectSchema:
+      type: object
+      required:
+      - tweet
+      - event_at
+      - initial_tweet_id
+      - edit_tweet_ids
+      properties:
+        edit_tweet_ids:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/TweetId'
+        event_at:
+          type: string
+          description: Event time.
+          format: date-time
+          example: '2021-07-06T18:40:40.000Z'
+        initial_tweet_id:
+          $ref: '#/components/schemas/TweetId'
+        tweet:
+          type: object
+          required:
+          - id
+          properties:
+            id:
+              $ref: '#/components/schemas/TweetId'
+    NoteTweetText:
+      type: string
+      description: The note content of the Tweet.
+      example: Learn how to use the user Tweet timeline and user mention timeline endpoints in the X API v2 to explore Tweet\u2026 https:\/\/t.co\/56a0vZUx7i
+    RuleNoId:
+      type: object
+      description: A user-provided stream filtering rule.
+      required:
+      - value
+      properties:
+        tag:
+          $ref: '#/components/schemas/RuleTag'
+        value:
+          $ref: '#/components/schemas/RuleValue'
+    UnlikeComplianceSchema:
+      type: object
+      required:
+      - favorite
+      - event_at
+      properties:
+        event_at:
+          type: string
+          description: Event time.
+          format: date-time
+          example: '2021-07-06T18:40:40.000Z'
+        favorite:
+          type: object
+          required:
+          - id
+          - user_id
+          properties:
+            id:
+              $ref: '#/components/schemas/TweetId'
+            user_id:
+              $ref: '#/components/schemas/UserId'
+    Point:
+      type: object
+      description: A [GeoJson Point](https://tools.ietf.org/html/rfc7946#section-3.1.2) geometry object.
+      required:
+      - type
+      - coordinates
+      properties:
+        coordinates:
+          $ref: '#/components/schemas/Position'
+        type:
+          type: string
+          enum:
+          - Point
+          example: Point
+    WebhookConfigId:
+      type: string
+      description: The unique identifier of this webhook config.
+      pattern: ^[0-9]{1,19}$
+      example: '1146654567674912769'
+    LikeComplianceSchema:
+      type: object
+      required:
+      - delete
+      properties:
+        delete:
+          $ref: '#/components/schemas/UnlikeComplianceSchema'
+    ActivityStreamingResponse:
+      type: object
+      description: An activity event or error that can be returned by the x activity streaming API.
+      properties:
+        data:
+          type: object
+          properties:
+            event_type:
+              type: string
+            event_uuid:
+              $ref: '#/components/schemas/ActivityEventId'
+            filter:
+              $ref: '#/components/schemas/ActivitySubscriptionFilter'
+            payload:
+              $ref: '#/components/schemas/ActivityStreamingResponsePayload'
+            tag:
+              type: string
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+    FollowActivityResponsePayload:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/User'
+        target:
+          $ref: '#/components/schemas/User'
+      additionalProperties: false
+    PollOptionLabel:
+      type: string
+      description: The text of a poll choice.
+      minLength: 1
+      maxLength: 25
+    PlaceType:
+      type: string
+      enum:
+      - poi
+      - neighborhood
+      - city
+      - admin
+      - country
+      - unknown
+      example: city
+    TweetTakedownComplianceSchema:
+      type: object
+      required:
+      - tweet
+      - withheld_in_countries
+      - event_at
+      properties:
+        event_at:
+          type: string
+          description: Event time.
+          format: date-time
+          example: '2021-07-06T18:40:40.000Z'
+        quote_tweet_id:
+          $ref: '#/components/schemas/TweetId'
+        tweet:
+          type: object
+          required:
+          - id
+          - author_id
+          properties:
+            author_id:
+              $ref: '#/components/schemas/UserId'
+            id:
+              $ref: '#/components/schemas/TweetId'
+        withheld_in_countries:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/CountryCode'
+    CommunityId:
+      type: string
+      description: The unique identifier of this Community.
+      pattern: ^[0-9]{1,19}$
+      example: '1146654567674912769'
+    TweetComplianceData:
+      description: Tweet compliance data.
+      oneOf:
+      - $ref: '#/components/schemas/TweetDeleteComplianceSchema'
+      - $ref: '#/components/schemas/TweetWithheldComplianceSchema'
+      - $ref: '#/components/schemas/TweetDropComplianceSchema'
+      - $ref: '#/components/schemas/TweetUndropComplianceSchema'
+      - $ref: '#/components/schemas/TweetEditComplianceSchema'
+    DisplayTextRange:
+      type: array
+      description: Represent a boundary range (start and end zero-based indices) for the portion of text that is displayed for a post. `start` must be smaller than `end`. The start index is inclusive, the end index is exclusive.
+      minItems: 2
+      maxItems: 2
+      items:
+        type: integer
+        minimum: 0
+    UserComplianceStreamResponse:
+      description: User compliance stream events.
+      oneOf:
+      - type: object
+        description: User compliance event.
+        required:
+        - data
+        properties:
+          data:
+            $ref: '#/components/schemas/UserComplianceData'
+      - type: object
+        required:
+        - errors
+        properties:
+          errors:
+            type: array
+            minItems: 1
+            items:
+              $ref: '#/components/schemas/Problem'
+    User:
+      type: object
+      description: The X User object.
+      required:
+      - id
+      - name
+      - username
+      properties:
+        affiliation:
+          type: object
+          description: Metadata about a user's affiliation.
+          properties:
+            badge_url:
+              type: string
+              description: The badge URL corresponding to the affiliation.
+              format: uri
+            description:
+              type: string
+              description: The description of the affiliation.
+            url:
+              type: string
+              description: The URL, if available, to details about an affiliation.
+              format: uri
+            user_id:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/UserId'
+        connection_status:
+          type: array
+          description: Returns detailed information about the relationship between two users.
+          minItems: 0
+          items:
+            type: string
+            description: Type of connection between users.
+            enum:
+            - follow_request_received
+            - follow_request_sent
+            - blocking
+            - followed_by
+            - following
+            - muting
+        created_at:
+          type: string
+          description: Creation time of this User.
+          format: date-time
+        description:
+          type: string
+          description: The text of this User's profile description (also known as bio), if the User provided one.
+        entities:
+          type: object
+          description: A list of metadata found in the User's profile description.
+          properties:
+            description:
+              $ref: '#/components/schemas/FullTextEntities'
+            url:
+              type: object
+              description: Expanded details for the URL specified in the User's profile, with start and end indices.
+              properties:
+                urls:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/UrlEntity'
+        id:
+          $ref: '#/components/schemas/UserId'
+        location:
+          type: string
+          description: The location specified in the User's profile, if the User provided one. As this is a freeform value, it may not indicate a valid location, but it may be fuzzily evaluated when performing searches with location queries.
+        most_recent_tweet_id:
+          $ref: '#/components/schemas/TweetId'
+        name:
+          type: string
+          description: The friendly name of this User, as shown on their profile.
+        pinned_tweet_id:
+          $ref: '#/components/schemas/TweetId'
+        profile_banner_url:
+          type: string
+          description: The URL to the profile banner for this User.
+          format: uri
+        profile_image_url:
+          type: string
+          description: The URL to the profile image for this User.
+          format: uri
+        protected:
+          type: boolean
+          description: Indicates if this User has chosen to protect their Posts (in other words, if this User's Posts are private).
+        public_metrics:
+          type: object
+          description: A list of metrics for this User.
+          required:
+          - followers_count
+          - following_count
+          - tweet_count
+          - listed_count
+          properties:
+            followers_count:
+              type: integer
+              description: Number of Users who are following this User.
+            following_count:
+              type: integer
+              description: Number of Users this User is following.
+            like_count:
+              type: integer
+              description: The number of likes created by this User.
+            listed_count:
+              type: integer
+              description: The number of lists that include this User.
+            tweet_count:
+              type: integer
+              description: The number of Posts (including Retweets) posted by this User.
+        receives_your_dm:
+          type: boolean
+          description: Indicates if you can send a DM to this User
+        subscription_type:
+          type: string
+          description: 'The X Blue subscription type of the user, eg: Basic, Premium, PremiumPlus or None.'
+          enum:
+          - Basic
+          - Premium
+          - PremiumPlus
+          - None
+        url:
+          type: string
+          description: The URL specified in the User's profile.
+        username:
+          $ref: '#/components/schemas/UserName'
+        verified:
+          type: boolean
+          description: Indicate if this User is a verified X User.
+        verified_type:
+          type: string
+          description: 'The X Blue verified type of the user, eg: blue, government, business or none.'
+          enum:
+          - blue
+          - government
+          - business
+          - none
+        withheld:
+          $ref: '#/components/schemas/UserWithheld'
+      example:
+        created_at: '2013-12-14T04:35:55Z'
+        id: '2244994945'
+        name: X Dev
+        protected: false
+        username: TwitterDev
+    MentionEntity:
+      allOf:
+      - $ref: '#/components/schemas/EntityIndicesInclusiveExclusive'
+      - $ref: '#/components/schemas/MentionFields'
+    FullTextEntities:
+      type: object
+      properties:
+        annotations:
+          type: array
+          minItems: 1
+          items:
+            description: Annotation for entities based on the Tweet text.
+            allOf:
+            - $ref: '#/components/schemas/EntityIndicesInclusiveInclusive'
+            - type: object
+              description: Represents the data for the annotation.
+              properties:
+                normalized_text:
+                  type: string
+                  description: Text used to determine annotation.
+                  example: Barack Obama
+                probability:
+                  type: number
+                  description: Confidence factor for annotation type.
+                  minimum: 0
+                  maximum: 1
+                  format: double
+                type:
+                  type: string
+                  description: Annotation type.
+                  example: Person
+        cashtags:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/CashtagEntity'
+        hashtags:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/HashtagEntity'
+        mentions:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/MentionEntity'
+        urls:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/UrlEntity'
+    TweetUnviewable:
+      type: object
+      required:
+      - tweet
+      - event_at
+      - application
+      properties:
+        application:
+          type: string
+          description: If the label is being applied or removed. Possible values are ‘apply’ or ‘remove’.
+          example: apply
+        event_at:
+          type: string
+          description: Event time.
+          format: date-time
+          example: '2021-07-06T18:40:40.000Z'
+        tweet:
+          type: object
+          required:
+          - id
+          - author_id
+          properties:
+            author_id:
+              $ref: '#/components/schemas/UserId'
+            id:
+              $ref: '#/components/schemas/TweetId'
+    UrlFields:
+      type: object
+      description: Represent the portion of text recognized as a URL.
+      required:
+      - url
+      properties:
+        description:
+          type: string
+          description: Description of the URL landing page.
+          example: This is a description of the website.
+        display_url:
+          type: string
+          description: The URL as displayed in the X client.
+          example: twittercommunity.com/t/introducing-…
+        expanded_url:
+          $ref: '#/components/schemas/Url'
+        images:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/UrlImage'
+        media_key:
+          $ref: '#/components/schemas/MediaKey'
+        status:
+          $ref: '#/components/schemas/HttpStatusCode'
+        title:
+          type: string
+          description: Title of the page the URL points to.
+          example: Introducing the v2 follow lookup endpoints
+        unwound_url:
+          type: string
+          description: Fully resolved url.
+          format: uri
+          example: https://twittercommunity.com/t/introducing-the-v2-follow-lookup-endpoints/147118
+        url:
+          $ref: '#/components/schemas/Url'
+    TweetNoticeSchema:
+      type: object
+      required:
+      - public_tweet_notice
+      properties:
+        public_tweet_notice:
+          $ref: '#/components/schemas/TweetNotice'
+    Tweet:
+      type: object
+      properties:
+        attachments:
+          type: object
+          description: Specifies the type of attachments (if any) present in this Tweet.
+          properties:
+            media_keys:
+              type: array
+              description: A list of Media Keys for each one of the media attachments (if media are attached).
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/MediaKey'
+            media_source_tweet_id:
+              type: array
+              description: A list of Posts the media on this Tweet was originally posted in. For example, if the media on a tweet is re-used in another Tweet, this refers to the original, source Tweet..
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/TweetId'
+            poll_ids:
+              type: array
+              description: A list of poll IDs (if polls are attached).
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/PollId'
+        author_id:
+          $ref: '#/components/schemas/UserId'
+        community_id:
+          $ref: '#/components/schemas/CommunityId'
+        context_annotations:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ContextAnnotation'
+        conversation_id:
+          $ref: '#/components/schemas/TweetId'
+        created_at:
+          type: string
+          description: Creation time of the Tweet.
+          format: date-time
+          example: '2021-01-06T18:40:40.000Z'
+        display_text_range:
+          $ref: '#/components/schemas/DisplayTextRange'
+        edit_controls:
+          type: object
+          required:
+          - is_edit_eligible
+          - editable_until
+          - edits_remaining
+          properties:
+            editable_until:
+              type: string
+              description: Time when Tweet is no longer editable.
+              format: date-time
+              example: '2021-01-06T18:40:40.000Z'
+            edits_remaining:
+              type: integer
+              description: Number of times this Tweet can be edited.
+            is_edit_eligible:
+              type: boolean
+              description: Indicates if this Tweet is eligible to be edited.
+              example: false
+        edit_history_tweet_ids:
+          type: array
+          description: A list of Tweet Ids in this Tweet chain.
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/TweetId'
+        entities:
+          $ref: '#/components/schemas/FullTextEntities'
+        geo:
+          type: object
+          description: The location tagged on the Tweet, if the user provided one.
+          properties:
+            coordinates:
+              $ref: '#/components/schemas/Point'
+            place_id:
+              $ref: '#/components/schemas/PlaceId'
+        id:
+          $ref: '#/components/schemas/TweetId'
+        in_reply_to_user_id:
+          $ref: '#/components/schemas/UserId'
+        lang:
+          type: string
+          description: Language of the Tweet, if detected by X. Returned as a BCP47 language tag.
+          example: en
+        non_public_metrics:
+          type: object
+          description: Nonpublic engagement metrics for the Tweet at the time of the request.
+          properties:
+            impression_count:
+              type: integer
+              description: Number of times this Tweet has been viewed.
+              format: int32
+        note_tweet:
+          type: object
+          description: The full-content of the Tweet, including text beyond 280 characters.
+          properties:
+            entities:
+              type: object
+              properties:
+                cashtags:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/CashtagEntity'
+                hashtags:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/HashtagEntity'
+                mentions:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/MentionEntity'
+                urls:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/UrlEntity'
+            text:
+              $ref: '#/components/schemas/NoteTweetText'
+        organic_metrics:
+          type: object
+          description: Organic nonpublic engagement metrics for the Tweet at the time of the request.
+          required:
+          - impression_count
+          - retweet_count
+          - reply_count
+          - like_count
+          properties:
+            impression_count:
+              type: integer
+              description: Number of times this Tweet has been viewed.
+            like_count:
+              type: integer
+              description: Number of times this Tweet has been liked.
+            reply_count:
+              type: integer
+              description: Number of times this Tweet has been replied to.
+            retweet_count:
+              type: integer
+              description: Number of times this Tweet has been Retweeted.
+        possibly_sensitive:
+          type: boolean
+          description: Indicates if this Tweet contains URLs marked as sensitive, for example content suitable for mature audiences.
+          example: false
+        promoted_metrics:
+          type: object
+          description: Promoted nonpublic engagement metrics for the Tweet at the time of the request.
+          properties:
+            impression_count:
+              type: integer
+              description: Number of times this Tweet has been viewed.
+              format: int32
+            like_count:
+              type: integer
+              description: Number of times this Tweet has been liked.
+              format: int32
+            reply_count:
+              type: integer
+              description: Number of times this Tweet has been replied to.
+              format: int32
+            retweet_count:
+              type: integer
+              description: Number of times this Tweet has been Retweeted.
+              format: int32
+        public_metrics:
+          type: object
+          description: Engagement metrics for the Tweet at the time of the request.
+          required:
+          - retweet_count
+          - reply_count
+          - like_count
+          - impression_count
+          - bookmark_count
+          properties:
+            bookmark_count:
+              type: integer
+              description: Number of times this Tweet has been bookmarked.
+              format: int32
+            impression_count:
+              type: integer
+              description: Number of times this Tweet has been viewed.
+              format: int32
+            like_count:
+              type: integer
+              description: Number of times this Tweet has been liked.
+            quote_count:
+              type: integer
+              description: Number of times this Tweet has been quoted.
+            reply_count:
+              type: integer
+              description: Number of times this Tweet has been replied to.
+            retweet_count:
+              type: integer
+              description: Number of times this Tweet has been Retweeted.
+        referenced_tweets:
+          type: array
+          description: A list of Posts this Tweet refers to. For example, if the parent Tweet is a Retweet, a Quoted Tweet or a Reply, it will include the related Tweet referenced to by its parent.
+          minItems: 1
+          items:
+            type: object
+            required:
+            - type
+            - id
+            properties:
+              id:
+                $ref: '#/components/schemas/TweetId'
+              type:
+                type: string
+                enum:
+                - retweeted
+                - quoted
+                - replied_to
+        reply_settings:
+          $ref: '#/components/schemas/ReplySettingsWithVerifiedUsers'
+        scopes:
+          type: object
+          description: The scopes for this tweet
+          properties:
+            followers:
+              type: boolean
+              description: Indicates if this Tweet is viewable by followers without the Tweet ID
+              example: false
+        source:
+          type: string
+          description: This is deprecated.
+        suggested_source_links:
+          type: array
+          minItems: 0
+          items:
+            $ref: '#/components/schemas/UrlEntity'
+        suggested_source_links_with_counts:
+          type: object
+          description: Suggested source links and the number of requests that included each link.
+          properties:
+            count:
+              type: integer
+              description: Number of note requests that included the source link.
+            url:
+              $ref: '#/components/schemas/UrlEntity'
+        text:
+          $ref: '#/components/schemas/TweetText'
+        username:
+          $ref: '#/components/schemas/UserName'
+        withheld:
+          $ref: '#/components/schemas/TweetWithheld'
+      example:
+        author_id: '2244994945'
+        created_at: Wed Jan 06 18:40:40 +0000 2021
+        id: '1346889436626259968'
+        text: Learn how to use the user Tweet timeline and user mention timeline endpoints in the X API v2 to explore Tweet\u2026 https:\/\/t.co\/56a0vZUx7i
+        username: XDevelopers
+    TweetUndropComplianceSchema:
+      type: object
+      required:
+      - undrop
+      properties:
+        undrop:
+          $ref: '#/components/schemas/TweetComplianceSchema'
+    RuleId:
+      type: string
+      description: Unique identifier of this rule.
+      pattern: ^[0-9]{1,19}$
+      example: '120897978112909812'
+    RulesCount:
+      type: object
+      description: A count of user-provided stream filtering rules at the application and project levels.
+      properties:
+        all_project_client_apps:
+          $ref: '#/components/schemas/AllProjectClientApps'
+        cap_per_client_app:
+          type: integer
+          description: Cap of number of rules allowed per client application
+          format: int32
+        cap_per_project:
+          type: integer
+          description: Cap of number of rules allowed per project
+          format: int32
+        client_app_rules_count:
+          $ref: '#/components/schemas/AppRulesCount'
+        project_rules_count:
+          type: integer
+          description: Number of rules for project
+          format: int32
+    Problem:
+      type: object
+      description: An HTTP Problem Details object, as defined in IETF RFC 7807 (https://tools.ietf.org/html/rfc7807).
+      required:
+      - type
+      - title
+      properties:
+        detail:
+          type: string
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          about:blank: '#/components/schemas/GenericProblem'
+          https://api.twitter.com/2/problems/client-disconnected: '#/components/schemas/ClientDisconnectedProblem'
+          https://api.twitter.com/2/problems/client-forbidden: '#/components/schemas/ClientForbiddenProblem'
+          https://api.twitter.com/2/problems/conflict: '#/components/schemas/ConflictProblem'
+          https://api.twitter.com/2/problems/disallowed-resource: '#/components/schemas/DisallowedResourceProblem'
+          https://api.twitter.com/2/problems/duplicate-rules: '#/components/schemas/DuplicateRuleProblem'
+          https://api.twitter.com/2/problems/invalid-request: '#/components/schemas/InvalidRequestProblem'
+          https://api.twitter.com/2/problems/invalid-rules: '#/components/schemas/InvalidRuleProblem'
+          https://api.twitter.com/2/problems/noncompliant-rules: '#/components/schemas/NonCompliantRulesProblem'
+          https://api.twitter.com/2/problems/not-authorized-for-field: '#/components/schemas/FieldUnauthorizedProblem'
+          https://api.twitter.com/2/problems/not-authorized-for-resource: '#/components/schemas/ResourceUnauthorizedProblem'
+          https://api.twitter.com/2/problems/operational-disconnect: '#/components/schemas/OperationalDisconnectProblem'
+          https://api.twitter.com/2/problems/resource-not-found: '#/components/schemas/ResourceNotFoundProblem'
+          https://api.twitter.com/2/problems/resource-unavailable: '#/components/schemas/ResourceUnavailableProblem'
+          https://api.twitter.com/2/problems/rule-cap: '#/components/schemas/RulesCapProblem'
+          https://api.twitter.com/2/problems/streaming-connection: '#/components/schemas/ConnectionExceptionProblem'
+          https://api.twitter.com/2/problems/unsupported-authentication: '#/components/schemas/UnsupportedAuthenticationProblem'
+          https://api.twitter.com/2/problems/usage-capped: '#/components/schemas/UsageCapExceededProblem'
+    RulesLookupResponse:
+      type: object
+      required:
+      - meta
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rule'
+        meta:
+          $ref: '#/components/schemas/RulesResponseMetadata'
+    UserScrubGeoSchema:
+      type: object
+      required:
+      - scrub_geo
+      properties:
+        scrub_geo:
+          $ref: '#/components/schemas/UserScrubGeoObjectSchema'
+    TweetWithheld:
+      type: object
+      description: Indicates withholding details for [withheld content](https://help.twitter.com/en/rules-and-policies/tweet-withheld-by-country).
+      required:
+      - copyright
+      - country_codes
+      properties:
+        copyright:
+          type: boolean
+          description: Indicates if the content is being withheld for on the basis of copyright infringement.
+        country_codes:
+          type: array
+          description: Provides a list of countries where this content is not available.
+          minItems: 1
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/CountryCode'
+        scope:
+          type: string
+          description: Indicates whether the content being withheld is the `tweet` or a `user`.
+          enum:
+          - tweet
+          - user
+    UserDeleteComplianceSchema:
+      type: object
+      required:
+      - user_delete
+      properties:
+        user_delete:
+          $ref: '#/components/schemas/UserComplianceSchema'
+    UserTakedownComplianceSchema:
+      type: object
+      required:
+      - user
+      - withheld_in_countries
+      - event_at
+      properties:
+        event_at:
+          type: string
+          description: Event time.
+          format: date-time
+          example: '2021-07-06T18:40:40.000Z'
+        user:
+          type: object
+          required:
+          - id
+          properties:
+            id:
+              $ref: '#/components/schemas/UserId'
+        withheld_in_countries:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/CountryCode'
+    Url:
+      type: string
+      description: A validly formatted URL.
+      format: uri
+      example: https://developer.twitter.com/en/docs/twitter-api
+    Expansions:
+      type: object
+      properties:
+        media:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Media'
+        places:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Place'
+        polls:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Poll'
+        topics:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Topic'
+        tweets:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Tweet'
+        users:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+    RuleValue:
+      type: string
+      description: The filterlang value of the rule.
+      example: coffee -is:retweet
+    UserProfileModificationComplianceSchema:
+      type: object
+      required:
+      - user_profile_modification
+      properties:
+        user_profile_modification:
+          $ref: '#/components/schemas/UserProfileModificationObjectSchema'
+    TweetText:
+      type: string
+      description: The content of the Tweet.
+      example: Learn how to use the user Tweet timeline and user mention timeline endpoints in the X API v2 to explore Tweet\u2026 https:\/\/t.co\/56a0vZUx7i
+    EntityIndicesInclusiveInclusive:
+      type: object
+      description: Represent a boundary range (start and end index) for a recognized entity (for example a hashtag or a mention). `start` must be smaller than `end`.  The start index is inclusive, the end index is inclusive.
+      required:
+      - start
+      - end
+      properties:
+        end:
+          type: integer
+          description: Index (zero-based) at which position this entity ends.  The index is inclusive.
+          minimum: 0
+          example: 61
+        start:
+          type: integer
+          description: Index (zero-based) at which position this entity starts.  The index is inclusive.
+          minimum: 0
+          example: 50
+    ContextAnnotationEntityFields:
+      type: object
+      description: Represents the data for the context annotation entity.
+      required:
+      - id
+      properties:
+        description:
+          type: string
+          description: Description of the context annotation entity.
+          example: Example description for this resource.
+        id:
+          type: string
+          description: The unique id for a context annotation entity.
+          pattern: ^[0-9]{1,19}$
+          example: '1234567890'
+        name:
+          type: string
+          description: Name of the context annotation entity.
+          example: Example User
+    UrlEntity:
+      description: Represent the portion of text recognized as a URL, and its start and end position within the text.
+      allOf:
+      - $ref: '#/components/schemas/EntityIndicesInclusiveExclusive'
+      - $ref: '#/components/schemas/UrlFields'
+    UserSuspendComplianceSchema:
+      type: object
+      required:
+      - user_suspend
+      properties:
+        user_suspend:
+          $ref: '#/components/schemas/UserComplianceSchema'
+    HttpStatusCode:
+      type: integer
+      description: HTTP Status Code.
+      minimum: 100
+      maximum: 599
+    ActivitySubscriptionFilter:
+      type: object
+      description: An XAA subscription filter.
+      properties:
+        direction:
+          type: string
+          description: Optional direction filter for directional events.
+          enum:
+          - inbound
+          - outbound
+          example: inbound
+        keyword:
+          $ref: '#/components/schemas/Keyword'
+        user_id:
+          $ref: '#/components/schemas/UserId'
+      additionalProperties: false
+    RuleTag:
+      type: string
+      description: A tag meant for the labeling of user provided rules.
+      example: Non-retweeted coffee Posts
+    EntityIndicesInclusiveExclusive:
+      type: object
+      description: Represent a boundary range (start and end index) for a recognized entity (for example a hashtag or a mention). `start` must be smaller than `end`.  The start index is inclusive, the end index is exclusive.
+      required:
+      - start
+      - end
+      properties:
+        end:
+          type: integer
+          description: Index (zero-based) at which position this entity ends.  The index is exclusive.
+          minimum: 0
+          example: 61
+        start:
+          type: integer
+          description: Index (zero-based) at which position this entity starts.  The index is inclusive.
+          minimum: 0
+          example: 50
+    TweetLabelData:
+      description: Tweet label data.
+      oneOf:
+      - $ref: '#/components/schemas/TweetNoticeSchema'
+      - $ref: '#/components/schemas/TweetUnviewableSchema'
+    ActivityStreamingResponsePayload:
+      oneOf:
+      - $ref: '#/components/schemas/ProfileUpdateActivityResponsePayload'
+      - $ref: '#/components/schemas/NewsActivityResponsePayload'
+      - $ref: '#/components/schemas/FollowActivityResponsePayload'
+      discriminator:
+        propertyName: ../event_type
+        mapping:
+          follow.follow: '#/components/schemas/FollowActivityResponsePayload'
+          follow.unfollow: '#/components/schemas/FollowActivityResponsePayload'
+          news.new: '#/components/schemas/NewsActivityResponsePayload'
+          profile.update.affiliate_badge: '#/components/schemas/ProfileUpdateActivityResponsePayload'
+          profile.update.banner_picture: '#/components/schemas/ProfileUpdateActivityResponsePayload'
+          profile.update.bio: '#/components/schemas/ProfileUpdateActivityResponsePayload'
+          profile.update.geo: '#/components/schemas/ProfileUpdateActivityResponsePayload'
+          profile.update.handle: '#/components/schemas/ProfileUpdateActivityResponsePayload'
+          profile.update.profile_picture: '#/components/schemas/ProfileUpdateActivityResponsePayload'
+          profile.update.screenname: '#/components/schemas/ProfileUpdateActivityResponsePayload'
+          profile.update.url: '#/components/schemas/ProfileUpdateActivityResponsePayload'
+          profile.update.verified_badge: '#/components/schemas/ProfileUpdateActivityResponsePayload'
+    TweetId:
+      type: string
+      description: Unique identifier of this Tweet. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.
+      pattern: ^[0-9]{1,19}$
+      example: '1346889436626259968'
+    MediaKey:
+      type: string
+      description: The Media Key identifier for this attachment.
+      pattern: ^([0-9]+)_([0-9]+)$
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    ActivitySubscriptionCreateRequest:
+      type: object
+      required:
+      - event_type
+      - filter
+      properties:
+        event_type:
+          type: string
+          enum:
+          - profile.update.bio
+          - profile.update.profile_picture
+          - profile.update.banner_picture
+          - profile.update.screenname
+          - profile.update.geo
+          - profile.update.url
+          - profile.update.verified_badge
+          - profile.update.affiliate_badge
+          - profile.update.handle
+          - news.new
+          - follow.follow
+          - follow.unfollow
+          - spaces.start
+          - spaces.end
+          - chat.received
+          - chat.sent
+          - chat.conversation_join
+          - dm.sent
+          - dm.received
+          - dm.indicate_typing
+          - dm.read
+          example: profile.update.bio
+        filter:
+          $ref: '#/components/schemas/ActivitySubscriptionFilter'
+        tag:
+          type: string
+          minLength: 1
+          maxLength: 200
+          example: example_tag
+        webhook_id:
+          $ref: '#/components/schemas/WebhookConfigId'
+      additionalProperties: false
+    CashtagFields:
+      type: object
+      description: Represent the portion of text recognized as a Cashtag, and its start and end position within the text.
+      required:
+      - tag
+      properties:
+        tag:
+          type: string
+          example: TWTR
+    AppRulesCount:
+      type: object
+      description: A count of user-provided stream filtering rules at the client application level.
+      properties:
+        client_app_id:
+          $ref: '#/components/schemas/ClientAppId'
+        rule_count:
+          type: integer
+          description: Number of rules for client application
+          format: int32
+          example: 10
+    Keyword:
+      type: string
+      description: A keyword to filter on.
+      minLength: 1
+      maxLength: 150
+      example: The President
+    WebhookLinksCreateResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            provisioned:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    UserUndeleteComplianceSchema:
+      type: object
+      required:
+      - user_undelete
+      properties:
+        user_undelete:
+          $ref: '#/components/schemas/UserComplianceSchema'
+    ActivitySubscription:
+      type: object
+      description: An XActivity subscription.
+      required:
+      - subscription_id
+      - event_type
+      - filter
+      - created_at
+      - updated_at
+      properties:
+        created_at:
+          type: string
+          format: date-time
+          example: '2026-04-17T12:00:00Z'
+        event_type:
+          type: string
+          example: standard
+        filter:
+          $ref: '#/components/schemas/ActivitySubscriptionFilter'
+        subscription_id:
+          $ref: '#/components/schemas/ActivitySubscriptionId'
+        tag:
+          type: string
+          example: example_tag
+        updated_at:
+          type: string
+          format: date-time
+          example: '2026-04-17T12:00:00Z'
+        webhook_id:
+          $ref: '#/components/schemas/WebhookConfigId'
+    AddOrDeleteRulesResponse:
+      type: object
+      description: A response from modifying user-specified stream filtering rules.
+      required:
+      - meta
+      properties:
+        data:
+          type: array
+          description: All user-specified stream filtering rules that were created.
+          items:
+            $ref: '#/components/schemas/Rule'
+          example: []
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+        meta:
+          $ref: '#/components/schemas/RulesResponseMetadata'
+    AddRulesRequest:
+      type: object
+      description: A request to add a user-specified stream filtering rule.
+      required:
+      - add
+      properties:
+        add:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleNoId'
+          example: []
+    MediaWidth:
+      type: integer
+      description: The width of the media in pixels.
+      minimum: 0
+    TweetLabelStreamResponse:
+      description: Tweet label stream events.
+      oneOf:
+      - type: object
+        description: Tweet Label event.
+        required:
+        - data
+        properties:
+          data:
+            $ref: '#/components/schemas/TweetLabelData'
+      - type: object
+        required:
+        - errors
+        properties:
+          errors:
+            type: array
+            minItems: 1
+            items:
+              $ref: '#/components/schemas/Problem'
+    WebhookLinksDeleteResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            deleted:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    Position:
+      type: array
+      description: A [GeoJson Position](https://tools.ietf.org/html/rfc7946#section-3.1.1) in the format `[longitude,latitude]`.
+      minItems: 2
+      maxItems: 2
+      items:
+        type: number
+      example:
+      - -105.18816086351444
+      - 40.247749999999996
+    ActivityEventId:
+      type: string
+      description: The unique identifier of an Activity event.
+      pattern: ^[0-9]{1,19}$
+      example: '1146654567674912769'
+    UrlImage:
+      type: object
+      description: Represent the information for the URL image.
+      properties:
+        height:
+          $ref: '#/components/schemas/MediaHeight'
+        url:
+          $ref: '#/components/schemas/Url'
+        width:
+          $ref: '#/components/schemas/MediaWidth'
+    ActivitySubscriptionId:
+      type: string
+      description: The unique identifier of this subscription.
+      pattern: ^[0-9]{1,19}$
+      example: '1146654567674912769'
+    LikesComplianceStreamResponse:
+      description: Likes compliance stream events.
+      oneOf:
+      - type: object
+        description: Compliance event.
+        required:
+        - data
+        properties:
+          data:
+            $ref: '#/components/schemas/LikeComplianceSchema'
+      - type: object
+        required:
+        - errors
+        properties:
+          errors:
+            type: array
+            minItems: 1
+            items:
+              $ref: '#/components/schemas/Problem'
+    UserName:
+      type: string
+      description: The X handle (screen name) of this user.
+      pattern: ^[A-Za-z0-9_]{1,15}$
+    ContextAnnotation:
+      type: object
+      description: Annotation inferred from the Tweet text.
+      required:
+      - domain
+      - entity
+      properties:
+        domain:
+          $ref: '#/components/schemas/ContextAnnotationDomainFields'
+        entity:
+          $ref: '#/components/schemas/ContextAnnotationEntityFields'
+    TweetUnviewableSchema:
+      type: object
+      required:
+      - public_tweet_unviewable
+      properties:
+        public_tweet_unviewable:
+          $ref: '#/components/schemas/TweetUnviewable'
+    NextToken:
+      type: string
+      description: The next token.
+      minLength: 1
+    Get2TweetsSearchStreamRulesCountsResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/RulesCount'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    UserUnprotectComplianceSchema:
+      type: object
+      required:
+      - user_unprotect
+      properties:
+        user_unprotect:
+          $ref: '#/components/schemas/UserComplianceSchema'
+    Poll:
+      type: object
+      description: Represent a Poll attached to a Tweet.
+      required:
+      - id
+      - options
+      properties:
+        duration_minutes:
+          type: integer
+          minimum: 5
+          maximum: 10080
+          format: int32
+        end_datetime:
+          type: string
+          format: date-time
+        id:
+          $ref: '#/components/schemas/PollId'
+        options:
+          type: array
+          minItems: 2
+          maxItems: 4
+          items:
+            $ref: '#/components/schemas/PollOption'
+        voting_status:
+          type: string
+          enum:
+          - open
+          - closed
+    FilteredStreamingTweetResponse:
+      type: object
+      description: A Tweet or error that can be returned by the streaming Tweet API. The values returned with a successful streamed Tweet includes the user provided rules that the Tweet matched.
+      properties:
+        data:
+          $ref: '#/components/schemas/Tweet'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        matching_rules:
+          type: array
+          description: The list of rules which matched the Tweet
+          items:
+            type: object
+            required:
+            - id
+            properties:
+              id:
+                $ref: '#/components/schemas/RuleId'
+              tag:
+                $ref: '#/components/schemas/RuleTag'
+    ProfileUpdateActivityResponsePayload:
+      type: object
+      properties:
+        after:
+          type: string
+        before:
+          type: string
+      additionalProperties: false
+    Rule:
+      type: object
+      description: A user-provided stream filtering rule.
+      required:
+      - value
+      properties:
+        id:
+          $ref: '#/components/schemas/RuleId'
+        tag:
+          $ref: '#/components/schemas/RuleTag'
+        value:
+          $ref: '#/components/schemas/RuleValue'
+    HashtagFields:
+      type: object
+      description: Represent the portion of text recognized as a Hashtag, and its start and end position within the text.
+      required:
+      - tag
+      properties:
+        tag:
+          type: string
+          description: The text of the Hashtag.
+          example: MondayMotivation
+    WebhookLinksGetResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          description: The list of active webhook links for a given stream
+          required:
+          - links
+          properties:
+            links:
+              type: array
+              description: list of links
+              items:
+                type: object
+                properties:
+                  application_id:
+                    type: string
+                    description: The application ID
+                  business_user_id:
+                    type: string
+                    description: The user ID
+                  created_at:
+                    type: string
+                    description: The datetime the webhook was linked to the stream
+                    format: data-time
+                  fields:
+                    type: array
+                    description: Requested fields to be rendered
+                    items:
+                      type: string
+                      description: A query-parameter formatted field or expansion, e.g., 'expansions=author_id' or 'user.fields=name,username'
+                  instance_id:
+                    type: string
+                    description: The stream ID associated with the FilteredStream instance
+                  webhook_id:
+                    type: string
+                    description: The unique identifier for the webhook
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    MediaHeight:
+      type: integer
+      description: The height of the media in pixels.
+      minimum: 0
+    TopicId:
+      type: string
+      description: Unique identifier of this Topic.
+    RulesResponseMetadata:
+      type: object
+      required:
+      - sent
+      properties:
+        next_token:
+          $ref: '#/components/schemas/NextToken'
+        result_count:
+          type: integer
+          description: Number of Rules in result set.
+          format: int32
+        sent:
+          type: string
+        summary:
+          $ref: '#/components/schemas/RulesRequestSummary'
+    RulesRequestSummary:
+      oneOf:
+      - type: object
+        description: A summary of the results of the addition of user-specified stream filtering rules.
+        required:
+        - created
+        - not_created
+        - valid
+        - invalid
+        properties:
+          created:
+            type: integer
+            description: Number of user-specified stream filtering rules that were created.
+            format: int32
+            example: 1
+          invalid:
+            type: integer
+            description: Number of invalid user-specified stream filtering rules.
+            format: int32
+            example: 1
+          not_created:
+            type: integer
+            description: Number of user-specified stream filtering rules that were not created.
+            format: int32
+            example: 1
+          valid:
+            type: integer
+            description: Number of valid user-specified stream filtering rules.
+            format: int32
+            example: 1
+      - type: object
+        required:
+        - deleted
+        - not_deleted
+        properties:
+          deleted:
+            type: integer
+            description: Number of user-specified stream filtering rules that were deleted.
+            format: int32
+          not_deleted:
+            type: integer
+            description: Number of user-specified stream filtering rules that were not deleted.
+            format: int32
+    ActivitySubscriptionCreateResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            subscription:
+              $ref: '#/components/schemas/ActivitySubscription'
+            total_subscriptions_for_instance_id:
+              type: integer
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+        meta:
+          type: object
+          properties:
+            total_subscriptions:
+              type: integer
+              description: Number of active subscriptions.
+              format: int32
+    UserComplianceData:
+      description: User compliance data.
+      oneOf:
+      - $ref: '#/components/schemas/UserProtectComplianceSchema'
+      - $ref: '#/components/schemas/UserUnprotectComplianceSchema'
+      - $ref: '#/components/schemas/UserDeleteComplianceSchema'
+      - $ref: '#/components/schemas/UserUndeleteComplianceSchema'
+      - $ref: '#/components/schemas/UserSuspendComplianceSchema'
+      - $ref: '#/components/schemas/UserUnsuspendComplianceSchema'
+      - $ref: '#/components/schemas/UserWithheldComplianceSchema'
+      - $ref: '#/components/schemas/UserScrubGeoSchema'
+      - $ref: '#/components/schemas/UserProfileModificationComplianceSchema'
+    LikeId:
+      type: string
+      description: The unique identifier of this Like.
+      pattern: ^[A-Za-z0-9_]{1,40}$
+      example: 8ba4f34e6235d905a46bac021d98e923
+    NewsActivityResponsePayload:
+      type: object
+      properties:
+        category:
+          type: string
+        headline:
+          type: string
+        hook:
+          type: string
+        summary:
+          type: string
+      additionalProperties: false
+    UserProfileModificationObjectSchema:
+      type: object
+      required:
+      - user
+      - profile_field
+      - new_value
+      - event_at
+      properties:
+        event_at:
+          type: string
+          description: Event time.
+          format: date-time
+          example: '2021-07-06T18:40:40.000Z'
+        new_value:
+          type: string
+        profile_field:
+          type: string
+        user:
+          type: object
+          required:
+          - id
+          properties:
+            id:
+              $ref: '#/components/schemas/UserId'
+    StreamingLikeResponseV2:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/LikeWithTweetAuthor'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+        includes:
+          $ref: '#/components/schemas/Expansions'
+    UserId:
+      type: string
+      description: Unique identifier of this User. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.
+      pattern: ^[0-9]{1,19}$
+      example: '2244994945'
+  parameters:
+    LikeWithTweetAuthorExpansionsParameter:
+      name: expansions
+      in: query
+      description: A comma separated list of fields to expand.
+      schema:
+        type: array
+        description: The list of fields you can expand for a [LikeWithTweetAuthor](#LikeWithTweetAuthor) object. If the field has an ID, it can be expanded into a full object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - attachments.media_keys
+          - liked_tweet_author_id
+          - liked_tweet_id
+        example:
+        - attachments.media_keys
+        - liked_tweet_author_id
+        - liked_tweet_id
+      explode: false
+      style: form
+    RulesCountFieldsParameter:
+      name: rules_count.fields
+      in: query
+      description: A comma separated list of RulesCount fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a RulesCount object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - all_project_client_apps
+          - cap_per_client_app
+          - cap_per_project
+          - client_app_rules_count
+          - project_rules_count
+        example:
+        - all_project_client_apps
+        - cap_per_client_app
+        - cap_per_project
+        - client_app_rules_count
+        - project_rules_count
+      explode: false
+      style: form
+    LikeWithTweetAuthorFieldsParameter:
+      name: like_with_tweet_author.fields
+      in: query
+      description: A comma separated list of LikeWithTweetAuthor fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a LikeWithTweetAuthor object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - attachments_media_keys
+          - created_at
+          - id
+          - liked_tweet_author_id
+          - liked_tweet_id
+          - timestamp_ms
+        example:
+        - attachments_media_keys
+        - created_at
+        - id
+        - liked_tweet_author_id
+        - liked_tweet_id
+        - timestamp_ms
+      explode: false
+      style: form
+    PollFieldsParameter:
+      name: poll.fields
+      in: query
+      description: A comma separated list of Poll fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a Poll object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - duration_minutes
+          - end_datetime
+          - id
+          - options
+          - voting_status
+        example:
+        - duration_minutes
+        - end_datetime
+        - id
+        - options
+        - voting_status
+      explode: false
+      style: form
+    MediaFieldsParameter:
+      name: media.fields
+      in: query
+      description: A comma separated list of Media fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a Media object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - alt_text
+          - duration_ms
+          - height
+          - media_key
+          - non_public_metrics
+          - organic_metrics
+          - preview_image_url
+          - promoted_metrics
+          - public_metrics
+          - type
+          - url
+          - variants
+          - width
+        example:
+        - alt_text
+        - duration_ms
+        - height
+        - media_key
+        - non_public_metrics
+        - organic_metrics
+        - preview_image_url
+        - promoted_metrics
+        - public_metrics
+        - type
+        - url
+        - variants
+        - width
+      explode: false
+      style: form
+    UserFieldsParameter:
+      name: user.fields
+      in: query
+      description: A comma separated list of User fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a User object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - affiliation
+          - confirmed_email
+          - connection_status
+          - created_at
+          - description
+          - entities
+          - id
+          - is_identity_verified
+          - location
+          - most_recent_tweet_id
+          - name
+          - parody
+          - pinned_tweet_id
+          - profile_banner_url
+          - profile_image_url
+          - protected
+          - public_metrics
+          - receives_your_dm
+          - subscription
+          - subscription_type
+          - url
+          - username
+          - verified
+          - verified_followers_count
+          - verified_type
+          - withheld
+        example:
+        - affiliation
+        - confirmed_email
+        - connection_status
+        - created_at
+        - description
+        - entities
+        - id
+        - is_identity_verified
+        - location
+        - most_recent_tweet_id
+        - name
+        - parody
+        - pinned_tweet_id
+        - profile_banner_url
+        - profile_image_url
+        - protected
+        - public_metrics
+        - receives_your_dm
+        - subscription
+        - subscription_type
+        - url
+        - username
+        - verified
+        - verified_followers_count
+        - verified_type
+        - withheld
+      explode: false
+      style: form
+    PlaceFieldsParameter:
+      name: place.fields
+      in: query
+      description: A comma separated list of Place fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a Place object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - contained_within
+          - country
+          - country_code
+          - full_name
+          - geo
+          - id
+          - name
+          - place_type
+        example:
+        - contained_within
+        - country
+        - country_code
+        - full_name
+        - geo
+        - id
+        - name
+        - place_type
+      explode: false
+      style: form
+    TweetExpansionsParameter:
+      name: expansions
+      in: query
+      description: A comma separated list of fields to expand.
+      schema:
+        type: array
+        description: The list of fields you can expand for a [Tweet](#Tweet) object. If the field has an ID, it can be expanded into a full object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - article.cover_media
+          - article.media_entities
+          - attachments.media_keys
+          - attachments.media_source_tweet
+          - attachments.poll_ids
+          - author_id
+          - edit_history_tweet_ids
+          - entities.mentions.username
+          - geo.place_id
+          - in_reply_to_user_id
+          - entities.note.mentions.username
+          - referenced_tweets.id
+          - referenced_tweets.id.attachments.media_keys
+          - referenced_tweets.id.author_id
+        example:
+        - article.cover_media
+        - article.media_entities
+        - attachments.media_keys
+        - attachments.media_source_tweet
+        - attachments.poll_ids
+        - author_id
+        - edit_history_tweet_ids
+        - entities.mentions.username
+        - geo.place_id
+        - in_reply_to_user_id
+        - entities.note.mentions.username
+        - referenced_tweets.id
+        - referenced_tweets.id.attachments.media_keys
+        - referenced_tweets.id.author_id
+      explode: false
+      style: form
+    TweetFieldsParameter:
+      name: tweet.fields
+      in: query
+      description: A comma separated list of Tweet fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a Tweet object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - article
+          - attachments
+          - author_id
+          - card_uri
+          - community_id
+          - context_annotations
+          - conversation_id
+          - created_at
+          - display_text_range
+          - edit_controls
+          - edit_history_tweet_ids
+          - entities
+          - geo
+          - id
+          - in_reply_to_user_id
+          - lang
+          - media_metadata
+          - non_public_metrics
+          - note_tweet
+          - organic_metrics
+          - possibly_sensitive
+          - promoted_metrics
+          - public_metrics
+          - referenced_tweets
+          - reply_settings
+          - scopes
+          - source
+          - suggested_source_links
+          - suggested_source_links_with_counts
+          - text
+          - withheld
+        example:
+        - article
+        - attachments
+        - author_id
+        - card_uri
+        - community_id
+        - context_annotations
+        - conversation_id
+        - created_at
+        - display_text_range
+        - edit_controls
+        - edit_history_tweet_ids
+        - entities
+        - geo
+        - id
+        - in_reply_to_user_id
+        - lang
+        - media_metadata
+        - non_public_metrics
+        - note_tweet
+        - organic_metrics
+        - possibly_sensitive
+        - promoted_metrics
+        - public_metrics
+        - referenced_tweets
+        - reply_settings
+        - scopes
+        - source
+        - suggested_source_links
+        - suggested_source_links_with_counts
+        - text
+        - withheld
+      explode: false
+      style: form
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+    OAuth2UserToken:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.x.com/2/oauth2/authorize
+          tokenUrl: https://api.x.com/2/oauth2/token
+          scopes:
+            block.read: View accounts you have blocked.
+            bookmark.read: Read your bookmarked Posts.
+            bookmark.write: Create and delete your bookmarks.
+            dm.read: Read all your Direct Messages.
+            dm.write: Send and manage your Direct Messages.
+            follows.read: View accounts you follow and accounts following you.
+            follows.write: Follow and unfollow accounts on your behalf.
+            like.read: View Posts you have liked and likes you can see.
+            like.write: Like and unlike Posts on your behalf.
+            list.read: View Lists, members, and followers of Lists you created or are a member of, including private Lists.
+            list.write: Create and manage Lists on your behalf.
+            media.write: Upload media, such as photos and videos, on your behalf.
+            mute.read: View accounts you have muted.
+            mute.write: Mute and unmute accounts on your behalf.
+            offline.access: Request a refresh token for the app.
+            space.read: View all Spaces you have access to.
+            timeline.read: View all Custom Timelines you can see, including public Custom Timelines from other developers.
+            tweet.moderate.write: Hide and unhide replies to your Posts.
+            tweet.read: View all Posts you can see, including those from protected accounts.
+            tweet.write: Post and repost on your behalf.
+            users.read: View any account you can see, including protected accounts.
+    UserToken:
+      type: http
+      scheme: OAuth

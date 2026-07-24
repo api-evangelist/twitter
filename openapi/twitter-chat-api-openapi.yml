@@ -1,0 +1,2899 @@
+openapi: 3.0.0
+info:
+  description: X API v2 available endpoints
+  version: '2.161'
+  title: X API v2 Account Activity Chat API
+  termsOfService: https://developer.x.com/en/developer-terms/agreement-and-policy.html
+  contact:
+    name: X Developers
+    url: https://developer.x.com/
+  license:
+    name: X Developer Agreement and Policy
+    url: https://developer.x.com/en/developer-terms/agreement-and-policy.html
+servers:
+- description: X API
+  url: https://api.x.com
+tags:
+- name: Chat
+paths:
+  /2/chat/conversations:
+    get:
+      security:
+      - OAuth2UserToken:
+        - dm.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Get Chat Conversations
+      description: Retrieves a list of Chat conversations for the authenticated user's inbox.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: getChatConversations
+      parameters:
+      - name: max_results
+        in: query
+        description: Maximum number of conversations to return.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          format: int32
+          default: 10
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: Token for pagination to retrieve the next page of results.
+        required: false
+        schema:
+          type: string
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/ChatConversationFieldsParameter'
+      - $ref: '#/components/parameters/ChatConversationExpansionsParameter'
+      - $ref: '#/components/parameters/UserFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatGetConversationsResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/chat/conversations/group:
+    post:
+      security:
+      - OAuth2UserToken:
+        - dm.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Create Chat Group Conversation
+      description: Creates a new encrypted Chat group conversation on behalf of the authenticated user.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: createChatConversation
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatCreateConversationRequest'
+        required: true
+      responses:
+        '201':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatCreateConversationResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/chat/conversations/group/initialize:
+    post:
+      security:
+      - OAuth2UserToken:
+        - dm.write
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Initialize Chat Group
+      description: "Initializes a new XChat group conversation and returns a unique conversation ID.\n\nThis endpoint is the first step in creating a group chat. The returned conversation_id \nshould be used in subsequent calls to POST /chat/conversations/group to fully create and \nconfigure the group with members, admins, encryption keys, and other settings.\n\n**Workflow:**\n1. Call this endpoint to get a `conversation_id`\n2. Use that `conversation_id` when calling `POST /chat/conversations/group` to create the group\n\n**Authentication:**\n- Requires OAuth 1.0a User Context or OAuth 2.0 User Context\n- Required scope: `dm.write`\n"
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: initializeChatGroup
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatInitializeGroupResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/chat/conversations/{id}:
+    get:
+      security:
+      - OAuth2UserToken:
+        - dm.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Get Chat Conversation
+      description: Retrieves messages and key change events for a specific Chat conversation with pagination support. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: getChatConversation
+      parameters:
+      - name: id
+        in: path
+        description: The recipient's user ID for a 1:1 conversation, or a group conversation ID (prefixed with 'g').
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChatConversationOrRecipientId'
+        style: simple
+        example: '1234567890'
+      - name: max_results
+        in: query
+        description: Maximum number of message events to return.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          format: int32
+          default: 10
+        style: form
+        example: 10
+      - name: pagination_token
+        in: query
+        description: Token for pagination to retrieve the next page of results.
+        required: false
+        schema:
+          type: string
+        style: form
+        example: next_token_abc123
+      - $ref: '#/components/parameters/ChatMessageEventFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatGetConversationResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/chat/conversations/{id}/keys:
+    post:
+      security:
+      - OAuth2UserToken:
+        - dm.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Initialize Conversation Keys
+      description: 'Initializes encryption keys for a Chat conversation. This is the first step
+
+        before sending messages in a new 1:1 conversation.
+
+
+        For 1:1 conversations, provide the recipient''s user ID as the conversation_id.
+
+        The server constructs the canonical conversation ID from the authenticated user
+
+        and recipient.
+
+
+        The request body must contain the conversation key version and participant keys
+
+        (the conversation key encrypted for each participant using their public key).
+
+
+        **Workflow (1:1 conversation):**
+
+        1. Generate a conversation key using the SDK
+
+        2. Encrypt the key for both participants using their public keys
+
+        3. Call this endpoint to register the keys
+
+        4. Send messages using `POST /chat/conversations/{id}/messages`
+
+
+        **Authentication:**
+
+        - Requires OAuth 1.0a User Context or OAuth 2.0 User Context
+
+        - Required scopes: `tweet.read`, `users.read`, `dm.write`
+
+        '
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: initializeChatConversationKeys
+      parameters:
+      - name: id
+        in: path
+        description: The recipient's user ID for a 1:1 conversation, or a group conversation ID (prefixed with 'g').
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChatConversationOrRecipientId'
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatInitializeConversationKeysRequest'
+        required: true
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatInitializeConversationKeysResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/chat/conversations/{id}/members:
+    post:
+      security:
+      - OAuth2UserToken:
+        - dm.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Add Members to a Chat Group Conversation
+      description: Adds one or more members to an existing encrypted Chat group conversation, rotating the conversation key.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: addChatGroupMembers
+      parameters:
+      - name: id
+        in: path
+        description: The Chat group conversation ID.
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChatConversationOrRecipientId'
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatAddGroupMembersRequest'
+        required: true
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatAddGroupMembersResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/chat/conversations/{id}/messages:
+    post:
+      security:
+      - OAuth2UserToken:
+        - dm.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Send Chat Message
+      description: Sends an encrypted message to a specific Chat conversation. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: sendChatMessage
+      parameters:
+      - name: id
+        in: path
+        description: The recipient's user ID for a 1:1 conversation, or a group conversation ID (prefixed with 'g').
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChatConversationOrRecipientId'
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatSendMessageRequest'
+        required: true
+      responses:
+        '201':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatSendMessageResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/chat/conversations/{id}/read:
+    post:
+      security:
+      - OAuth2UserToken:
+        - dm.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Mark Conversation as Read
+      description: Marks a specific Chat conversation as read on behalf of the authenticated user. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: markChatConversationRead
+      parameters:
+      - name: id
+        in: path
+        description: The recipient's user ID for a 1:1 conversation, or a group conversation ID (prefixed with 'g').
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChatConversationOrRecipientId'
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatMarkConversationReadRequest'
+        required: true
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatMarkConversationReadResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/chat/conversations/{id}/typing:
+    post:
+      security:
+      - OAuth2UserToken:
+        - dm.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Send Typing Indicator
+      description: Sends a typing indicator to a specific Chat conversation on behalf of the authenticated user. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: sendChatTypingIndicator
+      parameters:
+      - name: id
+        in: path
+        description: The recipient's user ID for a 1:1 conversation, or a group conversation ID (prefixed with 'g').
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChatConversationOrRecipientId'
+        style: simple
+        example: '1234567890'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatSendTypingIndicatorResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/chat/media/upload/initialize:
+    post:
+      security:
+      - OAuth2UserToken:
+        - media.write
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Initialize Chat Media Upload
+      description: Initializes an XChat media upload session.
+      externalDocs:
+        url: https://docs.x.com/x-api/media/media-upload
+      operationId: chatMediaUploadInitialize
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatMediaUploadInitializeRequest'
+        required: true
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatMediaUploadInitializeResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/chat/media/upload/{id}/append:
+    post:
+      security:
+      - OAuth2UserToken:
+        - media.write
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Append Chat Media Upload
+      description: Appends media data to an XChat upload session.
+      externalDocs:
+        url: https://docs.x.com/x-api/media/media-upload
+      operationId: chatMediaUploadAppend
+      parameters:
+      - name: id
+        in: path
+        description: The session/resume id from initialize.
+        required: true
+        schema:
+          type: string
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatMediaUploadAppendRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ChatMediaUploadAppendRequest'
+        required: true
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaUploadAppendResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/chat/media/upload/{id}/finalize:
+    post:
+      security:
+      - OAuth2UserToken:
+        - media.write
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Finalize Chat Media Upload
+      description: Finalizes an XChat media upload session.
+      externalDocs:
+        url: https://docs.x.com/x-api/media/media-upload
+      operationId: chatMediaUploadFinalize
+      parameters:
+      - name: id
+        in: path
+        description: The session/resume id from initialize.
+        required: true
+        schema:
+          type: string
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatMediaUploadFinalizeRequest'
+        required: true
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatMediaUploadFinalizeResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/chat/media/{id}/{media_hash_key}:
+    get:
+      security:
+      - OAuth2UserToken:
+        - media.write
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Download Chat Media
+      description: Downloads encrypted media bytes from an XChat conversation. The response body contains raw binary bytes. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: chatMediaDownload
+      parameters:
+      - name: id
+        in: path
+        description: The recipient's user ID for a 1:1 conversation, or a group conversation ID (prefixed with 'g').
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChatConversationOrRecipientId'
+        style: simple
+        example: '1234567890'
+      - name: media_hash_key
+        in: path
+        description: The media hash key returned from the upload initialize step.
+        required: true
+        schema:
+          $ref: '#/components/schemas/MediaHashKey'
+        style: simple
+        example: example_value
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/octet-stream:
+              schema:
+                $ref: '#/components/schemas/BinaryPayload'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/public_keys:
+    get:
+      security:
+      - OAuth2UserToken:
+        - dm.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Get Public Keys for Multiple Users
+      description: Returns the public keys and Juicebox configuration for the specified users.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: getUsersPublicKeys
+      parameters:
+      - name: ids
+        in: query
+        description: A list of User IDs, comma-separated. You can specify up to 100 IDs.
+        required: true
+        example: 2244994945,6253282,12
+        schema:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/UserId'
+        explode: false
+        style: form
+      - $ref: '#/components/parameters/PublicKeyFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersPublicKeysResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/users/{id}/public_keys:
+    get:
+      security:
+      - OAuth2UserToken:
+        - dm.read
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Get User Public Keys
+      description: Returns the public keys and Juicebox configuration for the specified user.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: getUsersPublicKey
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the User to lookup.
+        required: true
+        example: '2244994945'
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+      - $ref: '#/components/parameters/PublicKeyFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2UsersIdPublicKeysResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      security:
+      - OAuth2UserToken:
+        - dm.write
+        - tweet.read
+        - users.read
+      - UserToken: []
+      tags:
+      - Chat
+      summary: X Add Public Key
+      description: Registers a user's public key for X Chat encryption.
+      externalDocs:
+        url: https://developer.x.com/
+      operationId: addUserPublicKey
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the requesting user.
+        required: true
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatAddPublicKeyRequest'
+        required: true
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatAddPublicKeyResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    PollId:
+      type: string
+      description: Unique identifier of this poll.
+      pattern: ^[0-9]{1,19}$
+      example: '1365059861688410112'
+    Media:
+      type: object
+      required:
+      - type
+      properties:
+        height:
+          $ref: '#/components/schemas/MediaHeight'
+        media_key:
+          $ref: '#/components/schemas/MediaKey'
+        type:
+          type: string
+        width:
+          $ref: '#/components/schemas/MediaWidth'
+      discriminator:
+        propertyName: type
+        mapping:
+          animated_gif: '#/components/schemas/AnimatedGif'
+          photo: '#/components/schemas/Photo'
+          video: '#/components/schemas/Video'
+    ChatAddPublicKeyResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ChatPublicKey'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+    Geo:
+      type: object
+      required:
+      - type
+      - bbox
+      - properties
+      properties:
+        bbox:
+          type: array
+          minItems: 4
+          maxItems: 4
+          items:
+            type: number
+            minimum: -180
+            maximum: 180
+            format: double
+          example:
+          - -105.193475
+          - 39.60973
+          - -105.053164
+          - 39.761974
+        geometry:
+          $ref: '#/components/schemas/Point'
+        properties:
+          type: object
+        type:
+          type: string
+          enum:
+          - Feature
+    PlaceId:
+      type: string
+      description: The identifier for this place.
+      example: f7eb2fa2fea288b1
+    ContextAnnotationDomainFields:
+      type: object
+      description: Represents the data for the context annotation domain.
+      required:
+      - id
+      properties:
+        description:
+          type: string
+          description: Description of the context annotation domain.
+          example: Example description for this resource.
+        id:
+          type: string
+          description: The unique id for a context annotation domain.
+          pattern: ^[0-9]{1,19}$
+          example: '1234567890'
+        name:
+          type: string
+          description: Name of the context annotation domain.
+          example: Example User
+    MentionFields:
+      type: object
+      description: Represent the portion of text recognized as a User mention, and its start and end position within the text.
+      required:
+      - username
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+        username:
+          $ref: '#/components/schemas/UserName'
+    HashtagEntity:
+      allOf:
+      - $ref: '#/components/schemas/EntityIndicesInclusiveExclusive'
+      - $ref: '#/components/schemas/HashtagFields'
+    ChatGetConversationResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          description: List of message events in the conversation.
+          items:
+            $ref: '#/components/schemas/ChatMessageEvent'
+          example: []
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+        meta:
+          type: object
+          properties:
+            conversation_key_events:
+              type: array
+              description: Conversation key change events needed for decryption.
+              items:
+                type: string
+            has_more:
+              type: boolean
+              description: Whether there are more messages to fetch.
+            next_token:
+              type: string
+              description: Token to retrieve the next page of results.
+            result_count:
+              type: integer
+              description: The number of message events returned.
+    Get2UsersPublicKeysResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/PublicKey'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    ReplySettingsWithVerifiedUsers:
+      type: string
+      description: Shows who can reply a Tweet. Fields returned are everyone, mentioned_users, subscribers, verified and following.
+      pattern: ^[A-Za-z]{1,12}$
+      enum:
+      - everyone
+      - mentionedUsers
+      - following
+      - other
+      - subscribers
+      - verified
+    Topic:
+      type: object
+      description: The topic of a Space, as selected by its creator.
+      required:
+      - id
+      - name
+      properties:
+        description:
+          type: string
+          description: The description of the given topic.
+          example: All about technology
+        id:
+          $ref: '#/components/schemas/TopicId'
+        name:
+          type: string
+          description: The name of the given topic.
+          example: Technology
+    ChatAddGroupMembersRequest:
+      type: object
+      required:
+      - user_ids
+      properties:
+        action_signatures:
+          type: array
+          description: Cryptographic signatures for the add-members action.
+          items:
+            $ref: '#/components/schemas/ChatActionSignature'
+          example: []
+        conversation_key_version:
+          type: string
+          description: Version of the new rotated conversation key.
+          example: example_value
+        conversation_participant_keys:
+          type: array
+          description: Encrypted conversation keys for each new participant after key rotation.
+          items:
+            $ref: '#/components/schemas/ChatConversationParticipantKey'
+          example: []
+        encrypted_avatar_url:
+          type: string
+          description: Re-encrypted group avatar URL with new conversation key.
+          example: https://x.com/exampleuser
+        encrypted_title:
+          type: string
+          description: Re-encrypted group title with new conversation key.
+          example: Example Title
+        user_ids:
+          type: array
+          description: List of user IDs to add to the group conversation.
+          items:
+            type: string
+            description: User ID to add.
+          example:
+          - '1234567890'
+    MediaHashKey:
+      type: string
+      description: The media hash key returned from the upload initialize step. Alphanumeric characters only.
+      pattern: ^[a-zA-Z0-9]{1,50}$
+      example: AGgkIbPRTG
+    Place:
+      type: object
+      required:
+      - id
+      - full_name
+      properties:
+        contained_within:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/PlaceId'
+        country:
+          type: string
+          description: The full name of the county in which this place exists.
+          example: United States
+        country_code:
+          $ref: '#/components/schemas/CountryCode'
+        full_name:
+          type: string
+          description: The full name of this place.
+          example: Lakewood, CO
+        geo:
+          $ref: '#/components/schemas/Geo'
+        id:
+          $ref: '#/components/schemas/PlaceId'
+        name:
+          type: string
+          description: The human readable name of this place.
+          example: Lakewood
+        place_type:
+          $ref: '#/components/schemas/PlaceType'
+    ChatCreateConversationResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            conversation_id:
+              type: string
+              description: The ID of the created conversation.
+            conversation_key_change_sequence_id:
+              type: string
+              description: Sequence ID of the conversation key change event, if applicable.
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+    ChatMediaUploadInitializeResponse:
+      type: object
+      description: Response from initializing a Chat media upload.
+      properties:
+        data:
+          type: object
+          required:
+          - session_id
+          - media_hash_key
+          - conversation_id
+          properties:
+            conversation_id:
+              type: string
+              description: Conversation id associated with the upload.
+              example: 1603419216513746946:1603419216513746946
+            media_hash_key:
+              type: string
+              description: Media hash key returned by XChat.
+              example: rByqeHiVlD
+            session_id:
+              type: string
+              description: Resume/session id for the upload.
+              example: '735401'
+    UserWithheld:
+      type: object
+      description: Indicates withholding details for [withheld content](https://help.twitter.com/en/rules-and-policies/tweet-withheld-by-country).
+      required:
+      - country_codes
+      properties:
+        country_codes:
+          type: array
+          description: Provides a list of countries where this content is not available.
+          minItems: 1
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/CountryCode'
+        scope:
+          type: string
+          description: Indicates that the content being withheld is a `user`.
+          enum:
+          - user
+    CountryCode:
+      type: string
+      description: A two-letter ISO 3166-1 alpha-2 country code.
+      pattern: ^[A-Z]{2}$
+      example: US
+    PollOption:
+      type: object
+      description: Describes a choice in a Poll object.
+      required:
+      - position
+      - label
+      - votes
+      properties:
+        label:
+          $ref: '#/components/schemas/PollOptionLabel'
+        position:
+          type: integer
+          description: Position of this choice in the poll.
+        votes:
+          type: integer
+          description: Number of users who voted for this choice.
+    ChatInitializeGroupResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            conversation_id:
+              type: string
+              description: The unique identifier for the initialized group conversation. This ID is prefixed with 'g' (e.g., 'g1234567890123456789'). Use this ID when calling POST /chat/conversations to create the group.
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+    CashtagEntity:
+      allOf:
+      - $ref: '#/components/schemas/EntityIndicesInclusiveExclusive'
+      - $ref: '#/components/schemas/CashtagFields'
+    MediaPayloadByte:
+      type: string
+      description: The file to upload.
+      format: byte
+    ChatPublicKey:
+      type: object
+      description: A user's public key with associated key recovery configuration.
+      properties:
+        juicebox_config:
+          $ref: '#/components/schemas/ChatJuiceboxConfig'
+        public_key:
+          type: string
+          description: Identity public key (base64 encoded).
+          example: example_value
+        signing_public_key:
+          type: string
+          description: Signing public key (base64 encoded).
+          example: example_value
+        version:
+          type: string
+          description: Public key version.
+          example: example_value
+    PublicKey:
+      type: object
+      description: Public key information for Chat encryption
+      properties:
+        public_key:
+          type: string
+          description: Identity public key (base64 encoded).
+        signing_public_key:
+          type: string
+          description: Signing public key (base64 encoded).
+        token_map:
+          type: object
+          description: Juicebox configuration.
+          properties:
+            key_store_token_map_json:
+              type: string
+              description: Raw JSON for Juicebox SDK.
+            max_guess_count:
+              type: integer
+              description: Maximum guess count for Juicebox.
+            realms:
+              type: array
+              description: List of Juicebox realms.
+              items:
+                type: object
+                properties:
+                  address:
+                    type: string
+                    description: Realm URL.
+                  realm_id:
+                    type: string
+                    description: Realm identifier.
+                  token:
+                    type: string
+                    description: JWT auth token for realm.
+        version:
+          type: string
+          description: Public key version.
+    NoteTweetText:
+      type: string
+      description: The note content of the Tweet.
+      example: Learn how to use the user Tweet timeline and user mention timeline endpoints in the X API v2 to explore Tweet\u2026 https:\/\/t.co\/56a0vZUx7i
+    Point:
+      type: object
+      description: A [GeoJson Point](https://tools.ietf.org/html/rfc7946#section-3.1.2) geometry object.
+      required:
+      - type
+      - coordinates
+      properties:
+        coordinates:
+          $ref: '#/components/schemas/Position'
+        type:
+          type: string
+          enum:
+          - Point
+          example: Point
+    ChatGetConversationsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          description: List of conversations in the user's inbox.
+          items:
+            $ref: '#/components/schemas/ChatConversation'
+          example: []
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+        includes:
+          $ref: '#/components/schemas/Expansions'
+        meta:
+          type: object
+          properties:
+            has_message_requests:
+              type: boolean
+              description: Whether the user has pending message requests.
+            has_more:
+              type: boolean
+              description: Whether there are more conversations to fetch.
+            next_token:
+              type: string
+              description: Token to retrieve the next page of results.
+            result_count:
+              type: integer
+              description: The number of conversations returned.
+    ChatMediaUploadAppendRequest:
+      anyOf:
+      - type: object
+        required:
+        - media
+        - segment_index
+        - conversation_id
+        - media_hash_key
+        properties:
+          conversation_id:
+            type: string
+            description: XChat conversation identifier for the upload.
+          media:
+            $ref: '#/components/schemas/MediaPayloadBinary'
+          media_hash_key:
+            type: string
+            description: Media hash key returned from initialize.
+          segment_index:
+            $ref: '#/components/schemas/MediaSegments'
+      - type: object
+        required:
+        - media
+        - segment_index
+        - conversation_id
+        - media_hash_key
+        properties:
+          conversation_id:
+            type: string
+            description: XChat conversation identifier for the upload.
+          media:
+            $ref: '#/components/schemas/MediaPayloadByte'
+          media_hash_key:
+            type: string
+            description: Media hash key returned from initialize.
+          segment_index:
+            $ref: '#/components/schemas/MediaSegments'
+    ChatAddPublicKeyRequest:
+      type: object
+      required:
+      - public_key
+      - version
+      properties:
+        generate_version:
+          type: boolean
+          description: When true, the server generates a new version.
+          example: true
+        public_key:
+          type: object
+          description: Public key registration payload.
+          properties:
+            identity_public_key_signature:
+              type: string
+              description: Signature over the identity public key.
+            public_key:
+              type: string
+              description: Identity public key (base64 encoded).
+            public_key_fingerprint:
+              type: string
+              description: Fingerprint of the identity public key.
+            registration_method:
+              type: string
+              description: Registration method for the public key.
+            signing_public_key:
+              type: string
+              description: Signing public key (base64 encoded).
+            signing_public_key_signature:
+              type: string
+              description: Signature over the signing public key.
+        version:
+          type: string
+          description: Public key version.
+          example: example_value
+    ChatMarkConversationReadRequest:
+      type: object
+      required:
+      - seen_until_sequence_id
+      properties:
+        seen_until_sequence_id:
+          type: string
+          description: The sequence ID of the last message to mark as read up to.
+          example: '1234567890'
+    PollOptionLabel:
+      type: string
+      description: The text of a poll choice.
+      minLength: 1
+      maxLength: 25
+    ChatMarkConversationReadResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            success:
+              type: boolean
+              description: Whether the conversation was marked as read successfully.
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+    PlaceType:
+      type: string
+      enum:
+      - poi
+      - neighborhood
+      - city
+      - admin
+      - country
+      - unknown
+      example: city
+    ChatConversation:
+      type: object
+      description: A Chat conversation resource representing either a direct or group conversation.
+      required:
+      - id
+      properties:
+        admin_ids:
+          type: array
+          description: User IDs of group admins. Only present for group conversations.
+          items:
+            type: string
+          example:
+          - '1234567890'
+        created_at:
+          type: string
+          description: ISO 8601 timestamp when the group was created. Only present for group conversations.
+          example: example_value
+        group_avatar_url:
+          type: string
+          description: URL for the group avatar. Only present for group conversations.
+          example: https://x.com/exampleuser
+        group_name:
+          type: string
+          description: Encrypted group name. Only present for group conversations.
+          example: Example User
+        id:
+          type: string
+          description: The unique identifier for this conversation.
+          example: '1234567890'
+        is_muted:
+          type: boolean
+          description: Whether notifications are muted for this conversation.
+          example: true
+        member_ids:
+          type: array
+          description: User IDs of group members. Only present for group conversations.
+          items:
+            type: string
+          example:
+          - '1234567890'
+        message_ttl_msec:
+          type: string
+          description: Message time-to-live in milliseconds.
+          example: Hello from the X API!
+        participant_ids:
+          type: array
+          description: Array of user IDs who are participants in this conversation.
+          items:
+            type: string
+          example:
+          - '1234567890'
+        screen_capture_blocking_enabled:
+          type: boolean
+          description: Whether screen capture blocking is enabled for this conversation.
+          example: true
+        screen_capture_detection_enabled:
+          type: boolean
+          description: Whether screen capture detection is enabled for this conversation.
+          example: true
+        type:
+          type: string
+          description: 'The type of conversation: ''direct'' or ''group''.'
+          enum:
+          - direct
+          - group
+          example: direct
+        updated_at:
+          type: string
+          description: ISO 8601 timestamp when the group was last updated. Only present for group conversations.
+          example: example_value
+    ChatJuiceboxConfig:
+      type: object
+      description: Key recovery configuration for Juicebox-based key storage.
+      properties:
+        key_store_token_map_json:
+          type: string
+          description: Raw JSON for key recovery configuration.
+          example: next_token_abc123
+        max_guess_count:
+          type: integer
+          description: Maximum guess count for key recovery.
+          example: 10
+        realm_state_string:
+          type: string
+          description: Serialized realm state for key recovery.
+          example: active
+        recover_threshold:
+          type: integer
+          description: Threshold required to recover the key.
+          example: 42
+        register_threshold:
+          type: integer
+          description: Threshold required to register the key.
+          example: 42
+        token_map:
+          type: array
+          description: Per-realm auth tokens for key recovery.
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+                description: Realm identifier.
+              value:
+                type: object
+                description: Realm connection details.
+                properties:
+                  address:
+                    type: string
+                    description: Realm URL.
+                  public_key:
+                    type: string
+                    description: Realm public key.
+                  token:
+                    type: string
+                    description: JWT auth token for the realm.
+          example: []
+    CommunityId:
+      type: string
+      description: The unique identifier of this Community.
+      pattern: ^[0-9]{1,19}$
+      example: '1146654567674912769'
+    Get2UsersIdPublicKeysResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/PublicKey'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    DisplayTextRange:
+      type: array
+      description: Represent a boundary range (start and end zero-based indices) for the portion of text that is displayed for a post. `start` must be smaller than `end`. The start index is inclusive, the end index is exclusive.
+      minItems: 2
+      maxItems: 2
+      items:
+        type: integer
+        minimum: 0
+    ChatActionSignature:
+      type: object
+      description: Cryptographic signature for a chat action.
+      properties:
+        encoded_message_event_detail:
+          type: string
+          description: Base64-encoded message event detail.
+          example: Hello from the X API!
+        message_event_signature:
+          $ref: '#/components/schemas/ChatMessageEventSignature'
+        message_id:
+          type: string
+          description: ID of the message being signed.
+          example: '1234567890'
+        signature_payload:
+          type: string
+          description: Cryptographic signature payload.
+          example: example_value
+    User:
+      type: object
+      description: The X User object.
+      required:
+      - id
+      - name
+      - username
+      properties:
+        affiliation:
+          type: object
+          description: Metadata about a user's affiliation.
+          properties:
+            badge_url:
+              type: string
+              description: The badge URL corresponding to the affiliation.
+              format: uri
+            description:
+              type: string
+              description: The description of the affiliation.
+            url:
+              type: string
+              description: The URL, if available, to details about an affiliation.
+              format: uri
+            user_id:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/UserId'
+        connection_status:
+          type: array
+          description: Returns detailed information about the relationship between two users.
+          minItems: 0
+          items:
+            type: string
+            description: Type of connection between users.
+            enum:
+            - follow_request_received
+            - follow_request_sent
+            - blocking
+            - followed_by
+            - following
+            - muting
+        created_at:
+          type: string
+          description: Creation time of this User.
+          format: date-time
+        description:
+          type: string
+          description: The text of this User's profile description (also known as bio), if the User provided one.
+        entities:
+          type: object
+          description: A list of metadata found in the User's profile description.
+          properties:
+            description:
+              $ref: '#/components/schemas/FullTextEntities'
+            url:
+              type: object
+              description: Expanded details for the URL specified in the User's profile, with start and end indices.
+              properties:
+                urls:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/UrlEntity'
+        id:
+          $ref: '#/components/schemas/UserId'
+        location:
+          type: string
+          description: The location specified in the User's profile, if the User provided one. As this is a freeform value, it may not indicate a valid location, but it may be fuzzily evaluated when performing searches with location queries.
+        most_recent_tweet_id:
+          $ref: '#/components/schemas/TweetId'
+        name:
+          type: string
+          description: The friendly name of this User, as shown on their profile.
+        pinned_tweet_id:
+          $ref: '#/components/schemas/TweetId'
+        profile_banner_url:
+          type: string
+          description: The URL to the profile banner for this User.
+          format: uri
+        profile_image_url:
+          type: string
+          description: The URL to the profile image for this User.
+          format: uri
+        protected:
+          type: boolean
+          description: Indicates if this User has chosen to protect their Posts (in other words, if this User's Posts are private).
+        public_metrics:
+          type: object
+          description: A list of metrics for this User.
+          required:
+          - followers_count
+          - following_count
+          - tweet_count
+          - listed_count
+          properties:
+            followers_count:
+              type: integer
+              description: Number of Users who are following this User.
+            following_count:
+              type: integer
+              description: Number of Users this User is following.
+            like_count:
+              type: integer
+              description: The number of likes created by this User.
+            listed_count:
+              type: integer
+              description: The number of lists that include this User.
+            tweet_count:
+              type: integer
+              description: The number of Posts (including Retweets) posted by this User.
+        receives_your_dm:
+          type: boolean
+          description: Indicates if you can send a DM to this User
+        subscription_type:
+          type: string
+          description: 'The X Blue subscription type of the user, eg: Basic, Premium, PremiumPlus or None.'
+          enum:
+          - Basic
+          - Premium
+          - PremiumPlus
+          - None
+        url:
+          type: string
+          description: The URL specified in the User's profile.
+        username:
+          $ref: '#/components/schemas/UserName'
+        verified:
+          type: boolean
+          description: Indicate if this User is a verified X User.
+        verified_type:
+          type: string
+          description: 'The X Blue verified type of the user, eg: blue, government, business or none.'
+          enum:
+          - blue
+          - government
+          - business
+          - none
+        withheld:
+          $ref: '#/components/schemas/UserWithheld'
+      example:
+        created_at: '2013-12-14T04:35:55Z'
+        id: '2244994945'
+        name: X Dev
+        protected: false
+        username: TwitterDev
+    ChatMediaUploadFinalizeResponse:
+      type: object
+      description: Response from finalizing a Chat media upload.
+      properties:
+        data:
+          type: object
+          required:
+          - success
+          properties:
+            success:
+              type: boolean
+              description: Whether the finalize request succeeded.
+    MentionEntity:
+      allOf:
+      - $ref: '#/components/schemas/EntityIndicesInclusiveExclusive'
+      - $ref: '#/components/schemas/MentionFields'
+    FullTextEntities:
+      type: object
+      properties:
+        annotations:
+          type: array
+          minItems: 1
+          items:
+            description: Annotation for entities based on the Tweet text.
+            allOf:
+            - $ref: '#/components/schemas/EntityIndicesInclusiveInclusive'
+            - type: object
+              description: Represents the data for the annotation.
+              properties:
+                normalized_text:
+                  type: string
+                  description: Text used to determine annotation.
+                  example: Barack Obama
+                probability:
+                  type: number
+                  description: Confidence factor for annotation type.
+                  minimum: 0
+                  maximum: 1
+                  format: double
+                type:
+                  type: string
+                  description: Annotation type.
+                  example: Person
+        cashtags:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/CashtagEntity'
+        hashtags:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/HashtagEntity'
+        mentions:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/MentionEntity'
+        urls:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/UrlEntity'
+    UrlFields:
+      type: object
+      description: Represent the portion of text recognized as a URL.
+      required:
+      - url
+      properties:
+        description:
+          type: string
+          description: Description of the URL landing page.
+          example: This is a description of the website.
+        display_url:
+          type: string
+          description: The URL as displayed in the X client.
+          example: twittercommunity.com/t/introducing-…
+        expanded_url:
+          $ref: '#/components/schemas/Url'
+        images:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/UrlImage'
+        media_key:
+          $ref: '#/components/schemas/MediaKey'
+        status:
+          $ref: '#/components/schemas/HttpStatusCode'
+        title:
+          type: string
+          description: Title of the page the URL points to.
+          example: Introducing the v2 follow lookup endpoints
+        unwound_url:
+          type: string
+          description: Fully resolved url.
+          format: uri
+          example: https://twittercommunity.com/t/introducing-the-v2-follow-lookup-endpoints/147118
+        url:
+          $ref: '#/components/schemas/Url'
+    Tweet:
+      type: object
+      properties:
+        attachments:
+          type: object
+          description: Specifies the type of attachments (if any) present in this Tweet.
+          properties:
+            media_keys:
+              type: array
+              description: A list of Media Keys for each one of the media attachments (if media are attached).
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/MediaKey'
+            media_source_tweet_id:
+              type: array
+              description: A list of Posts the media on this Tweet was originally posted in. For example, if the media on a tweet is re-used in another Tweet, this refers to the original, source Tweet..
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/TweetId'
+            poll_ids:
+              type: array
+              description: A list of poll IDs (if polls are attached).
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/PollId'
+        author_id:
+          $ref: '#/components/schemas/UserId'
+        community_id:
+          $ref: '#/components/schemas/CommunityId'
+        context_annotations:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ContextAnnotation'
+        conversation_id:
+          $ref: '#/components/schemas/TweetId'
+        created_at:
+          type: string
+          description: Creation time of the Tweet.
+          format: date-time
+          example: '2021-01-06T18:40:40.000Z'
+        display_text_range:
+          $ref: '#/components/schemas/DisplayTextRange'
+        edit_controls:
+          type: object
+          required:
+          - is_edit_eligible
+          - editable_until
+          - edits_remaining
+          properties:
+            editable_until:
+              type: string
+              description: Time when Tweet is no longer editable.
+              format: date-time
+              example: '2021-01-06T18:40:40.000Z'
+            edits_remaining:
+              type: integer
+              description: Number of times this Tweet can be edited.
+            is_edit_eligible:
+              type: boolean
+              description: Indicates if this Tweet is eligible to be edited.
+              example: false
+        edit_history_tweet_ids:
+          type: array
+          description: A list of Tweet Ids in this Tweet chain.
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/TweetId'
+        entities:
+          $ref: '#/components/schemas/FullTextEntities'
+        geo:
+          type: object
+          description: The location tagged on the Tweet, if the user provided one.
+          properties:
+            coordinates:
+              $ref: '#/components/schemas/Point'
+            place_id:
+              $ref: '#/components/schemas/PlaceId'
+        id:
+          $ref: '#/components/schemas/TweetId'
+        in_reply_to_user_id:
+          $ref: '#/components/schemas/UserId'
+        lang:
+          type: string
+          description: Language of the Tweet, if detected by X. Returned as a BCP47 language tag.
+          example: en
+        non_public_metrics:
+          type: object
+          description: Nonpublic engagement metrics for the Tweet at the time of the request.
+          properties:
+            impression_count:
+              type: integer
+              description: Number of times this Tweet has been viewed.
+              format: int32
+        note_tweet:
+          type: object
+          description: The full-content of the Tweet, including text beyond 280 characters.
+          properties:
+            entities:
+              type: object
+              properties:
+                cashtags:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/CashtagEntity'
+                hashtags:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/HashtagEntity'
+                mentions:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/MentionEntity'
+                urls:
+                  type: array
+                  minItems: 1
+                  items:
+                    $ref: '#/components/schemas/UrlEntity'
+            text:
+              $ref: '#/components/schemas/NoteTweetText'
+        organic_metrics:
+          type: object
+          description: Organic nonpublic engagement metrics for the Tweet at the time of the request.
+          required:
+          - impression_count
+          - retweet_count
+          - reply_count
+          - like_count
+          properties:
+            impression_count:
+              type: integer
+              description: Number of times this Tweet has been viewed.
+            like_count:
+              type: integer
+              description: Number of times this Tweet has been liked.
+            reply_count:
+              type: integer
+              description: Number of times this Tweet has been replied to.
+            retweet_count:
+              type: integer
+              description: Number of times this Tweet has been Retweeted.
+        possibly_sensitive:
+          type: boolean
+          description: Indicates if this Tweet contains URLs marked as sensitive, for example content suitable for mature audiences.
+          example: false
+        promoted_metrics:
+          type: object
+          description: Promoted nonpublic engagement metrics for the Tweet at the time of the request.
+          properties:
+            impression_count:
+              type: integer
+              description: Number of times this Tweet has been viewed.
+              format: int32
+            like_count:
+              type: integer
+              description: Number of times this Tweet has been liked.
+              format: int32
+            reply_count:
+              type: integer
+              description: Number of times this Tweet has been replied to.
+              format: int32
+            retweet_count:
+              type: integer
+              description: Number of times this Tweet has been Retweeted.
+              format: int32
+        public_metrics:
+          type: object
+          description: Engagement metrics for the Tweet at the time of the request.
+          required:
+          - retweet_count
+          - reply_count
+          - like_count
+          - impression_count
+          - bookmark_count
+          properties:
+            bookmark_count:
+              type: integer
+              description: Number of times this Tweet has been bookmarked.
+              format: int32
+            impression_count:
+              type: integer
+              description: Number of times this Tweet has been viewed.
+              format: int32
+            like_count:
+              type: integer
+              description: Number of times this Tweet has been liked.
+            quote_count:
+              type: integer
+              description: Number of times this Tweet has been quoted.
+            reply_count:
+              type: integer
+              description: Number of times this Tweet has been replied to.
+            retweet_count:
+              type: integer
+              description: Number of times this Tweet has been Retweeted.
+        referenced_tweets:
+          type: array
+          description: A list of Posts this Tweet refers to. For example, if the parent Tweet is a Retweet, a Quoted Tweet or a Reply, it will include the related Tweet referenced to by its parent.
+          minItems: 1
+          items:
+            type: object
+            required:
+            - type
+            - id
+            properties:
+              id:
+                $ref: '#/components/schemas/TweetId'
+              type:
+                type: string
+                enum:
+                - retweeted
+                - quoted
+                - replied_to
+        reply_settings:
+          $ref: '#/components/schemas/ReplySettingsWithVerifiedUsers'
+        scopes:
+          type: object
+          description: The scopes for this tweet
+          properties:
+            followers:
+              type: boolean
+              description: Indicates if this Tweet is viewable by followers without the Tweet ID
+              example: false
+        source:
+          type: string
+          description: This is deprecated.
+        suggested_source_links:
+          type: array
+          minItems: 0
+          items:
+            $ref: '#/components/schemas/UrlEntity'
+        suggested_source_links_with_counts:
+          type: object
+          description: Suggested source links and the number of requests that included each link.
+          properties:
+            count:
+              type: integer
+              description: Number of note requests that included the source link.
+            url:
+              $ref: '#/components/schemas/UrlEntity'
+        text:
+          $ref: '#/components/schemas/TweetText'
+        username:
+          $ref: '#/components/schemas/UserName'
+        withheld:
+          $ref: '#/components/schemas/TweetWithheld'
+      example:
+        author_id: '2244994945'
+        created_at: Wed Jan 06 18:40:40 +0000 2021
+        id: '1346889436626259968'
+        text: Learn how to use the user Tweet timeline and user mention timeline endpoints in the X API v2 to explore Tweet\u2026 https:\/\/t.co\/56a0vZUx7i
+        username: XDevelopers
+    Problem:
+      type: object
+      description: An HTTP Problem Details object, as defined in IETF RFC 7807 (https://tools.ietf.org/html/rfc7807).
+      required:
+      - type
+      - title
+      properties:
+        detail:
+          type: string
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          about:blank: '#/components/schemas/GenericProblem'
+          https://api.twitter.com/2/problems/client-disconnected: '#/components/schemas/ClientDisconnectedProblem'
+          https://api.twitter.com/2/problems/client-forbidden: '#/components/schemas/ClientForbiddenProblem'
+          https://api.twitter.com/2/problems/conflict: '#/components/schemas/ConflictProblem'
+          https://api.twitter.com/2/problems/disallowed-resource: '#/components/schemas/DisallowedResourceProblem'
+          https://api.twitter.com/2/problems/duplicate-rules: '#/components/schemas/DuplicateRuleProblem'
+          https://api.twitter.com/2/problems/invalid-request: '#/components/schemas/InvalidRequestProblem'
+          https://api.twitter.com/2/problems/invalid-rules: '#/components/schemas/InvalidRuleProblem'
+          https://api.twitter.com/2/problems/noncompliant-rules: '#/components/schemas/NonCompliantRulesProblem'
+          https://api.twitter.com/2/problems/not-authorized-for-field: '#/components/schemas/FieldUnauthorizedProblem'
+          https://api.twitter.com/2/problems/not-authorized-for-resource: '#/components/schemas/ResourceUnauthorizedProblem'
+          https://api.twitter.com/2/problems/operational-disconnect: '#/components/schemas/OperationalDisconnectProblem'
+          https://api.twitter.com/2/problems/resource-not-found: '#/components/schemas/ResourceNotFoundProblem'
+          https://api.twitter.com/2/problems/resource-unavailable: '#/components/schemas/ResourceUnavailableProblem'
+          https://api.twitter.com/2/problems/rule-cap: '#/components/schemas/RulesCapProblem'
+          https://api.twitter.com/2/problems/streaming-connection: '#/components/schemas/ConnectionExceptionProblem'
+          https://api.twitter.com/2/problems/unsupported-authentication: '#/components/schemas/UnsupportedAuthenticationProblem'
+          https://api.twitter.com/2/problems/usage-capped: '#/components/schemas/UsageCapExceededProblem'
+    TweetWithheld:
+      type: object
+      description: Indicates withholding details for [withheld content](https://help.twitter.com/en/rules-and-policies/tweet-withheld-by-country).
+      required:
+      - copyright
+      - country_codes
+      properties:
+        copyright:
+          type: boolean
+          description: Indicates if the content is being withheld for on the basis of copyright infringement.
+        country_codes:
+          type: array
+          description: Provides a list of countries where this content is not available.
+          minItems: 1
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/CountryCode'
+        scope:
+          type: string
+          description: Indicates whether the content being withheld is the `tweet` or a `user`.
+          enum:
+          - tweet
+          - user
+    Url:
+      type: string
+      description: A validly formatted URL.
+      format: uri
+      example: https://developer.twitter.com/en/docs/twitter-api
+    Expansions:
+      type: object
+      properties:
+        media:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Media'
+        places:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Place'
+        polls:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Poll'
+        topics:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Topic'
+        tweets:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Tweet'
+        users:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/User'
+    ChatMediaUploadFinalizeRequest:
+      type: object
+      description: Request body for finalizing a Chat media upload.
+      properties:
+        conversation_id:
+          type: string
+          description: XChat conversation identifier for the upload.
+          example: '1234567890'
+        media_hash_key:
+          type: string
+          description: Media hash key returned from initialize.
+          example: example_value
+        message_id:
+          type: string
+          description: Optional message identifier associated with the upload.
+          example: '1234567890'
+        num_parts:
+          type: string
+          description: Total number of uploaded parts as a numeric string.
+          example: example_value
+        ttl_msec:
+          type: string
+          description: Optional TTL for the media in milliseconds.
+          example: example_value
+    ChatMessageSigningKeyInfo:
+      type: object
+      description: Signing key information for message verification.
+      properties:
+        member_id:
+          type: string
+          description: The member ID associated with this signing key.
+          example: '1234567890'
+        public_key_version:
+          type: string
+          description: The version of the public key.
+          example: example_value
+        signing_public_key:
+          type: string
+          description: The signing public key.
+          example: example_value
+    EntityIndicesInclusiveInclusive:
+      type: object
+      description: Represent a boundary range (start and end index) for a recognized entity (for example a hashtag or a mention). `start` must be smaller than `end`.  The start index is inclusive, the end index is inclusive.
+      required:
+      - start
+      - end
+      properties:
+        end:
+          type: integer
+          description: Index (zero-based) at which position this entity ends.  The index is inclusive.
+          minimum: 0
+          example: 61
+        start:
+          type: integer
+          description: Index (zero-based) at which position this entity starts.  The index is inclusive.
+          minimum: 0
+          example: 50
+    TweetText:
+      type: string
+      description: The content of the Tweet.
+      example: Learn how to use the user Tweet timeline and user mention timeline endpoints in the X API v2 to explore Tweet\u2026 https:\/\/t.co\/56a0vZUx7i
+    ChatConversationParticipantKey:
+      type: object
+      description: A participant's encrypted conversation key.
+      properties:
+        encrypted_conversation_key:
+          type: string
+          description: Conversation key encrypted with this participant's public key.
+          example: example_value
+        public_key_version:
+          type: string
+          description: Version of the participant's public key used for encryption.
+          example: example_value
+        user_id:
+          type: string
+          description: Participant user ID.
+          example: '1234567890'
+    ContextAnnotationEntityFields:
+      type: object
+      description: Represents the data for the context annotation entity.
+      required:
+      - id
+      properties:
+        description:
+          type: string
+          description: Description of the context annotation entity.
+          example: Example description for this resource.
+        id:
+          type: string
+          description: The unique id for a context annotation entity.
+          pattern: ^[0-9]{1,19}$
+          example: '1234567890'
+        name:
+          type: string
+          description: Name of the context annotation entity.
+          example: Example User
+    BinaryPayload:
+      type: string
+      description: Raw binary data bytes.
+      format: binary
+    ChatInitializeConversationKeysResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            sequence_id:
+              type: string
+              description: Sequence ID of the conversation key change event. Use this to track key changes in the conversation event stream.
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+    ChatMessageEvent:
+      type: object
+      description: An Chat message event with extracted envelope fields and the original encoded event.
+      required:
+      - encoded_event
+      properties:
+        conversation_id:
+          type: string
+          description: The conversation ID this message belongs to.
+          example: '1234567890'
+        conversation_token:
+          type: string
+          description: The conversation token for this message.
+          example: next_token_abc123
+        created_at_msec:
+          type: string
+          description: The creation timestamp in milliseconds.
+          example: example_value
+        encoded_event:
+          type: string
+          description: Base64-encoded MessageEvent for client decoding.
+          example: example_value
+        id:
+          type: string
+          description: The unique identifier for this message event (message_id).
+          example: '1234567890'
+        is_trusted:
+          type: boolean
+          description: Whether the message is from a trusted source.
+          example: true
+        message_event_signature:
+          $ref: '#/components/schemas/ChatMessageEventSignature'
+        previous_sequence_id:
+          type: string
+          description: The sequence ID of the previous message.
+          example: '1234567890'
+        sender_id:
+          type: string
+          description: The user ID of the message sender.
+          example: '1234567890'
+        sequence_id:
+          type: string
+          description: The sequence identifier for ordering messages.
+          example: '1234567890'
+    UrlEntity:
+      description: Represent the portion of text recognized as a URL, and its start and end position within the text.
+      allOf:
+      - $ref: '#/components/schemas/EntityIndicesInclusiveExclusive'
+      - $ref: '#/components/schemas/UrlFields'
+    MediaUploadAppendResponse:
+      type: object
+      description: A response from getting a media upload request status.
+      required:
+      - meta
+      properties:
+        data:
+          type: object
+          properties:
+            expires_at:
+              type: integer
+              description: Unix epoch time in seconds after when the upload session expires.
+              format: int64
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    HttpStatusCode:
+      type: integer
+      description: HTTP Status Code.
+      minimum: 100
+      maximum: 599
+    EntityIndicesInclusiveExclusive:
+      type: object
+      description: Represent a boundary range (start and end index) for a recognized entity (for example a hashtag or a mention). `start` must be smaller than `end`.  The start index is inclusive, the end index is exclusive.
+      required:
+      - start
+      - end
+      properties:
+        end:
+          type: integer
+          description: Index (zero-based) at which position this entity ends.  The index is exclusive.
+          minimum: 0
+          example: 61
+        start:
+          type: integer
+          description: Index (zero-based) at which position this entity starts.  The index is inclusive.
+          minimum: 0
+          example: 50
+    MediaPayloadBinary:
+      type: string
+      description: The file to upload.
+      format: binary
+    TweetId:
+      type: string
+      description: Unique identifier of this Tweet. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.
+      pattern: ^[0-9]{1,19}$
+      example: '1346889436626259968'
+    MediaKey:
+      type: string
+      description: The Media Key identifier for this attachment.
+      pattern: ^([0-9]+)_([0-9]+)$
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    ChatMessageEventSignature:
+      type: object
+      description: Message event signature for verification.
+      properties:
+        message_signing_key_info_list:
+          type: array
+          description: List of signing key information for message verification.
+          items:
+            $ref: '#/components/schemas/ChatMessageSigningKeyInfo'
+          example: []
+        public_key_version:
+          type: string
+          description: The version of the public key used for signing.
+          example: example_value
+        signature:
+          type: string
+          description: The signature of the message event.
+          example: example_value
+        signature_version:
+          type: string
+          description: The version of the signature algorithm.
+          example: example_value
+        signing_public_key:
+          type: string
+          description: The public key used for signing.
+          example: example_value
+    ChatConversationOrRecipientId:
+      type: string
+      description: 'Identifies the conversation target. Accepts three formats: (1) a recipient user ID for 1:1 conversations (e.g., ''1215441834412953600''), (2) a legacy 1:1 conversation ID with two user IDs separated by a dash (e.g., ''1215441834412953600-1603419180975409153''), or (3) a group conversation ID prefixed with ''g'' (e.g., ''g1234567890123456789''). The server constructs the canonical conversation ID from the authenticated user and recipient when a single user ID is provided.'
+      pattern: ^([0-9]{1,19}|[0-9]{1,19}-[0-9]{1,19}|g[0-9]{1,19})$
+      example: '1215441834412953600'
+    CashtagFields:
+      type: object
+      description: Represent the portion of text recognized as a Cashtag, and its start and end position within the text.
+      required:
+      - tag
+      properties:
+        tag:
+          type: string
+          example: TWTR
+    ChatInitializeConversationKeysRequest:
+      type: object
+      required:
+      - conversation_key_version
+      - conversation_participant_keys
+      properties:
+        action_signatures:
+          type: array
+          description: Cryptographic signatures for the key initialization action.
+          items:
+            $ref: '#/components/schemas/ChatActionSignature'
+          example: []
+        base64_encoded_key_rotation:
+          type: string
+          description: Base64-encoded key rotation payload for ratchet tree key management.
+          example: example_value
+        conversation_key_version:
+          type: string
+          description: Version of the conversation encryption key (typically a timestamp in milliseconds).
+          example: example_value
+        conversation_participant_keys:
+          type: array
+          description: The conversation key encrypted for each participant using their public key.
+          items:
+            $ref: '#/components/schemas/ChatConversationParticipantKey'
+          example: []
+    MediaWidth:
+      type: integer
+      description: The width of the media in pixels.
+      minimum: 0
+    Position:
+      type: array
+      description: A [GeoJson Position](https://tools.ietf.org/html/rfc7946#section-3.1.1) in the format `[longitude,latitude]`.
+      minItems: 2
+      maxItems: 2
+      items:
+        type: number
+      example:
+      - -105.18816086351444
+      - 40.247749999999996
+    ChatSendMessageRequest:
+      type: object
+      required:
+      - message_id
+      - encoded_message_create_event
+      properties:
+        conversation_token:
+          type: string
+          description: Optional conversation token.
+          example: next_token_abc123
+        encoded_message_create_event:
+          type: string
+          description: Base64-encoded Thrift MessageCreateEvent containing encrypted message contents.
+          example: Hello from the X API!
+        encoded_message_event_signature:
+          type: string
+          description: Base64-encoded Thrift MessageEventSignature for message verification.
+          example: Hello from the X API!
+        message_id:
+          type: string
+          description: Unique identifier for this message.
+          example: '1234567890'
+    MediaSegments:
+      oneOf:
+      - type: integer
+        description: An integer value representing the media upload segment.
+        minimum: 0
+        maximum: 999
+        format: int32
+      - type: string
+        description: An integer value representing the media upload segment.
+        pattern: ^[0-9]{1,3}$
+        format: integer
+    UrlImage:
+      type: object
+      description: Represent the information for the URL image.
+      properties:
+        height:
+          $ref: '#/components/schemas/MediaHeight'
+        url:
+          $ref: '#/components/schemas/Url'
+        width:
+          $ref: '#/components/schemas/MediaWidth'
+    ChatSendTypingIndicatorResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            success:
+              type: boolean
+              description: Whether the typing indicator was sent successfully.
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+    UserName:
+      type: string
+      description: The X handle (screen name) of this user.
+      pattern: ^[A-Za-z0-9_]{1,15}$
+    ChatCreateConversationRequest:
+      type: object
+      required:
+      - conversation_id
+      - conversation_key_version
+      - conversation_participant_keys
+      - group_members
+      properties:
+        action_signatures:
+          type: array
+          description: Cryptographic signatures for the create action.
+          items:
+            $ref: '#/components/schemas/ChatActionSignature'
+          example: []
+        base64_encoded_key_rotation:
+          type: string
+          description: Base64-encoded key rotation payload.
+          example: example_value
+        conversation_id:
+          type: string
+          description: Client-generated conversation ID.
+          example: '1234567890'
+        conversation_key_version:
+          type: string
+          description: Version of the conversation encryption key.
+          example: example_value
+        conversation_participant_keys:
+          type: array
+          description: Encrypted conversation keys for each participant.
+          items:
+            $ref: '#/components/schemas/ChatConversationParticipantKey'
+          example: []
+        group_admins:
+          type: array
+          description: User IDs of group admins. Defaults to the creator if omitted.
+          items:
+            type: string
+            description: User ID.
+          example:
+          - example_value
+        group_avatar_url:
+          type: string
+          description: URL of the avatar image for the group conversation.
+          example: https://x.com/exampleuser
+        group_description:
+          type: string
+          description: Description for the group conversation.
+          example: Example description for this resource.
+        group_members:
+          type: array
+          description: User IDs of group members to include in the conversation.
+          items:
+            type: string
+            description: User ID.
+          example:
+          - example_value
+        group_name:
+          type: string
+          description: Display name for the group conversation.
+          example: Example User
+        ttl_msec:
+          type: string
+          description: Message time-to-live in milliseconds. Messages expire after this duration.
+          example: example_value
+    ContextAnnotation:
+      type: object
+      description: Annotation inferred from the Tweet text.
+      required:
+      - domain
+      - entity
+      properties:
+        domain:
+          $ref: '#/components/schemas/ContextAnnotationDomainFields'
+        entity:
+          $ref: '#/components/schemas/ContextAnnotationEntityFields'
+    Poll:
+      type: object
+      description: Represent a Poll attached to a Tweet.
+      required:
+      - id
+      - options
+      properties:
+        duration_minutes:
+          type: integer
+          minimum: 5
+          maximum: 10080
+          format: int32
+        end_datetime:
+          type: string
+          format: date-time
+        id:
+          $ref: '#/components/schemas/PollId'
+        options:
+          type: array
+          minItems: 2
+          maxItems: 4
+          items:
+            $ref: '#/components/schemas/PollOption'
+        voting_status:
+          type: string
+          enum:
+          - open
+          - closed
+    HashtagFields:
+      type: object
+      description: Represent the portion of text recognized as a Hashtag, and its start and end position within the text.
+      required:
+      - tag
+      properties:
+        tag:
+          type: string
+          description: The text of the Hashtag.
+          example: MondayMotivation
+    MediaHeight:
+      type: integer
+      description: The height of the media in pixels.
+      minimum: 0
+    ChatAddGroupMembersResponse:
+      type: object
+      properties:
+        conversation_key_change_sequence_id:
+          type: string
+          description: Sequence ID of the conversation key change event.
+          example: '1234567890'
+        current_member_ids:
+          type: array
+          description: List of all current member IDs in the conversation.
+          items:
+            type: string
+            description: User ID.
+          example:
+          - '1234567890'
+    TopicId:
+      type: string
+      description: Unique identifier of this Topic.
+    ChatMediaUploadInitializeRequest:
+      type: object
+      description: Request body for initializing a Chat media upload.
+      properties:
+        conversation_id:
+          type: string
+          description: XChat conversation identifier for the upload.
+          example: 1603419216513746946:1603419216513746946
+        total_bytes:
+          type: integer
+          description: Total size of the media upload in bytes.
+          minimum: 0
+          example: 42
+    UserId:
+      type: string
+      description: Unique identifier of this User. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.
+      pattern: ^[0-9]{1,19}$
+      example: '2244994945'
+    ChatSendMessageResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            encoded_message_event:
+              type: string
+              description: Base64-encoded response message event.
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+          example: []
+  parameters:
+    PublicKeyFieldsParameter:
+      name: public_key.fields
+      in: query
+      description: A comma separated list of PublicKey fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a PublicKey object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - juicebox_config
+          - public_key
+          - signing_public_key
+          - version
+        example:
+        - juicebox_config
+        - public_key
+        - signing_public_key
+        - version
+      explode: false
+      style: form
+    ChatConversationExpansionsParameter:
+      name: expansions
+      in: query
+      description: A comma separated list of fields to expand.
+      schema:
+        type: array
+        description: The list of fields you can expand for a [ChatConversation](#ChatConversation) object. If the field has an ID, it can be expanded into a full object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - admin_ids
+          - member_ids
+          - participant_ids
+        example:
+        - admin_ids
+        - member_ids
+        - participant_ids
+      explode: false
+      style: form
+    UserFieldsParameter:
+      name: user.fields
+      in: query
+      description: A comma separated list of User fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a User object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - affiliation
+          - confirmed_email
+          - connection_status
+          - created_at
+          - description
+          - entities
+          - id
+          - is_identity_verified
+          - location
+          - most_recent_tweet_id
+          - name
+          - parody
+          - pinned_tweet_id
+          - profile_banner_url
+          - profile_image_url
+          - protected
+          - public_metrics
+          - receives_your_dm
+          - subscription
+          - subscription_type
+          - url
+          - username
+          - verified
+          - verified_followers_count
+          - verified_type
+          - withheld
+        example:
+        - affiliation
+        - confirmed_email
+        - connection_status
+        - created_at
+        - description
+        - entities
+        - id
+        - is_identity_verified
+        - location
+        - most_recent_tweet_id
+        - name
+        - parody
+        - pinned_tweet_id
+        - profile_banner_url
+        - profile_image_url
+        - protected
+        - public_metrics
+        - receives_your_dm
+        - subscription
+        - subscription_type
+        - url
+        - username
+        - verified
+        - verified_followers_count
+        - verified_type
+        - withheld
+      explode: false
+      style: form
+    ChatMessageEventFieldsParameter:
+      name: chat_message_event.fields
+      in: query
+      description: A comma separated list of ChatMessageEvent fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a ChatMessageEvent object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - conversation_id
+          - conversation_token
+          - created_at_msec
+          - encoded_event
+          - id
+          - is_trusted
+          - message_event_signature
+          - previous_id
+          - sender_id
+        example:
+        - conversation_id
+        - conversation_token
+        - created_at_msec
+        - encoded_event
+        - id
+        - is_trusted
+        - message_event_signature
+        - previous_id
+        - sender_id
+      explode: false
+      style: form
+    ChatConversationFieldsParameter:
+      name: chat_conversation.fields
+      in: query
+      description: A comma separated list of ChatConversation fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a ChatConversation object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - admin_ids
+          - created_at
+          - group_avatar_url
+          - group_name
+          - id
+          - is_muted
+          - member_ids
+          - message_ttl_msec
+          - participant_ids
+          - screen_capture_blocking_enabled
+          - screen_capture_detection_enabled
+          - type
+          - updated_at
+        example:
+        - admin_ids
+        - created_at
+        - group_avatar_url
+        - group_name
+        - id
+        - is_muted
+        - member_ids
+        - message_ttl_msec
+        - participant_ids
+        - screen_capture_blocking_enabled
+        - screen_capture_detection_enabled
+        - type
+        - updated_at
+      explode: false
+      style: form
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+    OAuth2UserToken:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.x.com/2/oauth2/authorize
+          tokenUrl: https://api.x.com/2/oauth2/token
+          scopes:
+            block.read: View accounts you have blocked.
+            bookmark.read: Read your bookmarked Posts.
+            bookmark.write: Create and delete your bookmarks.
+            dm.read: Read all your Direct Messages.
+            dm.write: Send and manage your Direct Messages.
+            follows.read: View accounts you follow and accounts following you.
+            follows.write: Follow and unfollow accounts on your behalf.
+            like.read: View Posts you have liked and likes you can see.
+            like.write: Like and unlike Posts on your behalf.
+            list.read: View Lists, members, and followers of Lists you created or are a member of, including private Lists.
+            list.write: Create and manage Lists on your behalf.
+            media.write: Upload media, such as photos and videos, on your behalf.
+            mute.read: View accounts you have muted.
+            mute.write: Mute and unmute accounts on your behalf.
+            offline.access: Request a refresh token for the app.
+            space.read: View all Spaces you have access to.
+            timeline.read: View all Custom Timelines you can see, including public Custom Timelines from other developers.
+            tweet.moderate.write: Hide and unhide replies to your Posts.
+            tweet.read: View all Posts you can see, including those from protected accounts.
+            tweet.write: Post and repost on your behalf.
+            users.read: View any account you can see, including protected accounts.
+    UserToken:
+      type: http
+      scheme: OAuth

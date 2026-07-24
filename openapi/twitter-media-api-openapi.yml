@@ -1,0 +1,1423 @@
+openapi: 3.0.0
+info:
+  description: X API v2 available endpoints
+  version: '2.161'
+  title: X API v2 Account Activity Media API
+  termsOfService: https://developer.x.com/en/developer-terms/agreement-and-policy.html
+  contact:
+    name: X Developers
+    url: https://developer.x.com/
+  license:
+    name: X Developer Agreement and Policy
+    url: https://developer.x.com/en/developer-terms/agreement-and-policy.html
+servers:
+- description: X API
+  url: https://api.x.com
+tags:
+- name: Media
+  description: Endpoints related to Media
+  externalDocs:
+    description: Find out more
+    url: https://developer.x.com
+paths:
+  /2/media:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - tweet.read
+      - UserToken: []
+      tags:
+      - Media
+      summary: X Get Media by Media Keys
+      description: Retrieves details of Media files by their media keys.
+      externalDocs:
+        url: https://developer.x.com
+      operationId: getMediaByMediaKeys
+      parameters:
+      - name: media_keys
+        in: query
+        description: A comma separated list of Media Keys. Up to 100 are allowed in a single request.
+        required: true
+        schema:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/MediaKey'
+        explode: false
+        style: form
+        example: []
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2MediaResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/media/analytics:
+    get:
+      security:
+      - OAuth2UserToken:
+        - tweet.read
+      - UserToken: []
+      tags:
+      - Media
+      summary: X Get Media Analytics
+      description: Retrieves analytics data for media.
+      operationId: getMediaAnalytics
+      parameters:
+      - name: media_keys
+        in: query
+        description: A comma separated list of Media Keys. Up to 100 are allowed in a single request.
+        required: true
+        schema:
+          type: array
+          minItems: 1
+          maxItems: 100
+          items:
+            $ref: '#/components/schemas/MediaKey'
+        explode: false
+        style: form
+        example: []
+      - name: end_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The UTC timestamp representing the end of the time range.
+        required: true
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: start_time
+        in: query
+        description: YYYY-MM-DDTHH:mm:ssZ. The UTC timestamp representing the start of the time range.
+        required: true
+        example: '2021-02-01T18:40:40.000Z'
+        schema:
+          type: string
+          format: date-time
+        style: form
+      - name: granularity
+        in: query
+        description: The granularity for the search counts results.
+        required: true
+        schema:
+          type: string
+          enum:
+          - hourly
+          - daily
+          - total
+          default: daily
+        style: form
+        example: hourly
+      - $ref: '#/components/parameters/MediaAnalyticsFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaAnalytics'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/media/metadata:
+    post:
+      security:
+      - OAuth2UserToken:
+        - media.write
+      - UserToken: []
+      tags:
+      - Media
+      summary: X Create Media Metadata
+      description: Creates metadata for a Media file.
+      externalDocs:
+        url: https://docs.x.com/x-api/media/media-metadata-create#metadata-create
+      operationId: createMediaMetadata
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MetadataCreateRequest'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetadataCreateResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/media/subtitles:
+    delete:
+      security:
+      - OAuth2UserToken:
+        - media.write
+      - UserToken: []
+      tags:
+      - Media
+      summary: X Delete Media Subtitles
+      description: Deletes subtitles for a specific Media file.
+      externalDocs:
+        url: https://docs.x.com/x-api/media/media-subtitles-delete
+      operationId: deleteMediaSubtitles
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubtitlesDeleteRequest'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubtitlesDeleteResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      security:
+      - OAuth2UserToken:
+        - media.write
+      - UserToken: []
+      tags:
+      - Media
+      summary: X Create Media Subtitles
+      description: Creates subtitles for a specific Media file.
+      externalDocs:
+        url: https://docs.x.com/x-api/media/media-subtitles-create
+      operationId: createMediaSubtitles
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubtitlesCreateRequest'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubtitlesCreateResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/media/upload:
+    get:
+      security:
+      - OAuth2UserToken:
+        - media.write
+      - UserToken: []
+      tags:
+      - Media
+      summary: X Get Media Upload Status
+      description: Retrieves the status of a Media upload by its ID.
+      externalDocs:
+        url: https://docs.x.com/x-api/media/media-upload-status#media-upload-status
+      operationId: getMediaUploadStatus
+      parameters:
+      - name: media_id
+        in: query
+        description: Media id for the requested media upload status.
+        required: true
+        schema:
+          $ref: '#/components/schemas/MediaId'
+        style: form
+        example: '1234567890'
+      - name: command
+        in: query
+        description: The command for the media upload request.
+        required: false
+        schema:
+          type: string
+          enum:
+          - STATUS
+        style: form
+        example: STATUS
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaUploadResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      security:
+      - OAuth2UserToken:
+        - media.write
+      - UserToken: []
+      tags:
+      - Media
+      summary: X Upload Media
+      description: Uploads a media file for use in posts or other content.
+      externalDocs:
+        url: https://docs.x.com/x-api/media/media-upload
+      operationId: mediaUpload
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaUploadRequestOneShot'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MediaUploadRequestOneShot'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaUploadResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/media/upload/initialize:
+    post:
+      security:
+      - OAuth2UserToken:
+        - media.write
+      - UserToken: []
+      tags:
+      - Media
+      summary: X Initialize Media Upload
+      description: Initializes a media upload.
+      externalDocs:
+        url: https://docs.x.com/x-api/media/media-upload
+      operationId: initializeMediaUpload
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaUploadConfigRequest'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaUploadResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/media/upload/{id}/append:
+    post:
+      security:
+      - OAuth2UserToken:
+        - media.write
+      - UserToken: []
+      tags:
+      - Media
+      summary: X Append Media Upload
+      description: Appends data to a Media upload request.
+      externalDocs:
+        url: https://docs.x.com/x-api/media/media-upload
+      operationId: appendMediaUpload
+      parameters:
+      - name: id
+        in: path
+        description: The media identifier for the media to perform the append operation.
+        required: true
+        schema:
+          $ref: '#/components/schemas/MediaId'
+        style: simple
+        example: '1234567890'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MediaUploadAppendRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MediaUploadAppendRequest'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaUploadAppendResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/media/upload/{id}/finalize:
+    post:
+      security:
+      - OAuth2UserToken:
+        - media.write
+      - UserToken: []
+      tags:
+      - Media
+      summary: X Finalize Media Upload
+      description: Finalizes a Media upload request.
+      externalDocs:
+        url: https://docs.x.com/x-api/media/media-upload
+      operationId: finalizeMediaUpload
+      parameters:
+      - name: id
+        in: path
+        description: The media id of the targeted media to finalize.
+        required: true
+        schema:
+          $ref: '#/components/schemas/MediaId'
+        style: simple
+        example: '1234567890'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MediaUploadResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /2/media/{media_key}:
+    get:
+      security:
+      - BearerToken: []
+      - OAuth2UserToken:
+        - tweet.read
+      - UserToken: []
+      tags:
+      - Media
+      summary: X Get Media by Media Key
+      description: Retrieves details of a specific Media file by its media key.
+      externalDocs:
+        url: https://developer.x.com
+      operationId: getMediaByMediaKey
+      parameters:
+      - name: media_key
+        in: path
+        description: A single Media Key.
+        required: true
+        schema:
+          $ref: '#/components/schemas/MediaKey'
+        style: simple
+        example: example_value
+      - $ref: '#/components/parameters/MediaFieldsParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Get2MediaMediaKeyResponse'
+        default:
+          description: The request has failed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    SubtitlesCreateRequest:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/MediaId'
+        media_category:
+          $ref: '#/components/schemas/MediaCategorySubtitles'
+        subtitles:
+          $ref: '#/components/schemas/Subtitles'
+    MediaMetrics:
+      type: object
+      properties:
+        cta_url_clicks:
+          type: integer
+          title: CTA URL Clicks
+          description: Tracks the number of clicks on a call-to-action URL
+        cta_watch_clicks:
+          type: integer
+          title: CTA Watch Clicks
+          description: Tracks the number of clicks to watch a video or media content
+        play_from_tap:
+          type: integer
+          title: Play From Tap
+          description: Tracks the number of times a video or media is played from a user tap
+        playback25:
+          type: integer
+          title: Playback 25%
+          description: Tracks the number of times a video reaches 25% of its duration
+        playback50:
+          type: integer
+          title: Playback 50%
+          description: Tracks the number of times a video reaches 50% of its duration
+        playback75:
+          type: integer
+          title: Playback 75%
+          description: Tracks the number of times a video reaches 75% of its duration
+        playback_complete:
+          type: integer
+          title: Playback Complete
+          description: Tracks the number of times a video is played to completion
+        playback_start:
+          type: integer
+          title: Playback Start
+          description: Tracks the number of times a video playback is initiated
+        video_views:
+          type: integer
+          title: Video Views
+          description: Tracks the number of times a video is viewed
+        watch_time_ms:
+          type: integer
+          title: Watch Time (ms)
+          description: Tracks the total time spent watching a video, measured in milliseconds
+    Media:
+      type: object
+      required:
+      - type
+      properties:
+        height:
+          $ref: '#/components/schemas/MediaHeight'
+        media_key:
+          $ref: '#/components/schemas/MediaKey'
+        type:
+          type: string
+        width:
+          $ref: '#/components/schemas/MediaWidth'
+      discriminator:
+        propertyName: type
+        mapping:
+          animated_gif: '#/components/schemas/AnimatedGif'
+          photo: '#/components/schemas/Photo'
+          video: '#/components/schemas/Video'
+    MediaAnalytics:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              media_key:
+                $ref: '#/components/schemas/MediaKey'
+              timestamped_metrics:
+                type: array
+                title: Timestamped Metrics
+                description: Array containing metrics data along with the timestamps of their recording.
+                items:
+                  $ref: '#/components/schemas/MediaTimestampedMetrics'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    MediaSegments:
+      oneOf:
+      - type: integer
+        description: An integer value representing the media upload segment.
+        minimum: 0
+        maximum: 999
+        format: int32
+      - type: string
+        description: An integer value representing the media upload segment.
+        pattern: ^[0-9]{1,3}$
+        format: integer
+    ProcessingInfo:
+      type: object
+      required:
+      - type
+      properties:
+        check_after_secs:
+          type: integer
+          description: Number of seconds to check again for status
+          format: int32
+        progress_percent:
+          type: integer
+          description: Percent of upload progress
+          format: int32
+        state:
+          type: string
+          description: State of upload
+          enum:
+          - succeeded
+          - in_progress
+          - pending
+          - failed
+    Get2MediaResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Media'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    StickerInfo:
+      type: object
+      required:
+      - stickers
+      properties:
+        stickers:
+          type: array
+          description: Stickers list must not be empty and should not exceed 25
+          items:
+            $ref: '#/components/schemas/Sticker'
+    ContentExpiration:
+      type: object
+      required:
+      - timestamp_sec
+      properties:
+        timestamp_sec:
+          type: number
+          description: Expiration time for content as a Unix timestamp in seconds
+          format: long
+          example: 1740787200
+    AudiencePolicy:
+      type: object
+      properties:
+        creator_subscriptions:
+          type: array
+          items:
+            type: string
+            enum:
+            - Any
+          example:
+          - Any
+        x_subscriptions:
+          type: array
+          items:
+            type: string
+            enum:
+            - Any
+          example:
+          - Any
+    MediaUploadAppendResponse:
+      type: object
+      description: A response from getting a media upload request status.
+      required:
+      - meta
+      properties:
+        data:
+          type: object
+          properties:
+            expires_at:
+              type: integer
+              description: Unix epoch time in seconds after when the upload session expires.
+              format: int64
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    MediaUploadRequestOneShot:
+      type: object
+      required:
+      - media
+      - media_category
+      properties:
+        additional_owners:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserId'
+        media:
+          anyOf:
+          - $ref: '#/components/schemas/MediaPayloadBinary'
+          - $ref: '#/components/schemas/MediaPayloadByte'
+        media_category:
+          $ref: '#/components/schemas/MediaCategoryOneShot'
+        media_type:
+          type: string
+          description: The type of image or subtitle.
+          enum:
+          - text/srt
+          - text/vtt
+          - image/jpeg
+          - image/bmp
+          - image/png
+          - image/webp
+          - image/pjpeg
+          - image/tiff
+          example: image/png
+        shared:
+          type: boolean
+          description: Whether this media is shared or not.
+          default: false
+      additionalProperties: false
+    MediaId:
+      type: string
+      description: The unique identifier of this Media.
+      pattern: ^[0-9]{1,19}$
+      example: '1146654567674912769'
+    Get2MediaMediaKeyResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Media'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    SensitiveMediaWarning:
+      type: object
+      properties:
+        adult_content:
+          type: boolean
+          description: Indicates if the content contains adult material
+          example: true
+        graphic_violence:
+          type: boolean
+          description: Indicates if the content depicts graphic violence
+          example: true
+        other:
+          type: boolean
+          description: Indicates if the content has other sensitive characteristics
+          example: false
+    MetadataCreateRequest:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          $ref: '#/components/schemas/MediaId'
+        metadata:
+          type: object
+          properties:
+            allow_download_status:
+              $ref: '#/components/schemas/AllowDownloadStatus'
+            alt_text:
+              $ref: '#/components/schemas/AltText'
+            audience_policy:
+              $ref: '#/components/schemas/AudiencePolicy'
+            content_expiration:
+              $ref: '#/components/schemas/ContentExpiration'
+            domain_restrictions:
+              $ref: '#/components/schemas/DomainRestrictions'
+            found_media_origin:
+              $ref: '#/components/schemas/FoundMediaOrigin'
+            geo_restrictions:
+              $ref: '#/components/schemas/GeoRestrictions'
+            management_info:
+              $ref: '#/components/schemas/ManagementInfo'
+            preview_image:
+              $ref: '#/components/schemas/PreviewImage'
+            sensitive_media_warning:
+              $ref: '#/components/schemas/SensitiveMediaWarning'
+            shared_info:
+              $ref: '#/components/schemas/SharedInfo'
+            sticker_info:
+              $ref: '#/components/schemas/StickerInfo'
+            upload_source:
+              $ref: '#/components/schemas/UploadSource'
+    MediaTimestampedMetrics:
+      type: object
+      properties:
+        metrics:
+          $ref: '#/components/schemas/MediaMetrics'
+        timestamp:
+          type: string
+          title: Timestamp
+          description: ISO8601 Time
+          example: '2025-03-17T06:30:00Z'
+    SubtitleLanguageCode:
+      type: string
+      description: The language code should be a BCP47 code (e.g. 'EN", "SP")
+      pattern: ^[A-Z]{2}$
+      example: EN
+    MediaPayloadBinary:
+      type: string
+      description: The file to upload.
+      format: binary
+    Subtitles:
+      type: object
+      properties:
+        display_name:
+          type: string
+          description: Language name in a human readable form
+          example: English
+        id:
+          $ref: '#/components/schemas/MediaId'
+        language_code:
+          $ref: '#/components/schemas/SubtitleLanguageCode'
+    AllowDownloadStatus:
+      type: object
+      properties:
+        allow_download:
+          type: boolean
+          example: true
+    PreviewImage:
+      type: object
+      required:
+      - media_key
+      properties:
+        media_key:
+          type: object
+          properties:
+            media:
+              $ref: '#/components/schemas/MediaId'
+            media_category:
+              type: string
+              description: The media category of media
+              enum:
+              - TweetImage
+              default: TweetImage
+              example: TweetImage
+    MediaKey:
+      type: string
+      description: The Media Key identifier for this attachment.
+      pattern: ^([0-9]+)_([0-9]+)$
+    SubtitlesCreateResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          required:
+          - id
+          - media_category
+          - associated_subtitles
+          properties:
+            associated_subtitles:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/Subtitles'
+            id:
+              $ref: '#/components/schemas/MediaId'
+            media_category:
+              $ref: '#/components/schemas/MediaCategorySubtitles'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    MediaUploadResponse:
+      type: object
+      description: A response from getting a media upload request status.
+      required:
+      - meta
+      properties:
+        data:
+          type: object
+          properties:
+            expires_after_secs:
+              type: integer
+              description: Number of seconds after which upload session expires.
+              format: int32
+            id:
+              $ref: '#/components/schemas/MediaId'
+            media_key:
+              $ref: '#/components/schemas/MediaKey'
+            processing_info:
+              $ref: '#/components/schemas/ProcessingInfo'
+            size:
+              type: integer
+              description: Size of the upload
+              format: int32
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    Sticker:
+      type: object
+      properties:
+        aspect_ratio:
+          type: number
+          description: width-to-height ratio of the media
+          format: double
+          example: 1.78
+        group_annotation_id:
+          type: number
+          description: A unique identifier for the group of annotations associated with the media
+          format: long
+          example: 987654321098765
+        id:
+          type: string
+          description: Unique identifier for sticker
+          example: '12345'
+        sticker_set_annotation_id:
+          type: number
+          description: A unique identifier for the sticker set associated with the media
+          format: long
+          example: 123456789012345
+        transform_a:
+          type: number
+          description: Scale or rotate the media on the x-axis
+          format: double
+          example: 1
+        transform_b:
+          type: number
+          description: Skew the media on the x-axis
+          format: double
+          example: 0
+        transform_c:
+          type: number
+          description: Skew the media on the y-axis
+          format: double
+          example: 0
+        transform_d:
+          type: number
+          description: Scale or rotate the media on the y-axis
+          format: double
+          example: 1
+        transform_tx:
+          type: number
+          description: Scale or rotate the media on the x-axis
+          format: double
+          example: 10.5
+        transform_ty:
+          type: number
+          description: The vertical translation (shift) value for the media
+          format: double
+          example: -5.2
+    Error:
+      type: object
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    AltText:
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+          description: Description of media ( <= 1000 characters )
+          maxLength: 1000
+          example: A dancing cat
+    MediaCategorySubtitles:
+      type: string
+      description: The media category of uploaded media to which subtitles should be added/deleted
+      enum:
+      - AmplifyVideo
+      - TweetVideo
+      example: TweetVideo
+    DomainRestrictions:
+      type: object
+      required:
+      - whitelist
+      properties:
+        whitelist:
+          type: array
+          description: List of whitelisted domains
+          items:
+            type: string
+    MediaHeight:
+      type: integer
+      description: The height of the media in pixels.
+      minimum: 0
+    FoundMediaOrigin:
+      type: object
+      required:
+      - provider
+      - id
+      properties:
+        id:
+          type: string
+          description: Unique Identifier of media within provider ( <= 24 characters ))
+          example: u5BzatR15TZ04
+        provider:
+          type: string
+          description: The media provider (e.g., 'giphy') that sourced the media ( <= 8 Characters )
+          example: giphy
+    MediaCategoryOneShot:
+      type: string
+      description: A string enum value which identifies a media use-case. This identifier is used to enforce use-case specific constraints (e.g. file size) and enable advanced features.
+      enum:
+      - tweet_image
+      - dm_image
+      - subtitles
+      example: tweet_image
+    UploadSource:
+      type: object
+      required:
+      - upload_source
+      properties:
+        upload_source:
+          type: string
+          description: Records the source (e.g., app, device) from which the media was uploaded
+          example: gallery
+    MetadataCreateResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            associated_metadata:
+              type: object
+              properties:
+                allow_download_status:
+                  $ref: '#/components/schemas/AllowDownloadStatus'
+                alt_text:
+                  $ref: '#/components/schemas/AltText'
+                audience_policy:
+                  $ref: '#/components/schemas/AudiencePolicy'
+                content_expiration:
+                  $ref: '#/components/schemas/ContentExpiration'
+                domain_restrictions:
+                  $ref: '#/components/schemas/DomainRestrictions'
+                found_media_origin:
+                  $ref: '#/components/schemas/FoundMediaOrigin'
+                geo_restrictions:
+                  $ref: '#/components/schemas/GeoRestrictions'
+                management_info:
+                  $ref: '#/components/schemas/ManagementInfo'
+                preview_image:
+                  $ref: '#/components/schemas/PreviewImage'
+                sensitive_media_warning:
+                  $ref: '#/components/schemas/SensitiveMediaWarning'
+                shared_info:
+                  $ref: '#/components/schemas/SharedInfo'
+                sticker_info:
+                  $ref: '#/components/schemas/StickerInfo'
+                upload_source:
+                  $ref: '#/components/schemas/UploadSource'
+            id:
+              $ref: '#/components/schemas/MediaId'
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    SubtitlesDeleteRequest:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/MediaId'
+        language_code:
+          $ref: '#/components/schemas/SubtitleLanguageCode'
+        media_category:
+          $ref: '#/components/schemas/MediaCategorySubtitles'
+    MediaUploadAppendRequest:
+      anyOf:
+      - type: object
+        required:
+        - media
+        - segment_index
+        properties:
+          media:
+            $ref: '#/components/schemas/MediaPayloadBinary'
+          segment_index:
+            $ref: '#/components/schemas/MediaSegments'
+      - type: object
+        required:
+        - media
+        - segment_index
+        properties:
+          media:
+            $ref: '#/components/schemas/MediaPayloadByte'
+          segment_index:
+            $ref: '#/components/schemas/MediaSegments'
+    SubtitlesDeleteResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          required:
+          - deleted
+          properties:
+            deleted:
+              type: boolean
+        errors:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Problem'
+    Problem:
+      type: object
+      description: An HTTP Problem Details object, as defined in IETF RFC 7807 (https://tools.ietf.org/html/rfc7807).
+      required:
+      - type
+      - title
+      properties:
+        detail:
+          type: string
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          about:blank: '#/components/schemas/GenericProblem'
+          https://api.twitter.com/2/problems/client-disconnected: '#/components/schemas/ClientDisconnectedProblem'
+          https://api.twitter.com/2/problems/client-forbidden: '#/components/schemas/ClientForbiddenProblem'
+          https://api.twitter.com/2/problems/conflict: '#/components/schemas/ConflictProblem'
+          https://api.twitter.com/2/problems/disallowed-resource: '#/components/schemas/DisallowedResourceProblem'
+          https://api.twitter.com/2/problems/duplicate-rules: '#/components/schemas/DuplicateRuleProblem'
+          https://api.twitter.com/2/problems/invalid-request: '#/components/schemas/InvalidRequestProblem'
+          https://api.twitter.com/2/problems/invalid-rules: '#/components/schemas/InvalidRuleProblem'
+          https://api.twitter.com/2/problems/noncompliant-rules: '#/components/schemas/NonCompliantRulesProblem'
+          https://api.twitter.com/2/problems/not-authorized-for-field: '#/components/schemas/FieldUnauthorizedProblem'
+          https://api.twitter.com/2/problems/not-authorized-for-resource: '#/components/schemas/ResourceUnauthorizedProblem'
+          https://api.twitter.com/2/problems/operational-disconnect: '#/components/schemas/OperationalDisconnectProblem'
+          https://api.twitter.com/2/problems/resource-not-found: '#/components/schemas/ResourceNotFoundProblem'
+          https://api.twitter.com/2/problems/resource-unavailable: '#/components/schemas/ResourceUnavailableProblem'
+          https://api.twitter.com/2/problems/rule-cap: '#/components/schemas/RulesCapProblem'
+          https://api.twitter.com/2/problems/streaming-connection: '#/components/schemas/ConnectionExceptionProblem'
+          https://api.twitter.com/2/problems/unsupported-authentication: '#/components/schemas/UnsupportedAuthenticationProblem'
+          https://api.twitter.com/2/problems/usage-capped: '#/components/schemas/UsageCapExceededProblem'
+    MediaCategory:
+      type: string
+      description: A string enum value which identifies a media use-case. This identifier is used to enforce use-case specific constraints (e.g. file size, video duration) and enable advanced features.
+      enum:
+      - amplify_video
+      - tweet_gif
+      - tweet_image
+      - tweet_video
+      - dm_gif
+      - dm_image
+      - dm_video
+      - subtitles
+      example: tweet_video
+    SharedInfo:
+      type: object
+      required:
+      - shared
+      properties:
+        shared:
+          type: boolean
+          description: Indicates if the media is shared in direct messages
+          example: false
+    GeoRestrictions:
+      oneOf:
+      - type: object
+        required:
+        - whitelisted_country_codes
+        - blacklisted_country_codes
+        properties:
+          blacklisted_country_codes:
+            type: array
+            description: List of blacklisted country codes
+            minItems: 0
+            maxItems: 0
+            items:
+              type: string
+              description: Country code in ISO 3166-1 alpha-2 format
+              pattern: ^[a-zA-Z]{2}$
+              example: us
+          whitelisted_country_codes:
+            type: array
+            description: List of whitelisted country codes
+            minItems: 1
+            items:
+              type: string
+              description: Country code in ISO 3166-1 alpha-2 format
+              pattern: ^[a-zA-Z]{2}$
+              example: us
+      - type: object
+        required:
+        - whitelisted_country_codes
+        - blacklisted_country_codes
+        properties:
+          blacklisted_country_codes:
+            type: array
+            description: List of blacklisted country codes
+            minItems: 1
+            items:
+              type: string
+              description: Country code in ISO 3166-1 alpha-2 format
+              pattern: ^[a-zA-Z]{2}$
+              example: us
+          whitelisted_country_codes:
+            type: array
+            description: List of whitelisted country codes
+            minItems: 0
+            maxItems: 0
+            items:
+              type: string
+              description: Country code in ISO 3166-1 alpha-2 format
+              pattern: ^[a-zA-Z]{2}$
+              example: us
+    MediaUploadConfigRequest:
+      type: object
+      properties:
+        additional_owners:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserId'
+        media_category:
+          $ref: '#/components/schemas/MediaCategory'
+        media_type:
+          type: string
+          description: The type of media.
+          enum:
+          - video/mp4
+          - video/webm
+          - video/mp2t
+          - video/quicktime
+          - text/srt
+          - text/vtt
+          - image/jpeg
+          - image/gif
+          - image/bmp
+          - image/png
+          - image/webp
+          - image/pjpeg
+          - image/tiff
+          - model/gltf-binary
+          - model/vnd.usdz+zip
+          example: video/mp4
+        shared:
+          type: boolean
+          description: Whether this media is shared or not.
+        total_bytes:
+          type: integer
+          description: The total size of the media upload in bytes.
+          minimum: 0
+          maximum: 17179869184
+      additionalProperties: false
+    ManagementInfo:
+      type: object
+      required:
+      - managed
+      properties:
+        managed:
+          type: boolean
+          description: Indicates if the media is managed by Media Studio
+          example: false
+    MediaPayloadByte:
+      type: string
+      description: The file to upload.
+      format: byte
+    MediaWidth:
+      type: integer
+      description: The width of the media in pixels.
+      minimum: 0
+    UserId:
+      type: string
+      description: Unique identifier of this User. This is returned as a string in order to avoid complications with languages and tools that cannot handle large integers.
+      pattern: ^[0-9]{1,19}$
+      example: '2244994945'
+  parameters:
+    MediaAnalyticsFieldsParameter:
+      name: media_analytics.fields
+      in: query
+      description: A comma separated list of MediaAnalytics fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a MediaAnalytics object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - cta_url_clicks
+          - cta_watch_clicks
+          - media_key
+          - play_from_tap
+          - playback25
+          - playback50
+          - playback75
+          - playback_complete
+          - playback_start
+          - timestamp
+          - video_views
+          - watch_time_ms
+        example:
+        - cta_url_clicks
+        - cta_watch_clicks
+        - media_key
+        - play_from_tap
+        - playback25
+        - playback50
+        - playback75
+        - playback_complete
+        - playback_start
+        - timestamp
+        - video_views
+        - watch_time_ms
+      explode: false
+      style: form
+    MediaFieldsParameter:
+      name: media.fields
+      in: query
+      description: A comma separated list of Media fields to display.
+      required: false
+      schema:
+        type: array
+        description: The fields available for a Media object.
+        minItems: 1
+        uniqueItems: true
+        items:
+          type: string
+          enum:
+          - alt_text
+          - duration_ms
+          - height
+          - media_key
+          - non_public_metrics
+          - organic_metrics
+          - preview_image_url
+          - promoted_metrics
+          - public_metrics
+          - type
+          - url
+          - variants
+          - width
+        example:
+        - alt_text
+        - duration_ms
+        - height
+        - media_key
+        - non_public_metrics
+        - organic_metrics
+        - preview_image_url
+        - promoted_metrics
+        - public_metrics
+        - type
+        - url
+        - variants
+        - width
+      explode: false
+      style: form
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+    OAuth2UserToken:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://api.x.com/2/oauth2/authorize
+          tokenUrl: https://api.x.com/2/oauth2/token
+          scopes:
+            block.read: View accounts you have blocked.
+            bookmark.read: Read your bookmarked Posts.
+            bookmark.write: Create and delete your bookmarks.
+            dm.read: Read all your Direct Messages.
+            dm.write: Send and manage your Direct Messages.
+            follows.read: View accounts you follow and accounts following you.
+            follows.write: Follow and unfollow accounts on your behalf.
+            like.read: View Posts you have liked and likes you can see.
+            like.write: Like and unlike Posts on your behalf.
+            list.read: View Lists, members, and followers of Lists you created or are a member of, including private Lists.
+            list.write: Create and manage Lists on your behalf.
+            media.write: Upload media, such as photos and videos, on your behalf.
+            mute.read: View accounts you have muted.
+            mute.write: Mute and unmute accounts on your behalf.
+            offline.access: Request a refresh token for the app.
+            space.read: View all Spaces you have access to.
+            timeline.read: View all Custom Timelines you can see, including public Custom Timelines from other developers.
+            tweet.moderate.write: Hide and unhide replies to your Posts.
+            tweet.read: View all Posts you can see, including those from protected accounts.
+            tweet.write: Post and repost on your behalf.
+            users.read: View any account you can see, including protected accounts.
+    UserToken:
+      type: http
+      scheme: OAuth
