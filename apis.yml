@@ -7,6 +7,19 @@ description: X (formerly Twitter) is a social media platform providing APIs for 
   activity events. Available through pay-per-use credit-based pricing with enterprise
   options for high-volume access.
 type: Index
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 image: https://abs.twimg.com/favicons/twitter.ico
 url: https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/apis.yml
 created: '2025-07-29'
@@ -20,54 +33,13 @@ tags:
 - Advertising
 - Content
 apis:
-- aid: twitter:x-api
-  name: X API
-  description: The core X API providing programmatic access to posts, users, spaces,
-    lists, direct messages, bookmarks, likes, reposts, follows, blocks, mutes, trends,
-    communities, and compliance data. Supports post creation, search (recent and full-archive),
-    timelines, filtered streams, sampled streams, and real-time data access. Uses
-    OAuth 2.0 with PKCE or OAuth 1.0a authentication with credit-based pay-per-use
-    pricing.
-  image: https://abs.twimg.com/favicons/twitter.ico
-  humanURL: https://docs.x.com/x-api
-  baseURL: https://api.x.com/2
-  properties:
-  - type: Documentation
-    url: https://docs.x.com/x-api
-  - type: GettingStarted
-    url: https://docs.x.com/x-api/getting-started/make-your-first-request
-  - type: APIReference
-    url: https://docs.x.com/x-api
-  - type: Authentication
-    url: https://docs.x.com/resources/fundamentals/authentication
-  - type: RateLimits
-    url: https://docs.x.com/x-api/fundamentals/rate-limits
-  - type: SDKs
-    url: https://docs.x.com/sdks-and-tools/python-xdk
-    title: Python XDK
-  - type: SDKs
-    url: https://docs.x.com/sdks-and-tools/typescript-xdk
-    title: TypeScript XDK
-  - type: OpenAPI
-    url: openapi/x-api-openapi.json
-  - url: graphql/twitter-graphql.md
-    type: GraphQL
-  tags:
-  - Posts
-  - Users
-  - Spaces
-  - Lists
-  - Direct Messages
-  - Streaming
-  - Search
-  - Timelines
 - aid: twitter:x-ads-api
   name: X Ads API
-  description: The X Ads API enables programmatic management of advertising campaigns
-    on the X platform including campaign creation and scheduling, custom audience
-    building, creative management (draft posts, cards, media), and analytics retrieval
-    for campaign performance metrics. Supports both synchronous and asynchronous analytics
-    endpoints for reporting.
+  description: >-
+    The X Ads API enables programmatic management of advertising campaigns on the X platform including
+    campaign creation and scheduling, custom audience building, creative management (draft posts, cards,
+    media), and analytics retrieval for campaign performance metrics. Supports both synchronous and asynchronous
+    analytics endpoints for reporting.
   image: https://abs.twimg.com/favicons/twitter.ico
   humanURL: https://docs.x.com/x-ads-api
   baseURL: https://ads-api.x.com
@@ -88,10 +60,10 @@ apis:
   - Creatives
 - aid: twitter:x-activity-api
   name: X Activity API
-  description: The X Activity API provides real-time activity event subscriptions
-    with sub-second delivery via streaming or webhooks. Subscribe to profile updates,
-    follows, likes, reposts, and other user activity events. Recently exited beta
-    and is now generally available.
+  description: >-
+    The X Activity API provides real-time activity event subscriptions with sub-second delivery via streaming
+    or webhooks. Subscribe to profile updates, follows, likes, reposts, and other user activity events.
+    Recently exited beta and is now generally available.
   image: https://abs.twimg.com/favicons/twitter.ico
   humanURL: https://docs.x.com/x-activity-api
   baseURL: https://api.x.com
@@ -104,6 +76,552 @@ apis:
   - Real-Time
   - Streaming
   - Webhooks
+- aid: twitter:twitter-account-activity-api
+  name: X (Twitter) Account Activity API
+  description: Endpoints relating to retrieving, managing AAA subscriptions
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Account Activity
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-account-activity-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-activity-api
+  name: X (Twitter) Activity API
+  description: The Activity API from X (Twitter) — 3 operation(s) for activity.
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Activity
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-activity-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-bookmarks-api
+  name: X (Twitter) Bookmarks API
+  description: Endpoints related to retrieving, managing bookmarks of a user
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Bookmarks
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-bookmarks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-chat-api
+  name: X (Twitter) Chat API
+  description: The Chat API from X (Twitter) — 15 operation(s) for chat.
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Chat
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-chat-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-communities-api
+  name: X (Twitter) Communities API
+  description: The Communities API from X (Twitter) — 2 operation(s) for communities.
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Communities
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-communities-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-community-notes-api
+  name: X (Twitter) Community Notes API
+  description: The Community Notes API from X (Twitter) — 5 operation(s) for community notes.
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Community Notes
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-community-notes-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-compliance-api
+  name: X (Twitter) Compliance API
+  description: Endpoints related to keeping X data in your systems compliant
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Compliance
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-compliance-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-connections-api
+  name: X (Twitter) Connections API
+  description: Endpoints related to streaming connections
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Connections
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-connections-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-direct-messages-api
+  name: X (Twitter) Direct Messages API
+  description: Endpoints related to retrieving, managing Direct Messages
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Direct Messages
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-direct-messages-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-general-api
+  name: X (Twitter) General API
+  description: Miscellaneous endpoints for general API functionality
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - General
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-general-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-likes-api
+  name: X (Twitter) Likes API
+  description: The Likes API from X (Twitter) — 2 operation(s) for likes.
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Likes
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-likes-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-lists-api
+  name: X (Twitter) Lists API
+  description: Endpoints related to retrieving, managing Lists
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Lists
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-lists-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-media-api
+  name: X (Twitter) Media API
+  description: Endpoints related to Media
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Media
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-media-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-news-api
+  name: X (Twitter) News API
+  description: Endpoint for retrieving news stories
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - News
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-news-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-spaces-api
+  name: X (Twitter) Spaces API
+  description: Endpoints related to retrieving, managing Spaces
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Spaces
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-spaces-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-stream-api
+  name: X (Twitter) Stream API
+  description: Endpoints related to streaming
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Stream
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-stream-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-trends-api
+  name: X (Twitter) Trends API
+  description: The Trends API from X (Twitter) — 2 operation(s) for trends.
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Trends
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-trends-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-tweets-api
+  name: X (Twitter) Tweets API
+  description: Endpoints related to retrieving, searching, and modifying Tweets
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Tweets
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-tweets-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-usage-api
+  name: X (Twitter) Usage API
+  description: The Usage API from X (Twitter) — 1 operation(s) for usage.
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Usage
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-usage-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-users-api
+  name: X (Twitter) Users API
+  description: Endpoints related to retrieving, managing relationships of Users
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
+- aid: twitter:twitter-webhooks-api
+  name: X (Twitter) Webhooks API
+  description: The Webhooks API from X (Twitter) — 5 operation(s) for webhooks.
+  humanURL: https://docs.x.com/x-api
+  baseURL: https://api.x.com/2
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/twitter-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.x.com/x-api
+  - type: GettingStarted
+    url: https://docs.x.com/x-api/getting-started/make-your-first-request
+  - type: APIReference
+    url: https://docs.x.com/x-api
+  - type: Authentication
+    url: https://docs.x.com/resources/fundamentals/authentication
+  - type: RateLimits
+    url: https://docs.x.com/x-api/fundamentals/rate-limits
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/python-xdk
+  - type: SDKs
+    url: https://docs.x.com/sdks-and-tools/typescript-xdk
+  - type: GraphQL
+    url: graphql/twitter-graphql.md
 common:
 - type: AgenticAccess
   url: agentic-access/twitter-agentic-access.yml
