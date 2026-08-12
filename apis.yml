@@ -50,8 +50,6 @@ apis:
     url: https://docs.x.com/x-ads-api/getting-started/create-a-campaign
   - type: RateLimits
     url: https://docs.x.com/x-ads-api/fundamentals/rate-limiting
-  - type: PostmanCollection
-    url: postman/x-ads-api-postman-collection.json
   tags:
   - Advertising
   - Campaigns
@@ -756,8 +754,6 @@ common:
   description: Example DM reply bot in Python for X encrypted chat system.
 - type: PostmanWorkspace
   url: https://docs.x.com/sdks-and-tools/postman
-- type: PostmanCollection
-  url: postman/x-api-v2-postman-collection.json
 - type: X
   url: https://x.com/XDevelopers
 - type: Features
