@@ -1,0 +1,1131 @@
+{
+  "item": [
+    {
+      "id": "d18142e2-5be0-438c-a984-62909fd2c60f",
+      "name": "Bookmarks",
+      "description": {
+        "content": "Endpoints related to retrieving, managing bookmarks of a user",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "21e0f36d-34b7-4617-a5ab-713090ad07f3",
+          "name": "X Get Bookmarks",
+          "request": {
+            "name": "X Get Bookmarks",
+            "description": {
+              "content": "Retrieves a list of Posts bookmarked by the authenticated user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "users",
+                ":id",
+                "bookmarks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "max_results",
+                  "value": "<integer>",
+                  "description": "The maximum number of results."
+                },
+                {
+                  "disabled": false,
+                  "key": "pagination_token",
+                  "value": "<string>",
+                  "description": "This parameter is used to get the next 'page' of results."
+                },
+                {
+                  "disabled": false,
+                  "key": "tweet.fields",
+                  "value": "<string>",
+                  "description": "A comma separated list of Tweet fields to display."
+                },
+                {
+                  "disabled": false,
+                  "key": "expansions",
+                  "value": "<string>",
+                  "description": "A comma separated list of fields to expand."
+                },
+                {
+                  "disabled": false,
+                  "key": "media.fields",
+                  "value": "<string>",
+                  "description": "A comma separated list of Media fields to display."
+                },
+                {
+                  "disabled": false,
+                  "key": "poll.fields",
+                  "value": "<string>",
+                  "description": "A comma separated list of Poll fields to display."
+                },
+                {
+                  "disabled": false,
+                  "key": "user.fields",
+                  "value": "<string>",
+                  "description": "A comma separated list of User fields to display."
+                },
+                {
+                  "disabled": false,
+                  "key": "place.fields",
+                  "value": "<string>",
+                  "description": "A comma separated list of Place fields to display."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The ID of the authenticated source User for whom to return results."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "block.read bookmark.read bookmark.write dm.read dm.write follows.read follows.write like.read like.write list.read list.write media.write mute.read mute.write offline.access space.read timeline.read tweet.moderate.write tweet.read tweet.write users.read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.x.com/2/oauth2/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://api.x.com/2/oauth2/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c738191a-146e-495a-a003-f358ee3d4487",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "users",
+                    ":id",
+                    "bookmarks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "max_results",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pagination_token",
+                      "value": "next_token_abc123"
+                    },
+                    {
+                      "key": "tweet.fields",
+                      "value": "article,attachments,author_id,card_uri,community_id,context_annotations,conversation_id,created_at,display_text_range,edit_controls,edit_history_tweet_ids,entities,geo,id,in_reply_to_user_id,lang,media_metadata,non_public_metrics,note_tweet,organic_metrics,possibly_sensitive,promoted_metrics,public_metrics,referenced_tweets,reply_settings,scopes,source,suggested_source_links,suggested_source_links_with_counts,text,withheld"
+                    },
+                    {
+                      "key": "expansions",
+                      "value": "article.cover_media,article.media_entities,attachments.media_keys,attachments.media_source_tweet,attachments.poll_ids,author_id,edit_history_tweet_ids,entities.mentions.username,geo.place_id,in_reply_to_user_id,entities.note.mentions.username,referenced_tweets.id,referenced_tweets.id.attachments.media_keys,referenced_tweets.id.author_id"
+                    },
+                    {
+                      "key": "media.fields",
+                      "value": "alt_text,duration_ms,height,media_key,non_public_metrics,organic_metrics,preview_image_url,promoted_metrics,public_metrics,type,url,variants,width"
+                    },
+                    {
+                      "key": "poll.fields",
+                      "value": "duration_minutes,end_datetime,id,options,voting_status"
+                    },
+                    {
+                      "key": "user.fields",
+                      "value": "affiliation,confirmed_email,connection_status,created_at,description,entities,id,is_identity_verified,location,most_recent_tweet_id,name,parody,pinned_tweet_id,profile_banner_url,profile_image_url,protected,public_metrics,receives_your_dm,subscription,subscription_type,url,username,verified,verified_followers_count,verified_type,withheld"
+                    },
+                    {
+                      "key": "place.fields",
+                      "value": "contained_within,country,country_code,full_name,geo,id,name,place_type"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the authenticated source User for whom to return results."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"attachments\": {\n        \"media_keys\": [\n          \"1_6699661955\"\n        ],\n        \"media_source_tweet_id\": [\n          \"1346889436626259968\"\n        ],\n        \"poll_ids\": [\n          \"1365059861688410112\"\n        ]\n      },\n      \"author_id\": \"2244994945\",\n      \"community_id\": \"1146654567674912769\",\n      \"context_annotations\": [\n        {\n          \"domain\": {\n            \"id\": \"1234567890\",\n            \"description\": \"Example description for this resource.\",\n            \"name\": \"Example User\"\n          },\n          \"entity\": {\n            \"id\": \"1234567890\",\n            \"description\": \"Example description for this resource.\",\n            \"name\": \"Example User\"\n          }\n        }\n      ],\n      \"conversation_id\": \"1346889436626259968\",\n      \"created_at\": \"2021-01-06T18:40:40.000Z\",\n      \"display_text_range\": [\n        116,\n        5188\n      ],\n      \"edit_controls\": {\n        \"is_edit_eligible\": false,\n        \"editable_until\": \"2021-01-06T18:40:40.000Z\",\n        \"edits_remaining\": 4035\n      },\n      \"edit_history_tweet_ids\": [\n        \"1346889436626259968\"\n      ],\n      \"entities\": {\n        \"annotations\": [\n          {\n            \"start\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"end\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"normalized_text\": \"Barack Obama\",\n            \"probability\": 0.949658821067659,\n            \"type\": \"Person\"\n          }\n        ],\n        \"cashtags\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"hashtags\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"mentions\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"urls\": [\n          {\n            \"description\": \"Represent the portion of text recognized as a URL, and its start and end position within the text.\",\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"geo\": {\n        \"coordinates\": {\n          \"type\": \"Point\",\n          \"coordinates\": [\n            -105.18816086351444,\n            40.247749999999996\n          ]\n        },\n        \"place_id\": \"f7eb2fa2fea288b1\"\n      },\n      \"id\": \"1346889436626259968\",\n      \"in_reply_to_user_id\": \"2244994945\",\n      \"lang\": \"en\",\n      \"non_public_metrics\": {\n        \"impression_count\": 8604\n      },\n      \"note_tweet\": {\n        \"entities\": {\n          \"cashtags\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"hashtags\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"mentions\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"urls\": [\n            {\n              \"description\": \"Represent the portion of text recognized as a URL, and its start and end position within the text.\",\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"text\": \"Learn how to use the user Tweet timeline and user mention timeline endpoints in the X API v2 to explore Tweet\\\\u2026 https:\\\\/\\\\/t.co\\\\/56a0vZUx7i\"\n      },\n      \"organic_metrics\": {\n        \"impression_count\": 1762,\n        \"retweet_count\": 1424,\n        \"reply_count\": 9814,\n        \"like_count\": 8860\n      },\n      \"possibly_sensitive\": false,\n      \"promoted_metrics\": {\n        \"impression_count\": 2200,\n        \"like_count\": 3598,\n        \"reply_count\": 3168,\n        \"retweet_count\": 8300\n      },\n      \"public_metrics\": {\n        \"retweet_count\": 926,\n        \"reply_count\": 6585,\n        \"like_count\": 750,\n        \"impression_count\": 2207,\n        \"bookmark_count\": 5634,\n        \"quote_count\": 4599\n      },\n      \"referenced_tweets\": [\n        {\n          \"type\": \"replied_to\",\n          \"id\": \"1346889436626259968\"\n        }\n      ],\n      \"reply_settings\": \"verified\",\n      \"scopes\": {\n        \"followers\": false\n      },\n      \"source\": \"string\",\n      \"suggested_source_links\": [\n        {\n          \"end\": 61,\n          \"start\": 50,\n          \"url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"description\": \"This is a description of the website.\",\n          \"display_url\": \"twittercommunity.com/t/introducing-…\",\n          \"expanded_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"images\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"media_key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"status\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"title\": \"Introducing the v2 follow lookup endpoints\",\n          \"unwound_url\": \"https://twittercommunity.com/t/introducing-the-v2-follow-lookup-endpoints/147118\"\n        },\n        {\n          \"end\": 61,\n          \"start\": 50,\n          \"url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"description\": \"This is a description of the website.\",\n          \"display_url\": \"twittercommunity.com/t/introducing-…\",\n          \"expanded_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"images\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"media_key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"status\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"title\": \"Introducing the v2 follow lookup endpoints\",\n          \"unwound_url\": \"https://twittercommunity.com/t/introducing-the-v2-follow-lookup-endpoints/147118\"\n        }\n      ],\n      \"suggested_source_links_with_counts\": {\n        \"count\": 3263,\n        \"url\": {\n          \"end\": 61,\n          \"start\": 50,\n          \"url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"description\": \"This is a description of the website.\",\n          \"display_url\": \"twittercommunity.com/t/introducing-…\",\n          \"expanded_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"images\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"media_key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"status\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"title\": \"Introducing the v2 follow lookup endpoints\",\n          \"unwound_url\": \"https://twittercommunity.com/t/introducing-the-v2-follow-lookup-endpoints/147118\"\n        }\n      },\n      \"text\": \"Learn how to use the user Tweet timeline and user mention timeline endpoints in the X API v2 to explore Tweet\\\\u2026 https:\\\\/\\\\/t.co\\\\/56a0vZUx7i\",\n      \"username\": \"rOpWWQnr9E8\",\n      \"withheld\": {\n        \"copyright\": true,\n        \"country_codes\": [\n          \"US\"\n        ],\n        \"scope\": \"tweet\"\n      }\n    }\n  ],\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 3666\n    }\n  ],\n  \"includes\": {\n    \"media\": [\n      {\n        \"type\": \"string\",\n        \"height\": 722,\n        \"media_key\": \"411211_49754088\",\n        \"width\": 7946\n      }\n    ],\n    \"places\": [\n      {\n        \"id\": \"f7eb2fa2fea288b1\",\n        \"full_name\": \"Lakewood, CO\",\n        \"contained_within\": [\n          \"f7eb2fa2fea288b1\"\n        ],\n        \"country\": \"United States\",\n        \"country_code\": \"US\",\n        \"geo\": {\n          \"type\": \"Feature\",\n          \"bbox\": [\n            -105.193475,\n            39.60973,\n            -105.053164,\n            39.761974\n          ],\n          \"properties\": {},\n          \"geometry\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"coordinates\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        },\n        \"name\": \"Lakewood\",\n        \"place_type\": \"city\"\n      }\n    ],\n    \"polls\": [\n      {\n        \"id\": \"1365059861688410112\",\n        \"options\": [\n          {\n            \"position\": 60,\n            \"label\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"votes\": 4012\n          },\n          {\n            \"position\": 5767,\n            \"label\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"votes\": 5713\n          }\n        ],\n        \"duration_minutes\": 3639,\n        \"end_datetime\": \"1999-05-09T06:30:49.437Z\",\n        \"voting_status\": \"open\"\n      }\n    ],\n    \"topics\": [\n      {\n        \"id\": \"string\",\n        \"name\": \"Technology\",\n        \"description\": \"All about technology\"\n      }\n    ],\n    \"tweets\": [\n      {\n        \"attachments\": {\n          \"media_keys\": [\n            \"5362081824_41\"\n          ],\n          \"media_source_tweet_id\": [\n            \"1346889436626259968\"\n          ],\n          \"poll_ids\": [\n            \"1365059861688410112\"\n          ]\n        },\n        \"author_id\": \"2244994945\",\n        \"community_id\": \"1146654567674912769\",\n        \"context_annotations\": [\n          {\n            \"domain\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"entity\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          }\n        ],\n        \"conversation_id\": \"1346889436626259968\",\n        \"created_at\": \"2021-01-06T18:40:40.000Z\",\n        \"display_text_range\": [\n          6180,\n          4906\n        ],\n        \"edit_controls\": {\n          \"is_edit_eligible\": false,\n          \"editable_until\": \"2021-01-06T18:40:40.000Z\",\n          \"edits_remaining\": 36\n        },\n        \"edit_history_tweet_ids\": [\n          \"1346889436626259968\"\n        ],\n        \"entities\": {\n          \"annotations\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"cashtags\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"hashtags\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"mentions\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"urls\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"geo\": {\n          \"coordinates\": {\n            \"type\": \"Point\",\n            \"coordinates\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"place_id\": \"f7eb2fa2fea288b1\"\n        },\n        \"id\": \"1346889436626259968\",\n        \"in_reply_to_user_id\": \"2244994945\",\n        \"lang\": \"en\",\n        \"non_public_metrics\": {\n          \"impression_count\": 5513\n        },\n        \"note_tweet\": {\n          \"entities\": {\n            \"cashtags\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"hashtags\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"mentions\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"urls\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"text\": \"Learn how to use the user Tweet timeline and user mention timeline endpoints in the X API v2 to explore Tweet\\\\u2026 https:\\\\/\\\\/t.co\\\\/56a0vZUx7i\"\n        },\n        \"organic_metrics\": {\n          \"impression_count\": 2673,\n          \"retweet_count\": 4885,\n          \"reply_count\": 1827,\n          \"like_count\": 5639\n        },\n        \"possibly_sensitive\": false,\n        \"promoted_metrics\": {\n          \"impression_count\": 4096,\n          \"like_count\": 4809,\n          \"reply_count\": 6672,\n          \"retweet_count\": 6530\n        },\n        \"public_metrics\": {\n          \"retweet_count\": 4408,\n          \"reply_count\": 5054,\n          \"like_count\": 1672,\n          \"impression_count\": 2795,\n          \"bookmark_count\": 2154,\n          \"quote_count\": 9648\n        },\n        \"referenced_tweets\": [\n          {\n            \"type\": \"quoted\",\n            \"id\": \"1346889436626259968\"\n          }\n        ],\n        \"reply_settings\": \"mentionedUsers\",\n        \"scopes\": {\n          \"followers\": false\n        },\n        \"source\": \"string\",\n        \"suggested_source_links\": [\n          {\n            \"description\": \"Represent the portion of text recognized as a URL, and its start and end position within the text.\",\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"description\": \"Represent the portion of text recognized as a URL, and its start and end position within the text.\",\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ],\n        \"suggested_source_links_with_counts\": {\n          \"count\": 1440,\n          \"url\": {\n            \"description\": \"Represent the portion of text recognized as a URL, and its start and end position within the text.\",\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"text\": \"Learn how to use the user Tweet timeline and user mention timeline endpoints in the X API v2 to explore Tweet\\\\u2026 https:\\\\/\\\\/t.co\\\\/56a0vZUx7i\",\n        \"username\": \"ObMlouYE78s\",\n        \"withheld\": {\n          \"copyright\": true,\n          \"country_codes\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"scope\": \"tweet\"\n        }\n      }\n    ],\n    \"users\": [\n      {\n        \"id\": \"2244994945\",\n        \"name\": \"string\",\n        \"username\": \"Ppr\",\n        \"affiliation\": {\n          \"badge_url\": \"http://VzW.slqIlJmunstvARrahvOi2,QEiyIffj5lIh1o9-D57PCgiTg0iidJGM2c5J99\",\n          \"description\": \"string\",\n          \"url\": \"http://QSghrDmhnmzWLXCS.agzPXD,ty3d2HddT11-NjXTj\",\n          \"user_id\": [\n            \"2244994945\"\n          ]\n        },\n        \"connection_status\": [\n          \"followed_by\",\n          \"muting\"\n        ],\n        \"created_at\": \"2023-03-10T02:08:14.015Z\",\n        \"description\": \"string\",\n        \"entities\": {\n          \"description\": {\n            \"annotations\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"cashtags\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"hashtags\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"mentions\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"urls\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"url\": {\n            \"urls\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          }\n        },\n        \"location\": \"string\",\n        \"most_recent_tweet_id\": \"1346889436626259968\",\n        \"pinned_tweet_id\": \"1346889436626259968\",\n        \"profile_banner_url\": \"https://TgjwKBKMYekhaDgJYjojnAYGKhLvo.rgeDR.aEDE2MqplG4SVZ,qsrsKJLyFAJ4kNcvjgSELsHio9hkma3X\",\n        \"profile_image_url\": \"http://qEq.lnxz7X7Rlubgghsi04CTLh\",\n        \"protected\": false,\n        \"public_metrics\": {\n          \"followers_count\": 3645,\n          \"following_count\": 2510,\n          \"tweet_count\": 1163,\n          \"listed_count\": 3779,\n          \"like_count\": 4537\n        },\n        \"receives_your_dm\": false,\n        \"subscription_type\": \"Basic\",\n        \"url\": \"string\",\n        \"verified\": true,\n        \"verified_type\": \"blue\",\n        \"withheld\": {\n          \"country_codes\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"scope\": \"user\"\n        }\n      }\n    ]\n  },\n  \"meta\": {\n    \"next_token\": \"string\",\n    \"previous_token\": \"string\",\n    \"result_count\": 8207\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6932380e-afa9-4e46-8cd8-34b0b84d5c1e",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "users",
+                    ":id",
+                    "bookmarks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "max_results",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pagination_token",
+                      "value": "next_token_abc123"
+                    },
+                    {
+                      "key": "tweet.fields",
+                      "value": "article,attachments,author_id,card_uri,community_id,context_annotations,conversation_id,created_at,display_text_range,edit_controls,edit_history_tweet_ids,entities,geo,id,in_reply_to_user_id,lang,media_metadata,non_public_metrics,note_tweet,organic_metrics,possibly_sensitive,promoted_metrics,public_metrics,referenced_tweets,reply_settings,scopes,source,suggested_source_links,suggested_source_links_with_counts,text,withheld"
+                    },
+                    {
+                      "key": "expansions",
+                      "value": "article.cover_media,article.media_entities,attachments.media_keys,attachments.media_source_tweet,attachments.poll_ids,author_id,edit_history_tweet_ids,entities.mentions.username,geo.place_id,in_reply_to_user_id,entities.note.mentions.username,referenced_tweets.id,referenced_tweets.id.attachments.media_keys,referenced_tweets.id.author_id"
+                    },
+                    {
+                      "key": "media.fields",
+                      "value": "alt_text,duration_ms,height,media_key,non_public_metrics,organic_metrics,preview_image_url,promoted_metrics,public_metrics,type,url,variants,width"
+                    },
+                    {
+                      "key": "poll.fields",
+                      "value": "duration_minutes,end_datetime,id,options,voting_status"
+                    },
+                    {
+                      "key": "user.fields",
+                      "value": "affiliation,confirmed_email,connection_status,created_at,description,entities,id,is_identity_verified,location,most_recent_tweet_id,name,parody,pinned_tweet_id,profile_banner_url,profile_image_url,protected,public_metrics,receives_your_dm,subscription,subscription_type,url,username,verified,verified_followers_count,verified_type,withheld"
+                    },
+                    {
+                      "key": "place.fields",
+                      "value": "contained_within,country,country_code,full_name,geo,id,name,place_type"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the authenticated source User for whom to return results."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3040,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "34f80737-1b23-4afc-bd43-d0f3c6269830",
+          "name": "X Create Bookmark",
+          "request": {
+            "name": "X Create Bookmark",
+            "description": {
+              "content": "Adds a post to the authenticated user’s bookmarks.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "users",
+                ":id",
+                "bookmarks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The ID of the authenticated source User for whom to add bookmarks."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "block.read bookmark.read bookmark.write dm.read dm.write follows.read follows.write like.read like.write list.read list.write media.write mute.read mute.write offline.access space.read timeline.read tweet.moderate.write tweet.read tweet.write users.read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.x.com/2/oauth2/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://api.x.com/2/oauth2/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tweet_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7c480da8-a751-416e-a54a-2bda0959ece8",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "users",
+                    ":id",
+                    "bookmarks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the authenticated source User for whom to add bookmarks."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tweet_id\": \"1346889436626259968\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"bookmarked\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "98e43e03-2c19-4a3e-90b6-55c230033a34",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "users",
+                    ":id",
+                    "bookmarks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the authenticated source User for whom to add bookmarks."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tweet_id\": \"1346889436626259968\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3040,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "78f7213f-418f-4168-96f1-62fb00a61d7f",
+          "name": "X Get Bookmark Folders",
+          "request": {
+            "name": "X Get Bookmark Folders",
+            "description": {
+              "content": "Retrieves a list of Bookmark folders created by the authenticated user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "users",
+                ":id",
+                "bookmarks",
+                "folders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "max_results",
+                  "value": "<integer>",
+                  "description": "The maximum number of results."
+                },
+                {
+                  "disabled": false,
+                  "key": "pagination_token",
+                  "value": "<string>",
+                  "description": "This parameter is used to get the next 'page' of results."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The ID of the authenticated source User for whom to return results."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "block.read bookmark.read bookmark.write dm.read dm.write follows.read follows.write like.read like.write list.read list.write media.write mute.read mute.write offline.access space.read timeline.read tweet.moderate.write tweet.read tweet.write users.read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.x.com/2/oauth2/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://api.x.com/2/oauth2/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "efc4d5e9-2102-4b09-baa9-424a631b7569",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "users",
+                    ":id",
+                    "bookmarks",
+                    "folders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "max_results",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pagination_token",
+                      "value": "next_token_abc123"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the authenticated source User for whom to return results."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"next_token\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c3da4724-33d1-4774-a13e-1e463119b74d",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "users",
+                    ":id",
+                    "bookmarks",
+                    "folders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "max_results",
+                      "value": "10"
+                    },
+                    {
+                      "key": "pagination_token",
+                      "value": "next_token_abc123"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the authenticated source User for whom to return results."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3040,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "874ed439-3daf-4274-a7a1-3042ba677dcd",
+          "name": "X Get Bookmarks by Folder ID",
+          "request": {
+            "name": "X Get Bookmarks by Folder ID",
+            "description": {
+              "content": "Retrieves Posts in a specific Bookmark folder by its ID for the authenticated user.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "users",
+                ":id",
+                "bookmarks",
+                "folders",
+                ":folder_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The ID of the authenticated source User for whom to return results."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "folder_id",
+                  "description": "(Required) The ID of the Bookmark Folder that the authenticated User is trying to fetch Posts for."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "block.read bookmark.read bookmark.write dm.read dm.write follows.read follows.write like.read like.write list.read list.write media.write mute.read mute.write offline.access space.read timeline.read tweet.moderate.write tweet.read tweet.write users.read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.x.com/2/oauth2/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://api.x.com/2/oauth2/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "62687c15-7a15-450e-8172-3c7cac86d0d2",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "users",
+                    ":id",
+                    "bookmarks",
+                    "folders",
+                    ":folder_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the authenticated source User for whom to return results."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "folder_id",
+                      "description": "(Required) The ID of the Bookmark Folder that the authenticated User is trying to fetch Posts for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"next_token\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bafbff94-e51d-43a4-8733-7bcf83aecf1d",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "users",
+                    ":id",
+                    "bookmarks",
+                    "folders",
+                    ":folder_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the authenticated source User for whom to return results."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "folder_id",
+                      "description": "(Required) The ID of the Bookmark Folder that the authenticated User is trying to fetch Posts for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3040,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "89017e20-dece-4463-b628-ef8b7d486205",
+          "name": "X Delete Bookmark",
+          "request": {
+            "name": "X Delete Bookmark",
+            "description": {
+              "content": "Removes a Post from the authenticated user’s Bookmarks by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "users",
+                ":id",
+                "bookmarks",
+                ":tweet_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The ID of the authenticated source User whose bookmark is to be removed."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "tweet_id",
+                  "description": "(Required) The ID of the Post that the source User is removing from bookmarks."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "block.read bookmark.read bookmark.write dm.read dm.write follows.read follows.write like.read like.write list.read list.write media.write mute.read mute.write offline.access space.read timeline.read tweet.moderate.write tweet.read tweet.write users.read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.x.com/2/oauth2/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://api.x.com/2/oauth2/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "1f3f720c-eb94-4b86-93cf-610e9e821f19",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "users",
+                    ":id",
+                    "bookmarks",
+                    ":tweet_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the authenticated source User whose bookmark is to be removed."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tweet_id",
+                      "description": "(Required) The ID of the Post that the source User is removing from bookmarks."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"bookmarked\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3674c190-e90e-44bf-bf90-05c5c02c48ec",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "users",
+                    ":id",
+                    "bookmarks",
+                    ":tweet_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the authenticated source User whose bookmark is to be removed."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "tweet_id",
+                      "description": "(Required) The ID of the Post that the source User is removing from bookmarks."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 3040,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.x.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b8a74ba5-5ac9-4065-99b2-b27350a95112",
+    "name": "X API v2 Account Activity Bookmarks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "X API v2 available endpoints\n\nContact Support:\n Name: X Developers",
+      "type": "text/plain"
+    }
+  }
+}

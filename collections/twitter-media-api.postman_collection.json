@@ -1,0 +1,2179 @@
+{
+  "item": [
+    {
+      "id": "bb55efb7-757d-4f28-9958-41008d19fe25",
+      "name": "Media",
+      "description": {
+        "content": "Endpoints related to Media",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "acc5175a-a702-4585-bd7e-7fa4d2f9634f",
+          "name": "X Get Media by Media Keys",
+          "request": {
+            "name": "X Get Media by Media Keys",
+            "description": {
+              "content": "Retrieves details of Media files by their media keys.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "media"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "media_keys",
+                  "value": "<string>",
+                  "description": "(Required) A comma separated list of Media Keys. Up to 100 are allowed in a single request."
+                },
+                {
+                  "disabled": false,
+                  "key": "media.fields",
+                  "value": "<string>",
+                  "description": "A comma separated list of Media fields to display."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "473022f6-ae5e-4f35-8356-31a25424d3d4",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "media_keys",
+                      "value": ""
+                    },
+                    {
+                      "key": "media.fields",
+                      "value": "alt_text,duration_ms,height,media_key,non_public_metrics,organic_metrics,preview_image_url,promoted_metrics,public_metrics,type,url,variants,width"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"type\": \"string\",\n      \"height\": 6097,\n      \"media_key\": \"<string>\",\n      \"width\": 3653\n    }\n  ],\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 2775\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e42728c5-166d-4628-8f4c-9d3487d04ec6",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "media_keys",
+                      "value": ""
+                    },
+                    {
+                      "key": "media.fields",
+                      "value": "alt_text,duration_ms,height,media_key,non_public_metrics,organic_metrics,preview_image_url,promoted_metrics,public_metrics,type,url,variants,width"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 8482,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9d7208d4-a774-4d39-b776-36366833b89c",
+          "name": "X Get Media Analytics",
+          "request": {
+            "name": "X Get Media Analytics",
+            "description": {
+              "content": "Retrieves analytics data for media.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "media",
+                "analytics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "media_keys",
+                  "value": "<string>",
+                  "description": "(Required) A comma separated list of Media Keys. Up to 100 are allowed in a single request."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_time",
+                  "value": "<dateTime>",
+                  "description": "(Required) YYYY-MM-DDTHH:mm:ssZ. The UTC timestamp representing the end of the time range."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_time",
+                  "value": "<dateTime>",
+                  "description": "(Required) YYYY-MM-DDTHH:mm:ssZ. The UTC timestamp representing the start of the time range."
+                },
+                {
+                  "disabled": false,
+                  "key": "granularity",
+                  "value": "daily",
+                  "description": "(Required) The granularity for the search counts results."
+                },
+                {
+                  "disabled": false,
+                  "key": "media_analytics.fields",
+                  "value": "<string>",
+                  "description": "A comma separated list of MediaAnalytics fields to display."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "block.read bookmark.read bookmark.write dm.read dm.write follows.read follows.write like.read like.write list.read list.write media.write mute.read mute.write offline.access space.read timeline.read tweet.moderate.write tweet.read tweet.write users.read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.x.com/2/oauth2/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://api.x.com/2/oauth2/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "909d9c37-8c44-4244-85a1-cdbcc5b4f2f1",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "analytics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "media_keys",
+                      "value": ""
+                    },
+                    {
+                      "key": "end_time",
+                      "value": "2021-02-01T18:40:40.000Z"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "2021-02-01T18:40:40.000Z"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "hourly"
+                    },
+                    {
+                      "key": "media_analytics.fields",
+                      "value": "cta_url_clicks,cta_watch_clicks,media_key,play_from_tap,playback25,playback50,playback75,playback_complete,playback_start,timestamp,video_views,watch_time_ms"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"media_key\": \"<string>\",\n      \"timestamped_metrics\": [\n        {\n          \"metrics\": {\n            \"cta_url_clicks\": 5387,\n            \"cta_watch_clicks\": 4030,\n            \"play_from_tap\": 3728,\n            \"playback25\": 1661,\n            \"playback50\": 4595,\n            \"playback75\": 2270,\n            \"playback_complete\": 3476,\n            \"playback_start\": 9028,\n            \"video_views\": 2848,\n            \"watch_time_ms\": 8609\n          },\n          \"timestamp\": \"2025-03-17T06:30:00Z\"\n        },\n        {\n          \"metrics\": {\n            \"cta_url_clicks\": 9136,\n            \"cta_watch_clicks\": 4228,\n            \"play_from_tap\": 650,\n            \"playback25\": 8143,\n            \"playback50\": 9118,\n            \"playback75\": 1705,\n            \"playback_complete\": 336,\n            \"playback_start\": 8505,\n            \"video_views\": 8818,\n            \"watch_time_ms\": 1128\n          },\n          \"timestamp\": \"2025-03-17T06:30:00Z\"\n        }\n      ]\n    },\n    {\n      \"media_key\": \"<string>\",\n      \"timestamped_metrics\": [\n        {\n          \"metrics\": {\n            \"cta_url_clicks\": 3825,\n            \"cta_watch_clicks\": 2874,\n            \"play_from_tap\": 7643,\n            \"playback25\": 7522,\n            \"playback50\": 963,\n            \"playback75\": 1985,\n            \"playback_complete\": 6803,\n            \"playback_start\": 6299,\n            \"video_views\": 7055,\n            \"watch_time_ms\": 497\n          },\n          \"timestamp\": \"2025-03-17T06:30:00Z\"\n        },\n        {\n          \"metrics\": {\n            \"cta_url_clicks\": 3080,\n            \"cta_watch_clicks\": 5943,\n            \"play_from_tap\": 7914,\n            \"playback25\": 7882,\n            \"playback50\": 4870,\n            \"playback75\": 154,\n            \"playback_complete\": 6478,\n            \"playback_start\": 8054,\n            \"video_views\": 3972,\n            \"watch_time_ms\": 9771\n          },\n          \"timestamp\": \"2025-03-17T06:30:00Z\"\n        }\n      ]\n    }\n  ],\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 5769\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "436e0394-cbf9-46ea-a161-906b4e36c314",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "analytics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "media_keys",
+                      "value": ""
+                    },
+                    {
+                      "key": "end_time",
+                      "value": "2021-02-01T18:40:40.000Z"
+                    },
+                    {
+                      "key": "start_time",
+                      "value": "2021-02-01T18:40:40.000Z"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "hourly"
+                    },
+                    {
+                      "key": "media_analytics.fields",
+                      "value": "cta_url_clicks,cta_watch_clicks,media_key,play_from_tap,playback25,playback50,playback75,playback_complete,playback_start,timestamp,video_views,watch_time_ms"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 8482,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ee129a09-9c16-47f9-8f6c-0790a72a4776",
+          "name": "X Create Media Metadata",
+          "request": {
+            "name": "X Create Media Metadata",
+            "description": {
+              "content": "Creates metadata for a Media file.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "media",
+                "metadata"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "block.read bookmark.read bookmark.write dm.read dm.write follows.read follows.write like.read like.write list.read list.write media.write mute.read mute.write offline.access space.read timeline.read tweet.moderate.write tweet.read tweet.write users.read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.x.com/2/oauth2/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://api.x.com/2/oauth2/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"metadata\": {\n    \"allow_download_status\": {\n      \"allow_download\": \"<boolean>\"\n    },\n    \"alt_text\": {\n      \"text\": \"<string>\"\n    },\n    \"audience_policy\": {\n      \"creator_subscriptions\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"x_subscriptions\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"content_expiration\": {\n      \"timestamp_sec\": \"<long>\"\n    },\n    \"domain_restrictions\": {\n      \"whitelist\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"found_media_origin\": {\n      \"provider\": \"<string>\",\n      \"id\": \"<string>\"\n    },\n    \"geo_restrictions\": {\n      \"whitelisted_country_codes\": [\n        \"<string>\"\n      ],\n      \"blacklisted_country_codes\": []\n    },\n    \"management_info\": {\n      \"managed\": \"<boolean>\"\n    },\n    \"preview_image\": {\n      \"media_key\": {\n        \"media\": \"<string>\",\n        \"media_category\": \"TweetImage\"\n      }\n    },\n    \"sensitive_media_warning\": {\n      \"adult_content\": \"<boolean>\",\n      \"graphic_violence\": \"<boolean>\",\n      \"other\": \"<boolean>\"\n    },\n    \"shared_info\": {\n      \"shared\": \"<boolean>\"\n    },\n    \"sticker_info\": {\n      \"stickers\": [\n        {\n          \"aspect_ratio\": \"<double>\",\n          \"group_annotation_id\": \"<long>\",\n          \"id\": \"<string>\",\n          \"sticker_set_annotation_id\": \"<long>\",\n          \"transform_a\": \"<double>\",\n          \"transform_b\": \"<double>\",\n          \"transform_c\": \"<double>\",\n          \"transform_d\": \"<double>\",\n          \"transform_tx\": \"<double>\",\n          \"transform_ty\": \"<double>\"\n        },\n        {\n          \"aspect_ratio\": \"<double>\",\n          \"group_annotation_id\": \"<long>\",\n          \"id\": \"<string>\",\n          \"sticker_set_annotation_id\": \"<long>\",\n          \"transform_a\": \"<double>\",\n          \"transform_b\": \"<double>\",\n          \"transform_c\": \"<double>\",\n          \"transform_d\": \"<double>\",\n          \"transform_tx\": \"<double>\",\n          \"transform_ty\": \"<double>\"\n        }\n      ]\n    },\n    \"upload_source\": {\n      \"upload_source\": \"<string>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a0d29d98-a6ac-4d91-907c-b96cb7930f8a",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"1146654567674912769\",\n  \"metadata\": {\n    \"allow_download_status\": {\n      \"allow_download\": true\n    },\n    \"alt_text\": {\n      \"text\": \"A dancing cat\"\n    },\n    \"audience_policy\": {\n      \"creator_subscriptions\": [\n        \"Any\"\n      ],\n      \"x_subscriptions\": [\n        \"Any\"\n      ]\n    },\n    \"content_expiration\": {\n      \"timestamp_sec\": 1740787200\n    },\n    \"domain_restrictions\": {\n      \"whitelist\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"found_media_origin\": {\n      \"provider\": \"giphy\",\n      \"id\": \"u5BzatR15TZ04\"\n    },\n    \"geo_restrictions\": {\n      \"whitelisted_country_codes\": [\n        \"us\"\n      ],\n      \"blacklisted_country_codes\": []\n    },\n    \"management_info\": {\n      \"managed\": false\n    },\n    \"preview_image\": {\n      \"media_key\": {\n        \"media\": \"1146654567674912769\",\n        \"media_category\": \"TweetImage\"\n      }\n    },\n    \"sensitive_media_warning\": {\n      \"adult_content\": true,\n      \"graphic_violence\": true,\n      \"other\": false\n    },\n    \"shared_info\": {\n      \"shared\": false\n    },\n    \"sticker_info\": {\n      \"stickers\": [\n        {\n          \"aspect_ratio\": 1.78,\n          \"group_annotation_id\": 987654321098765,\n          \"id\": \"12345\",\n          \"sticker_set_annotation_id\": 123456789012345,\n          \"transform_a\": 1,\n          \"transform_b\": 0,\n          \"transform_c\": 0,\n          \"transform_d\": 1,\n          \"transform_tx\": 10.5,\n          \"transform_ty\": -5.2\n        },\n        {\n          \"aspect_ratio\": 1.78,\n          \"group_annotation_id\": 987654321098765,\n          \"id\": \"12345\",\n          \"sticker_set_annotation_id\": 123456789012345,\n          \"transform_a\": 1,\n          \"transform_b\": 0,\n          \"transform_c\": 0,\n          \"transform_d\": 1,\n          \"transform_tx\": 10.5,\n          \"transform_ty\": -5.2\n        }\n      ]\n    },\n    \"upload_source\": {\n      \"upload_source\": \"gallery\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"associated_metadata\": {\n      \"allow_download_status\": {\n        \"allow_download\": true\n      },\n      \"alt_text\": {\n        \"text\": \"A dancing cat\"\n      },\n      \"audience_policy\": {\n        \"creator_subscriptions\": [\n          \"Any\"\n        ],\n        \"x_subscriptions\": [\n          \"Any\"\n        ]\n      },\n      \"content_expiration\": {\n        \"timestamp_sec\": 1740787200\n      },\n      \"domain_restrictions\": {\n        \"whitelist\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"found_media_origin\": {\n        \"provider\": \"giphy\",\n        \"id\": \"u5BzatR15TZ04\"\n      },\n      \"geo_restrictions\": {\n        \"whitelisted_country_codes\": [\n          \"us\"\n        ],\n        \"blacklisted_country_codes\": []\n      },\n      \"management_info\": {\n        \"managed\": false\n      },\n      \"preview_image\": {\n        \"media_key\": {\n          \"media\": \"1146654567674912769\",\n          \"media_category\": \"TweetImage\"\n        }\n      },\n      \"sensitive_media_warning\": {\n        \"adult_content\": true,\n        \"graphic_violence\": true,\n        \"other\": false\n      },\n      \"shared_info\": {\n        \"shared\": false\n      },\n      \"sticker_info\": {\n        \"stickers\": [\n          {\n            \"aspect_ratio\": 1.78,\n            \"group_annotation_id\": 987654321098765,\n            \"id\": \"12345\",\n            \"sticker_set_annotation_id\": 123456789012345,\n            \"transform_a\": 1,\n            \"transform_b\": 0,\n            \"transform_c\": 0,\n            \"transform_d\": 1,\n            \"transform_tx\": 10.5,\n            \"transform_ty\": -5.2\n          },\n          {\n            \"aspect_ratio\": 1.78,\n            \"group_annotation_id\": 987654321098765,\n            \"id\": \"12345\",\n            \"sticker_set_annotation_id\": 123456789012345,\n            \"transform_a\": 1,\n            \"transform_b\": 0,\n            \"transform_c\": 0,\n            \"transform_d\": 1,\n            \"transform_tx\": 10.5,\n            \"transform_ty\": -5.2\n          }\n        ]\n      },\n      \"upload_source\": {\n        \"upload_source\": \"gallery\"\n      }\n    },\n    \"id\": \"1146654567674912769\"\n  },\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 8602\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f17c2f40-7cd0-4d32-84f5-4e909425feb6",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"1146654567674912769\",\n  \"metadata\": {\n    \"allow_download_status\": {\n      \"allow_download\": true\n    },\n    \"alt_text\": {\n      \"text\": \"A dancing cat\"\n    },\n    \"audience_policy\": {\n      \"creator_subscriptions\": [\n        \"Any\"\n      ],\n      \"x_subscriptions\": [\n        \"Any\"\n      ]\n    },\n    \"content_expiration\": {\n      \"timestamp_sec\": 1740787200\n    },\n    \"domain_restrictions\": {\n      \"whitelist\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    \"found_media_origin\": {\n      \"provider\": \"giphy\",\n      \"id\": \"u5BzatR15TZ04\"\n    },\n    \"geo_restrictions\": {\n      \"whitelisted_country_codes\": [\n        \"us\"\n      ],\n      \"blacklisted_country_codes\": []\n    },\n    \"management_info\": {\n      \"managed\": false\n    },\n    \"preview_image\": {\n      \"media_key\": {\n        \"media\": \"1146654567674912769\",\n        \"media_category\": \"TweetImage\"\n      }\n    },\n    \"sensitive_media_warning\": {\n      \"adult_content\": true,\n      \"graphic_violence\": true,\n      \"other\": false\n    },\n    \"shared_info\": {\n      \"shared\": false\n    },\n    \"sticker_info\": {\n      \"stickers\": [\n        {\n          \"aspect_ratio\": 1.78,\n          \"group_annotation_id\": 987654321098765,\n          \"id\": \"12345\",\n          \"sticker_set_annotation_id\": 123456789012345,\n          \"transform_a\": 1,\n          \"transform_b\": 0,\n          \"transform_c\": 0,\n          \"transform_d\": 1,\n          \"transform_tx\": 10.5,\n          \"transform_ty\": -5.2\n        },\n        {\n          \"aspect_ratio\": 1.78,\n          \"group_annotation_id\": 987654321098765,\n          \"id\": \"12345\",\n          \"sticker_set_annotation_id\": 123456789012345,\n          \"transform_a\": 1,\n          \"transform_b\": 0,\n          \"transform_c\": 0,\n          \"transform_d\": 1,\n          \"transform_tx\": 10.5,\n          \"transform_ty\": -5.2\n        }\n      ]\n    },\n    \"upload_source\": {\n      \"upload_source\": \"gallery\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 8482,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "da3bf8d1-34c3-42eb-9402-1a03fa4502aa",
+          "name": "X Delete Media Subtitles",
+          "request": {
+            "name": "X Delete Media Subtitles",
+            "description": {
+              "content": "Deletes subtitles for a specific Media file.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "media",
+                "subtitles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "block.read bookmark.read bookmark.write dm.read dm.write follows.read follows.write like.read like.write list.read list.write media.write mute.read mute.write offline.access space.read timeline.read tweet.moderate.write tweet.read tweet.write users.read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.x.com/2/oauth2/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://api.x.com/2/oauth2/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"language_code\": \"<string>\",\n  \"media_category\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c94da6af-2cf4-4d76-a30b-0bf51c8802dd",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "subtitles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"1146654567674912769\",\n  \"language_code\": \"EN\",\n  \"media_category\": \"TweetVideo\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"deleted\": true\n  },\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 7235\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f77d7ef0-1eb3-47f2-a8cf-742279585d0b",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "subtitles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"1146654567674912769\",\n  \"language_code\": \"EN\",\n  \"media_category\": \"TweetVideo\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 8482,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d2f8994f-3692-40cd-b336-a25af7a67151",
+          "name": "X Create Media Subtitles",
+          "request": {
+            "name": "X Create Media Subtitles",
+            "description": {
+              "content": "Creates subtitles for a specific Media file.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "media",
+                "subtitles"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "block.read bookmark.read bookmark.write dm.read dm.write follows.read follows.write like.read like.write list.read list.write media.write mute.read mute.write offline.access space.read timeline.read tweet.moderate.write tweet.read tweet.write users.read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.x.com/2/oauth2/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://api.x.com/2/oauth2/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"media_category\": \"<string>\",\n  \"subtitles\": {\n    \"display_name\": \"<string>\",\n    \"id\": \"<string>\",\n    \"language_code\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1c869257-225b-4dff-8733-0a07b9020045",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "subtitles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"1146654567674912769\",\n  \"media_category\": \"TweetVideo\",\n  \"subtitles\": {\n    \"display_name\": \"English\",\n    \"id\": \"1146654567674912769\",\n    \"language_code\": \"EN\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"1146654567674912769\",\n    \"media_category\": \"TweetVideo\",\n    \"associated_subtitles\": [\n      {\n        \"display_name\": \"English\",\n        \"id\": \"1146654567674912769\",\n        \"language_code\": \"EN\"\n      }\n    ]\n  },\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 8464\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a6fb16b0-f713-4ac4-be4e-3941ac0d285b",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "subtitles"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"1146654567674912769\",\n  \"media_category\": \"TweetVideo\",\n  \"subtitles\": {\n    \"display_name\": \"English\",\n    \"id\": \"1146654567674912769\",\n    \"language_code\": \"EN\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 8482,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3eb5999c-12e3-461a-9d66-f27ca22828dc",
+          "name": "X Get Media Upload Status",
+          "request": {
+            "name": "X Get Media Upload Status",
+            "description": {
+              "content": "Retrieves the status of a Media upload by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "media",
+                "upload"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "media_id",
+                  "value": "<string>",
+                  "description": "(Required) Media id for the requested media upload status."
+                },
+                {
+                  "disabled": false,
+                  "key": "command",
+                  "value": "<string>",
+                  "description": "The command for the media upload request."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "block.read bookmark.read bookmark.write dm.read dm.write follows.read follows.write like.read like.write list.read list.write media.write mute.read mute.write offline.access space.read timeline.read tweet.moderate.write tweet.read tweet.write users.read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.x.com/2/oauth2/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://api.x.com/2/oauth2/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "866976dc-2b96-4174-89d1-4854522cbc89",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "media_id",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "command",
+                      "value": "STATUS"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"expires_after_secs\": 9583,\n    \"id\": \"1234567890\",\n    \"media_key\": \"<string>\",\n    \"processing_info\": {\n      \"check_after_secs\": 2603,\n      \"progress_percent\": 8639,\n      \"state\": \"succeeded\"\n    },\n    \"size\": 3674\n  },\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 8514\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c74f754-3f07-4b70-9340-e9958bd79563",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "media_id",
+                      "value": "1234567890"
+                    },
+                    {
+                      "key": "command",
+                      "value": "STATUS"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 8482,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "44a3f336-a7af-4bad-87ef-a819150e4a05",
+          "name": "X Upload Media",
+          "request": {
+            "name": "X Upload Media",
+            "description": {
+              "content": "Uploads a media file for use in posts or other content.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "media",
+                "upload"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "block.read bookmark.read bookmark.write dm.read dm.write follows.read follows.write like.read like.write list.read list.write media.write mute.read mute.write offline.access space.read timeline.read tweet.moderate.write tweet.read tweet.write users.read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.x.com/2/oauth2/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://api.x.com/2/oauth2/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "media",
+                  "value": "<binary>",
+                  "type": "text",
+                  "description": "(Required) "
+                },
+                {
+                  "key": "media_category",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "(Required) "
+                },
+                {
+                  "key": "additional_owners",
+                  "value": "[\"<string>\",\"<string>\"]",
+                  "type": "text",
+                  "description": ""
+                },
+                {
+                  "key": "media_type",
+                  "value": "<string>",
+                  "type": "text",
+                  "description": "The type of image or subtitle. (This can only be one of text/srt,text/vtt,image/jpeg,image/bmp,image/png,image/webp,image/pjpeg,image/tiff)"
+                },
+                {
+                  "key": "shared",
+                  "value": "false",
+                  "type": "text",
+                  "description": "Whether this media is shared or not."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "cb329567-eb50-4dd5-ac70-11c18019706e",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "media",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "media_category",
+                      "value": "tweet_image",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "additional_owners",
+                      "value": "[\"2244994945\",\"2244994945\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The type of image or subtitle. (This can only be one of text/srt,text/vtt,image/jpeg,image/bmp,image/png,image/webp,image/pjpeg,image/tiff)",
+                        "type": "text/plain"
+                      },
+                      "key": "media_type",
+                      "value": "image/png",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether this media is shared or not.",
+                        "type": "text/plain"
+                      },
+                      "key": "shared",
+                      "value": "false",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"expires_after_secs\": 9583,\n    \"id\": \"1234567890\",\n    \"media_key\": \"<string>\",\n    \"processing_info\": {\n      \"check_after_secs\": 2603,\n      \"progress_percent\": 8639,\n      \"state\": \"succeeded\"\n    },\n    \"size\": 3674\n  },\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 8514\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e3e34c26-1ae5-477f-a0a7-f2739f30fb6d",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "media",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "(Required) ",
+                        "type": "text/plain"
+                      },
+                      "key": "media_category",
+                      "value": "tweet_image",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "additional_owners",
+                      "value": "[\"2244994945\",\"2244994945\"]",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The type of image or subtitle. (This can only be one of text/srt,text/vtt,image/jpeg,image/bmp,image/png,image/webp,image/pjpeg,image/tiff)",
+                        "type": "text/plain"
+                      },
+                      "key": "media_type",
+                      "value": "image/png",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Whether this media is shared or not.",
+                        "type": "text/plain"
+                      },
+                      "key": "shared",
+                      "value": "false",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 8482,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cf080f29-41d8-4d81-932b-23d85e807c78",
+          "name": "X Initialize Media Upload",
+          "request": {
+            "name": "X Initialize Media Upload",
+            "description": {
+              "content": "Initializes a media upload.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "media",
+                "upload",
+                "initialize"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "block.read bookmark.read bookmark.write dm.read dm.write follows.read follows.write like.read like.write list.read list.write media.write mute.read mute.write offline.access space.read timeline.read tweet.moderate.write tweet.read tweet.write users.read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.x.com/2/oauth2/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://api.x.com/2/oauth2/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"additional_owners\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"media_category\": \"<string>\",\n  \"media_type\": \"<string>\",\n  \"shared\": \"<boolean>\",\n  \"total_bytes\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e36cdba0-ed49-4d0b-82a8-185ed15b3eee",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "upload",
+                    "initialize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"additional_owners\": [\n    \"2244994945\",\n    \"2244994945\"\n  ],\n  \"media_category\": \"tweet_video\",\n  \"media_type\": \"video/mp4\",\n  \"shared\": \"<boolean>\",\n  \"total_bytes\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"expires_after_secs\": 9583,\n    \"id\": \"1234567890\",\n    \"media_key\": \"<string>\",\n    \"processing_info\": {\n      \"check_after_secs\": 2603,\n      \"progress_percent\": 8639,\n      \"state\": \"succeeded\"\n    },\n    \"size\": 3674\n  },\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 8514\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e8d0f62-d415-49ec-b452-46c6ac10464b",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "upload",
+                    "initialize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"additional_owners\": [\n    \"2244994945\",\n    \"2244994945\"\n  ],\n  \"media_category\": \"tweet_video\",\n  \"media_type\": \"video/mp4\",\n  \"shared\": \"<boolean>\",\n  \"total_bytes\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 8482,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bfafe352-f429-45b1-aef6-3f15312f8486",
+          "name": "X Append Media Upload",
+          "request": {
+            "name": "X Append Media Upload",
+            "description": {
+              "content": "Appends data to a Media upload request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "media",
+                "upload",
+                ":id",
+                "append"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The media identifier for the media to perform the append operation."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "block.read bookmark.read bookmark.write dm.read dm.write follows.read follows.write like.read like.write list.read list.write media.write mute.read mute.write offline.access space.read timeline.read tweet.moderate.write tweet.read tweet.write users.read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.x.com/2/oauth2/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://api.x.com/2/oauth2/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "media",
+                  "value": "<binary>",
+                  "type": "text",
+                  "description": "undefined"
+                },
+                {
+                  "key": "segment_index",
+                  "value": "<integer>",
+                  "type": "text",
+                  "description": "undefined"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "60e8fc01-3672-4900-8403-09830bee97d8",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "upload",
+                    ":id",
+                    "append"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The media identifier for the media to perform the append operation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "undefined",
+                        "type": "text/plain"
+                      },
+                      "key": "media",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "undefined",
+                        "type": "text/plain"
+                      },
+                      "key": "segment_index",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"expires_at\": 5418\n  },\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 6322\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "96a594ac-c528-4164-95bc-b949d2f7b69f",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "upload",
+                    ":id",
+                    "append"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The media identifier for the media to perform the append operation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "undefined",
+                        "type": "text/plain"
+                      },
+                      "key": "media",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "undefined",
+                        "type": "text/plain"
+                      },
+                      "key": "segment_index",
+                      "value": "<integer>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 8482,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "88b440b3-af2b-4840-8f57-84cdc5595f96",
+          "name": "X Finalize Media Upload",
+          "request": {
+            "name": "X Finalize Media Upload",
+            "description": {
+              "content": "Finalizes a Media upload request.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "media",
+                "upload",
+                ":id",
+                "finalize"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The media id of the targeted media to finalize."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "oauth2",
+              "oauth2": [
+                {
+                  "key": "scope",
+                  "value": "block.read bookmark.read bookmark.write dm.read dm.write follows.read follows.write like.read like.write list.read list.write media.write mute.read mute.write offline.access space.read timeline.read tweet.moderate.write tweet.read tweet.write users.read"
+                },
+                {
+                  "key": "accessTokenUrl",
+                  "value": "https://api.x.com/2/oauth2/token"
+                },
+                {
+                  "key": "authUrl",
+                  "value": "https://api.x.com/2/oauth2/authorize"
+                },
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "cf11ea27-56fc-4662-b3ec-ce44f0d243bb",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "upload",
+                    ":id",
+                    "finalize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The media id of the targeted media to finalize."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"expires_after_secs\": 9583,\n    \"id\": \"1234567890\",\n    \"media_key\": \"<string>\",\n    \"processing_info\": {\n      \"check_after_secs\": 2603,\n      \"progress_percent\": 8639,\n      \"state\": \"succeeded\"\n    },\n    \"size\": 3674\n  },\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 8514\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "88ef94e3-aa46-40a7-8f16-a03d87381604",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    "upload",
+                    ":id",
+                    "finalize"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The media id of the targeted media to finalize."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 8482,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ae184923-99ca-45ca-a7f2-a92eb40dddb0",
+          "name": "X Get Media by Media Key",
+          "request": {
+            "name": "X Get Media by Media Key",
+            "description": {
+              "content": "Retrieves details of a specific Media file by its media key.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "media",
+                ":media_key"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "media.fields",
+                  "value": "<string>",
+                  "description": "A comma separated list of Media fields to display."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "media_key",
+                  "description": "(Required) A single Media Key."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "91c1dfae-9d55-4ab3-83e4-b0f166a24841",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    ":media_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "media.fields",
+                      "value": "alt_text,duration_ms,height,media_key,non_public_metrics,organic_metrics,preview_image_url,promoted_metrics,public_metrics,type,url,variants,width"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "media_key",
+                      "description": "(Required) A single Media Key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"string\",\n    \"height\": 1250,\n    \"media_key\": \"<string>\",\n    \"width\": 9477\n  },\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 5393\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5dc9d37f-c547-4864-a580-1f9a9ea95ebc",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "media",
+                    ":media_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "media.fields",
+                      "value": "alt_text,duration_ms,height,media_key,non_public_metrics,organic_metrics,preview_image_url,promoted_metrics,public_metrics,type,url,variants,width"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "media_key",
+                      "description": "(Required) A single Media Key."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 8482,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.x.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f70f2cdd-5fa0-4ece-be33-93fceadd0120",
+    "name": "X API v2 Account Activity Media API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "X API v2 available endpoints\n\nContact Support:\n Name: X Developers",
+      "type": "text/plain"
+    }
+  }
+}

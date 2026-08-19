@@ -1,0 +1,122 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity Connections API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Connections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Get Connection History",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/connections",
+            "params": [
+              {
+                "name": "status",
+                "value": "active",
+                "type": "query",
+                "description": "Filter by connection status. Use 'active' for current connections, 'inactive' for historical/disconnected connections, or 'all' for both."
+              },
+              {
+                "name": "endpoints",
+                "value": "filtered_stream",
+                "type": "query",
+                "description": "Filter by streaming endpoint. Specify one or more endpoint names to filter results."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results to return per page."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "Token for paginating through results. Use the value from 'next_token' in the previous response."
+              },
+              {
+                "name": "connection.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Connection fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns active and historical streaming connections with disconnect reasons for the authenticated application."
+        },
+        {
+          "info": {
+            "name": "X Terminate Multiple Connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/connections",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Terminates multiple streaming connections by their UUIDs for the authenticated application."
+        },
+        {
+          "info": {
+            "name": "X Terminate All Connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/connections/all",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Terminates all active streaming connections for the authenticated application."
+        },
+        {
+          "info": {
+            "name": "X Terminate Connections by Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/connections/:endpoint_id",
+            "params": [
+              {
+                "name": "endpoint_id",
+                "value": "filtered_stream",
+                "type": "path",
+                "description": "The endpoint ID to terminate connections for."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Terminates all streaming connections for a specific endpoint ID for the authenticated application."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

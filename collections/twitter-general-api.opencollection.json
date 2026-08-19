@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity General API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "General",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Get OpenAPI Spec.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/openapi.json"
+          },
+          "docs": "Retrieves the full OpenAPI Specification in JSON format. (See https://github.com/OAI/OpenAPI-Specification/blob/master/README.md)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

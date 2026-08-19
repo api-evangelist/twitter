@@ -1,0 +1,1146 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity Stream API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Stream",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Activity Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/activity/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Post labels will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the Post labels will be provided."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Stream of X Activities"
+        },
+        {
+          "info": {
+            "name": "X Create X Activity Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/activity/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a subscription for an X activity event"
+        },
+        {
+          "info": {
+            "name": "X Stream Likes Compliance Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/likes/compliance/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Likes Compliance events will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the Likes Compliance events will be provided."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all compliance data related to Likes for Users."
+        },
+        {
+          "info": {
+            "name": "X Stream All Likes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/likes/firehose/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Likes will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "like_with_tweet_author.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of LikeWithTweetAuthor fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all public Likes in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream Sampled Likes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/likes/sample10/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Likes will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "like_with_tweet_author.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of LikeWithTweetAuthor fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams a 10% sample of public Likes in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream Posts Compliance Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/compliance/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Post Compliance events will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Post Compliance events will be provided."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all compliance data related to Posts."
+        },
+        {
+          "info": {
+            "name": "X Stream All Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/firehose/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all public Posts in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream English Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/firehose/stream/lang/en",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all public English-language Posts in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream Japanese Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/firehose/stream/lang/ja",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all public Japanese-language Posts in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream Korean Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/firehose/stream/lang/ko",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all public Korean-language Posts in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream Portuguese Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/firehose/stream/lang/pt",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all public Portuguese-language Posts in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream Post Labels",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/label/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Post labels will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the Post labels will be provided."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all labeling events applied to Posts."
+        },
+        {
+          "info": {
+            "name": "X Stream Sampled Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/sample/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams a 1% sample of public Posts in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream 10% Sampled Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/sample10/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams a 10% sample of public Posts in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream Filtered Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/search/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Posts will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams Posts in real-time matching the active rule set."
+        },
+        {
+          "info": {
+            "name": "X Get Stream Rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/search/stream/rules",
+            "params": [
+              {
+                "name": "ids",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of Rule IDs."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This value is populated by passing the 'next_token' returned in a request to paginate through results."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves the active rule set or a subset of rules for the filtered stream."
+        },
+        {
+          "info": {
+            "name": "X Update Stream Rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/tweets/search/stream/rules",
+            "params": [
+              {
+                "name": "dry_run",
+                "value": "true",
+                "type": "query",
+                "description": "Dry Run can be used with both the add and delete action, with the expected result given, but without actually taking any action in the system (meaning the end state will always be as it was when the request was submitted). This is particularly useful to validate rule changes."
+              },
+              {
+                "name": "delete_all",
+                "value": "true",
+                "type": "query",
+                "description": "Delete All can be used to delete all of the rules associated this client app, it should be specified with no other parameters. Once deleted, rules cannot be recovered."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Adds or deletes rules from the active rule set for the filtered stream."
+        },
+        {
+          "info": {
+            "name": "X Get Stream Rule Counts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/search/stream/rules/counts",
+            "params": [
+              {
+                "name": "rules_count.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of RulesCount fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves the count of rules in the active rule set for the filtered stream."
+        },
+        {
+          "info": {
+            "name": "X Get Stream Links",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/search/webhooks",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of webhook links associated with a filtered stream ruleset."
+        },
+        {
+          "info": {
+            "name": "X Create Stream Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/tweets/search/webhooks/:webhook_id",
+            "params": [
+              {
+                "name": "webhook_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The webhook ID to link to your FilteredStream ruleset."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "example_value",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "example_value",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "example_value",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "example_value",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "example_value",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "example_value",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a link to deliver FilteredStream events to the given webhook."
+        },
+        {
+          "info": {
+            "name": "X Delete Stream Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/tweets/search/webhooks/:webhook_id",
+            "params": [
+              {
+                "name": "webhook_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The webhook ID to link to your FilteredStream ruleset."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes a link from FilteredStream events to the given webhook."
+        },
+        {
+          "info": {
+            "name": "X Stream Users Compliance Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/compliance/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the User Compliance events will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the User Compliance events will be provided."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all compliance data related to Users."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

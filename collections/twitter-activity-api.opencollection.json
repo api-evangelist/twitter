@@ -1,0 +1,174 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Activity",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Activity Stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/activity/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Post labels will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the Post labels will be provided."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Stream of X Activities"
+        },
+        {
+          "info": {
+            "name": "X Get X Activity Subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/activity/subscriptions",
+            "params": [
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results to return per page."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of active subscriptions for XAA"
+        },
+        {
+          "info": {
+            "name": "X Create X Activity Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/activity/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a subscription for an X activity event"
+        },
+        {
+          "info": {
+            "name": "X Delete X Activity Subscriptions by IDs",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/activity/subscriptions",
+            "params": [
+              {
+                "name": "ids",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of subscription IDs to delete."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes multiple subscriptions for X activity events by their IDs"
+        },
+        {
+          "info": {
+            "name": "X Update X Activity Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.x.com/2/activity/subscriptions/:subscription_id",
+            "params": [
+              {
+                "name": "subscription_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the subscription to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates a subscription for an X activity event"
+        },
+        {
+          "info": {
+            "name": "X Deletes X Activity Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/activity/subscriptions/:subscription_id",
+            "params": [
+              {
+                "name": "subscription_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the subscription to delete."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes a subscription for an X activity event"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

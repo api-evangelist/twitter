@@ -1,0 +1,253 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity Compliance API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Compliance",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Get Compliance Jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/compliance/jobs",
+            "params": [
+              {
+                "name": "type",
+                "value": "tweets",
+                "type": "query",
+                "description": "Type of Compliance Job to list."
+              },
+              {
+                "name": "status",
+                "value": "created",
+                "type": "query",
+                "description": "Status of Compliance Job to list."
+              },
+              {
+                "name": "compliance_job.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of ComplianceJob fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Compliance Jobs filtered by job type and optional status."
+        },
+        {
+          "info": {
+            "name": "X Create Compliance Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/compliance/jobs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new Compliance Job for the specified job type."
+        },
+        {
+          "info": {
+            "name": "X Get Compliance Job by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/compliance/jobs/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the Compliance Job to retrieve."
+              },
+              {
+                "name": "compliance_job.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of ComplianceJob fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves details of a specific Compliance Job by its ID."
+        },
+        {
+          "info": {
+            "name": "X Stream Likes Compliance Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/likes/compliance/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Likes Compliance events will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the Likes Compliance events will be provided."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all compliance data related to Likes for Users."
+        },
+        {
+          "info": {
+            "name": "X Stream Posts Compliance Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/compliance/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Post Compliance events will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Post Compliance events will be provided."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all compliance data related to Posts."
+        },
+        {
+          "info": {
+            "name": "X Stream Post Labels",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/label/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Post labels will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the Post labels will be provided."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all labeling events applied to Posts."
+        },
+        {
+          "info": {
+            "name": "X Stream Users Compliance Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/compliance/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the User Compliance events will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp from which the User Compliance events will be provided."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all compliance data related to Users."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

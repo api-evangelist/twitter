@@ -1,0 +1,2191 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity Users API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Get List Followers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/lists/:id/followers",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Users who follow a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get List Members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/lists/:id/members",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Users who are members of a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Liking Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/:id/liking_users",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "A single Post ID."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Users who liked a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Reposted by",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/:id/retweeted_by",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "A single Post ID."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Users who reposted a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Users by IDs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users",
+            "params": [
+              {
+                "name": "ids",
+                "value": "2244994945,6253282,12",
+                "type": "query",
+                "description": "A list of User IDs, comma-separated. You can specify up to 100 IDs."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves details of multiple Users by their IDs."
+        },
+        {
+          "info": {
+            "name": "X Get Users by Usernames",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/by",
+            "params": [
+              {
+                "name": "usernames",
+                "value": "TwitterDev,TwitterAPI",
+                "type": "query",
+                "description": "A list of usernames, comma-separated."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves details of multiple Users by their usernames."
+        },
+        {
+          "info": {
+            "name": "X Get User by Username",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/by/username/:username",
+            "params": [
+              {
+                "name": "username",
+                "value": "TwitterDev",
+                "type": "path",
+                "description": "A username."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves details of a specific User by their username."
+        },
+        {
+          "info": {
+            "name": "X Get My User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/me",
+            "params": [
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves details of the authenticated user."
+        },
+        {
+          "info": {
+            "name": "X Get Public Keys for Multiple Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/public_keys",
+            "params": [
+              {
+                "name": "ids",
+                "value": "2244994945,6253282,12",
+                "type": "query",
+                "description": "A list of User IDs, comma-separated. You can specify up to 100 IDs."
+              },
+              {
+                "name": "public_key.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of PublicKey fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns the public keys and Juicebox configuration for the specified users."
+        },
+        {
+          "info": {
+            "name": "X Get Reposts of Me",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/reposts_of_me",
+            "params": [
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Posts that repost content from the authenticated user."
+        },
+        {
+          "info": {
+            "name": "X Search Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/search",
+            "params": [
+              {
+                "name": "query",
+                "value": "someXUser",
+                "type": "query",
+                "description": "TThe the query string by which to query for users."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "next_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results. The value used with the parameter is pulled directly from the response provided by the API, and should not be modified."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Users matching a search query."
+        },
+        {
+          "info": {
+            "name": "X Get User by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves details of a specific User by their ID."
+        },
+        {
+          "info": {
+            "name": "X Get Affiliates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/affiliates",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Users who are affiliated with a specific organization User by their ID."
+        },
+        {
+          "info": {
+            "name": "X Get Blocking",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/blocking",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User for whom to return results."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Users blocked by the specified User ID."
+        },
+        {
+          "info": {
+            "name": "X Get Bookmarks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/bookmarks",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User for whom to return results."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Posts bookmarked by the authenticated user."
+        },
+        {
+          "info": {
+            "name": "X Create Bookmark",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/users/:id/bookmarks",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User for whom to add bookmarks."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Adds a post to the authenticated user’s bookmarks."
+        },
+        {
+          "info": {
+            "name": "X Get Bookmark Folders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/bookmarks/folders",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User for whom to return results."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Bookmark folders created by the authenticated user."
+        },
+        {
+          "info": {
+            "name": "X Get Bookmarks by Folder ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/bookmarks/folders/:folder_id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User for whom to return results."
+              },
+              {
+                "name": "folder_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the Bookmark Folder that the authenticated User is trying to fetch Posts for."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves Posts in a specific Bookmark folder by its ID for the authenticated user."
+        },
+        {
+          "info": {
+            "name": "X Delete Bookmark",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/users/:id/bookmarks/:tweet_id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User whose bookmark is to be removed."
+              },
+              {
+                "name": "tweet_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the Post that the source User is removing from bookmarks."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes a Post from the authenticated user’s Bookmarks by its ID."
+        },
+        {
+          "info": {
+            "name": "X Block DMs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/users/:id/dm/block",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the target User that the authenticated user requesting to block dms for."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Blocks direct messages to or from a specific User by their ID for the authenticated user."
+        },
+        {
+          "info": {
+            "name": "X Unblock DMs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/users/:id/dm/unblock",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the target User that the authenticated user requesting to unblock dms for."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Unblocks direct messages to or from a specific User by their ID for the authenticated user."
+        },
+        {
+          "info": {
+            "name": "X Get Followed Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/followed_lists",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "list.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of List fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Lists followed by a specific User by their ID."
+        },
+        {
+          "info": {
+            "name": "X Follow List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/users/:id/followed_lists",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that will follow the List."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to follow a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Unfollow List",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/users/:id/followed_lists/:list_id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that will unfollow the List."
+              },
+              {
+                "name": "list_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List to unfollow."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to unfollow a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Followers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/followers",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Users who follow a specific User by their ID."
+        },
+        {
+          "info": {
+            "name": "X Get Following",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/following",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Users followed by a specific User by their ID."
+        },
+        {
+          "info": {
+            "name": "X Follow User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/users/:id/following",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that is requesting to follow the target User."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to follow a specific user by their ID."
+        },
+        {
+          "info": {
+            "name": "X Get Liked Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/liked_tweets",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Posts liked by a specific User by their ID."
+        },
+        {
+          "info": {
+            "name": "X Like Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/users/:id/likes",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that is requesting to like the Post."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to Like a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Unlike Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/users/:id/likes/:tweet_id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that is requesting to unlike the Post."
+              },
+              {
+                "name": "tweet_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the Post that the User is requesting to unlike."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to Unlike a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get List Memberships",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/list_memberships",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "list.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of List fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Lists that a specific User is a member of by their ID."
+        },
+        {
+          "info": {
+            "name": "X Get Mentions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/mentions",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "since_id",
+                "value": "1234567890",
+                "type": "query",
+                "description": "The minimum Post ID to be included in the result set. This parameter takes precedence over start_time if both are specified."
+              },
+              {
+                "name": "until_id",
+                "value": "1346889436626259968",
+                "type": "query",
+                "description": "The maximum Post ID to be included in the result set. This parameter takes precedence over end_time if both are specified."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Posts will be provided. The since_id parameter takes precedence if it is also specified."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided. The until_id parameter takes precedence if it is also specified."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Posts that mention a specific User by their ID."
+        },
+        {
+          "info": {
+            "name": "X Get Muting",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/muting",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User for whom to return results."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Users muted by the authenticated user."
+        },
+        {
+          "info": {
+            "name": "X Mute User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/users/:id/muting",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that is requesting to mute the target User."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to mute a specific User by their ID."
+        },
+        {
+          "info": {
+            "name": "X Get Owned Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/owned_lists",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "list.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of List fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Lists owned by a specific User by their ID."
+        },
+        {
+          "info": {
+            "name": "X Get Pinned Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/pinned_lists",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User for whom to return results."
+              },
+              {
+                "name": "list.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of List fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Lists pinned by the authenticated user."
+        },
+        {
+          "info": {
+            "name": "X Pin List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/users/:id/pinned_lists",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that will pin the List."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to pin a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Unpin List",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/users/:id/pinned_lists/:list_id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User for whom to return results."
+              },
+              {
+                "name": "list_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List to unpin."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to unpin a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get User Public Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/public_keys",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "public_key.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of PublicKey fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns the public keys and Juicebox configuration for the specified user."
+        },
+        {
+          "info": {
+            "name": "X Repost Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/users/:id/retweets",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that is requesting to repost the Post."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to repost a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Unrepost Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/users/:id/retweets/:source_tweet_id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that is requesting to repost the Post."
+              },
+              {
+                "name": "source_tweet_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the Post that the User is requesting to unretweet."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to unrepost a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Timeline",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/timelines/reverse_chronological",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User to list Reverse Chronological Timeline Posts of."
+              },
+              {
+                "name": "since_id",
+                "value": "791775337160081409",
+                "type": "query",
+                "description": "The minimum Post ID to be included in the result set. This parameter takes precedence over start_time if both are specified."
+              },
+              {
+                "name": "until_id",
+                "value": "1346889436626259968",
+                "type": "query",
+                "description": "The maximum Post ID to be included in the result set. This parameter takes precedence over end_time if both are specified."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "exclude",
+                "value": "replies,retweets",
+                "type": "query",
+                "description": "The set of entities to exclude (e.g. 'replies' or 'retweets')."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Posts will be provided. The since_id parameter takes precedence if it is also specified."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided. The until_id parameter takes precedence if it is also specified."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a reverse chronological list of Posts in the authenticated User’s Timeline."
+        },
+        {
+          "info": {
+            "name": "X Get Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/tweets",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "since_id",
+                "value": "791775337160081409",
+                "type": "query",
+                "description": "The minimum Post ID to be included in the result set. This parameter takes precedence over start_time if both are specified."
+              },
+              {
+                "name": "until_id",
+                "value": "1346889436626259968",
+                "type": "query",
+                "description": "The maximum Post ID to be included in the result set. This parameter takes precedence over end_time if both are specified."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "exclude",
+                "value": "replies,retweets",
+                "type": "query",
+                "description": "The set of entities to exclude (e.g. 'replies' or 'retweets')."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Posts will be provided. The since_id parameter takes precedence if it is also specified."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided. The until_id parameter takes precedence if it is also specified."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of posts authored by a specific User by their ID."
+        },
+        {
+          "info": {
+            "name": "X Unfollow User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/users/:source_user_id/following/:target_user_id",
+            "params": [
+              {
+                "name": "source_user_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that is requesting to unfollow the target User."
+              },
+              {
+                "name": "target_user_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the User that the source User is requesting to unfollow."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to unfollow a specific user by their ID."
+        },
+        {
+          "info": {
+            "name": "X Unmute User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/users/:source_user_id/muting/:target_user_id",
+            "params": [
+              {
+                "name": "source_user_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that is requesting to unmute the target User."
+              },
+              {
+                "name": "target_user_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the User that the source User is requesting to unmute."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to unmute a specific user by their ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

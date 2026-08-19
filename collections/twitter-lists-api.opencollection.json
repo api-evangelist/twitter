@@ -1,0 +1,733 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity Lists API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Lists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Create List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/lists",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Creates a new List for the authenticated user."
+        },
+        {
+          "info": {
+            "name": "X Get List by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/lists/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List."
+              },
+              {
+                "name": "list.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of List fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves details of a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Update List",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.x.com/2/lists/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List to modify."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Updates the details of a specific List owned by the authenticated user by its ID."
+        },
+        {
+          "info": {
+            "name": "X Delete List",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/lists/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List to delete."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Deletes a specific List owned by the authenticated user by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get List Followers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/lists/:id/followers",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Users who follow a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get List Members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/lists/:id/members",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Users who are members of a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Add List Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/lists/:id/members",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List for which to add a member."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Adds a User to a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Remove List Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/lists/:id/members/:user_id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List to remove a member."
+              },
+              {
+                "name": "user_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of User that will be removed from the List."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Removes a User from a specific List by its ID and the User’s ID."
+        },
+        {
+          "info": {
+            "name": "X Get List Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/lists/:id/tweets",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Posts associated with a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Followed Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/followed_lists",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "list.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of List fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Lists followed by a specific User by their ID."
+        },
+        {
+          "info": {
+            "name": "X Follow List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/users/:id/followed_lists",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that will follow the List."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to follow a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Unfollow List",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/users/:id/followed_lists/:list_id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that will unfollow the List."
+              },
+              {
+                "name": "list_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List to unfollow."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to unfollow a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get List Memberships",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/list_memberships",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "list.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of List fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Lists that a specific User is a member of by their ID."
+        },
+        {
+          "info": {
+            "name": "X Get Owned Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/owned_lists",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "list.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of List fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Lists owned by a specific User by their ID."
+        },
+        {
+          "info": {
+            "name": "X Get Pinned Lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/pinned_lists",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User for whom to return results."
+              },
+              {
+                "name": "list.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of List fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Lists pinned by the authenticated user."
+        },
+        {
+          "info": {
+            "name": "X Pin List",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/users/:id/pinned_lists",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that will pin the List."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to pin a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Unpin List",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/users/:id/pinned_lists/:list_id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User for whom to return results."
+              },
+              {
+                "name": "list_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List to unpin."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to unpin a specific List by its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

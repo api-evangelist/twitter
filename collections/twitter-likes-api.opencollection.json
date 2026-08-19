@@ -1,0 +1,160 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity Likes API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Likes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Stream All Likes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/likes/firehose/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Likes will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "like_with_tweet_author.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of LikeWithTweetAuthor fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all public Likes in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream Sampled Likes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/likes/sample10/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Likes will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "like_with_tweet_author.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of LikeWithTweetAuthor fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams a 10% sample of public Likes in real-time."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,554 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity Chat API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Chat",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Get Chat Conversations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/chat/conversations",
+            "params": [
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "Maximum number of conversations to return."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "Token for pagination to retrieve the next page of results."
+              },
+              {
+                "name": "chat_conversation.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of ChatConversation fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Chat conversations for the authenticated user's inbox."
+        },
+        {
+          "info": {
+            "name": "X Create Chat Group Conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/chat/conversations/group",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Creates a new encrypted Chat group conversation on behalf of the authenticated user."
+        },
+        {
+          "info": {
+            "name": "X Initialize Chat Group",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/chat/conversations/group/initialize",
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Initializes a new XChat group conversation and returns a unique conversation ID.\n\nThis endpoint is the first step in creating a group chat. The returned conversation_id \nshould be used in subsequent calls to POST /chat/conversations/group to fully create and \nconfigure the group with members, admins, encryption keys, and other settings.\n\n**Workflow:**\n1. Call this endpoint to get a `conversation_id`\n2. Use that `conversation_id` when calling `POST /chat/conversations/group` to create the group\n\n"
+        },
+        {
+          "info": {
+            "name": "X Get Chat Conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/chat/conversations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The recipient's user ID for a 1:1 conversation, or a group conversation ID (prefixed with 'g')."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "Maximum number of message events to return."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "Token for pagination to retrieve the next page of results."
+              },
+              {
+                "name": "chat_message_event.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of ChatMessageEvent fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves messages and key change events for a specific Chat conversation with pagination support. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient."
+        },
+        {
+          "info": {
+            "name": "X Initialize Conversation Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/chat/conversations/:id/keys",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The recipient's user ID for a 1:1 conversation, or a group conversation ID (prefixed with 'g')."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Initializes encryption keys for a Chat conversation. This is the first step\nbefore sending messages in a new 1:1 conversation.\n\nFor 1:1 conversations, provide the recipient's user ID as the conversation_id.\nThe server constructs the canonical conversation ID from the authenticated user\nand recipient.\n\nThe request body must contain the conversation key version and participant keys\n(the conversation key encrypted for each participant using their public key).\n\n**Workflow (1:1 conversation):**\n1. Ge"
+        },
+        {
+          "info": {
+            "name": "X Add Members to a Chat Group Conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/chat/conversations/:id/members",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The Chat group conversation ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Adds one or more members to an existing encrypted Chat group conversation, rotating the conversation key."
+        },
+        {
+          "info": {
+            "name": "X Send Chat Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/chat/conversations/:id/messages",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The recipient's user ID for a 1:1 conversation, or a group conversation ID (prefixed with 'g')."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sends an encrypted message to a specific Chat conversation. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient."
+        },
+        {
+          "info": {
+            "name": "X Mark Conversation as Read",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/chat/conversations/:id/read",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The recipient's user ID for a 1:1 conversation, or a group conversation ID (prefixed with 'g')."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Marks a specific Chat conversation as read on behalf of the authenticated user. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient."
+        },
+        {
+          "info": {
+            "name": "X Send Typing Indicator",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/chat/conversations/:id/typing",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The recipient's user ID for a 1:1 conversation, or a group conversation ID (prefixed with 'g')."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sends a typing indicator to a specific Chat conversation on behalf of the authenticated user. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient."
+        },
+        {
+          "info": {
+            "name": "X Initialize Chat Media Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/chat/media/upload/initialize",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Initializes an XChat media upload session."
+        },
+        {
+          "info": {
+            "name": "X Append Chat Media Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/chat/media/upload/:id/append",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The session/resume id from initialize."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Appends media data to an XChat upload session."
+        },
+        {
+          "info": {
+            "name": "X Finalize Chat Media Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/chat/media/upload/:id/finalize",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The session/resume id from initialize."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Finalizes an XChat media upload session."
+        },
+        {
+          "info": {
+            "name": "X Download Chat Media",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/chat/media/:id/:media_hash_key",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The recipient's user ID for a 1:1 conversation, or a group conversation ID (prefixed with 'g')."
+              },
+              {
+                "name": "media_hash_key",
+                "value": "example_value",
+                "type": "path",
+                "description": "The media hash key returned from the upload initialize step."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Downloads encrypted media bytes from an XChat conversation. The response body contains raw binary bytes. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient."
+        },
+        {
+          "info": {
+            "name": "X Get Public Keys for Multiple Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/public_keys",
+            "params": [
+              {
+                "name": "ids",
+                "value": "2244994945,6253282,12",
+                "type": "query",
+                "description": "A list of User IDs, comma-separated. You can specify up to 100 IDs."
+              },
+              {
+                "name": "public_key.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of PublicKey fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns the public keys and Juicebox configuration for the specified users."
+        },
+        {
+          "info": {
+            "name": "X Get User Public Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/public_keys",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "public_key.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of PublicKey fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Returns the public keys and Juicebox configuration for the specified user."
+        },
+        {
+          "info": {
+            "name": "X Add Public Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/users/:id/public_keys",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the requesting user."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Registers a user's public key for X Chat encryption."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

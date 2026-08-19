@@ -1,0 +1,222 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity Webhooks API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Get Stream Links",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/search/webhooks",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of webhook links associated with a filtered stream ruleset."
+        },
+        {
+          "info": {
+            "name": "X Create Stream Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/tweets/search/webhooks/:webhook_id",
+            "params": [
+              {
+                "name": "webhook_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The webhook ID to link to your FilteredStream ruleset."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "example_value",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "example_value",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "example_value",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "example_value",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "example_value",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "example_value",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a link to deliver FilteredStream events to the given webhook."
+        },
+        {
+          "info": {
+            "name": "X Delete Stream Link",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/tweets/search/webhooks/:webhook_id",
+            "params": [
+              {
+                "name": "webhook_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The webhook ID to link to your FilteredStream ruleset."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes a link from FilteredStream events to the given webhook."
+        },
+        {
+          "info": {
+            "name": "X Get Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/webhooks",
+            "params": [
+              {
+                "name": "webhook_config.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of WebhookConfig fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of webhook configs associated with a client app."
+        },
+        {
+          "info": {
+            "name": "X Create Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/webhooks",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new webhook configuration."
+        },
+        {
+          "info": {
+            "name": "X Create Replay Job for Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/webhooks/replay",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a replay job to retrieve events from up to the past 24 hours for all events delivered or attempted to be delivered to the webhook."
+        },
+        {
+          "info": {
+            "name": "X Validate Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.x.com/2/webhooks/:webhook_id",
+            "params": [
+              {
+                "name": "webhook_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the webhook to check."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Triggers a CRC check for a given webhook."
+        },
+        {
+          "info": {
+            "name": "X Delete Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/webhooks/:webhook_id",
+            "params": [
+              {
+                "name": "webhook_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the webhook to delete."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes an existing webhook configuration."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

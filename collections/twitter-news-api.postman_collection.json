@@ -1,0 +1,402 @@
+{
+  "item": [
+    {
+      "id": "2f150503-15bb-4719-b13c-76e47ffa64af",
+      "name": "News",
+      "description": {
+        "content": "Endpoint for retrieving news stories",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "317aadc4-5b1b-4623-b12b-32b30eaf6bc3",
+          "name": "X Search News",
+          "request": {
+            "name": "X Search News",
+            "description": {
+              "content": "Retrieves a list of News stories matching the specified search query.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "news",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "(Required) The search query."
+                },
+                {
+                  "disabled": false,
+                  "key": "max_results",
+                  "value": "10",
+                  "description": "The number of results to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "max_age_hours",
+                  "value": "168",
+                  "description": "The maximum age of the News story to search for."
+                },
+                {
+                  "disabled": false,
+                  "key": "news.fields",
+                  "value": "<string>",
+                  "description": "A comma separated list of News fields to display."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "63ee5a9f-66a4-4b7b-b944-25174ae8a86a",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "news",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "crypto"
+                    },
+                    {
+                      "key": "max_results",
+                      "value": "10"
+                    },
+                    {
+                      "key": "max_age_hours",
+                      "value": "42"
+                    },
+                    {
+                      "key": "news.fields",
+                      "value": "category,cluster_posts_results,contexts,disclaimer,hook,id,keywords,name,summary,updated_at"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"rest_id\": \"2244994945\",\n      \"category\": \"string\",\n      \"cluster_posts_results\": [\n        {\n          \"post_id\": \"1346889436626259968\"\n        },\n        {\n          \"post_id\": \"1346889436626259968\"\n        }\n      ],\n      \"contexts\": {\n        \"entities\": {\n          \"events\": [\n            \"string\",\n            \"string\"\n          ],\n          \"organizations\": [\n            \"string\",\n            \"string\"\n          ],\n          \"people\": [\n            \"string\",\n            \"string\"\n          ],\n          \"places\": [\n            \"string\",\n            \"string\"\n          ],\n          \"products\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"finance\": {\n          \"tickers\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"sports\": {\n          \"teams\": [\n            \"string\",\n            \"string\"\n          ]\n        },\n        \"topics\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"disclaimer\": \"string\",\n      \"hook\": \"string\",\n      \"keywords\": [\n        \"string\",\n        \"string\"\n      ],\n      \"last_updated_at_ms\": \"1971-08-29T02:27:49.453Z\",\n      \"name\": \"string\",\n      \"summary\": \"string\"\n    }\n  ],\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 2764\n    }\n  ],\n  \"meta\": {\n    \"result_count\": 5384\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "504fdd07-d55b-4ea1-aad9-2ae4f6cf8416",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "news",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "query",
+                      "value": "crypto"
+                    },
+                    {
+                      "key": "max_results",
+                      "value": "10"
+                    },
+                    {
+                      "key": "max_age_hours",
+                      "value": "42"
+                    },
+                    {
+                      "key": "news.fields",
+                      "value": "category,cluster_posts_results,contexts,disclaimer,hook,id,keywords,name,summary,updated_at"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 346,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fd84a8f2-2dfe-4e00-891c-88f2a4b98cfd",
+          "name": "X Get News Stories by ID",
+          "request": {
+            "name": "X Get News Stories by ID",
+            "description": {
+              "content": "Retrieves news story by its ID.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "news",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "news.fields",
+                  "value": "<string>",
+                  "description": "A comma separated list of News fields to display."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The ID of the news story."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "eac01b3a-a07b-40c1-b6c0-ccc72388a476",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "news",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "news.fields",
+                      "value": "category,cluster_posts_results,contexts,disclaimer,hook,id,keywords,name,summary,updated_at"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the news story."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"rest_id\": \"119929381293\",\n    \"category\": \"string\",\n    \"cluster_posts_results\": [\n      {\n        \"post_id\": \"1346889436626259968\"\n      },\n      {\n        \"post_id\": \"1346889436626259968\"\n      }\n    ],\n    \"contexts\": {\n      \"entities\": {\n        \"events\": [\n          \"string\",\n          \"string\"\n        ],\n        \"organizations\": [\n          \"string\",\n          \"string\"\n        ],\n        \"people\": [\n          \"string\",\n          \"string\"\n        ],\n        \"places\": [\n          \"string\",\n          \"string\"\n        ],\n        \"products\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"finance\": {\n        \"tickers\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"sports\": {\n        \"teams\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"topics\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    \"disclaimer\": \"string\",\n    \"hook\": \"string\",\n    \"keywords\": [\n      \"string\",\n      \"string\"\n    ],\n    \"last_updated_at_ms\": \"2020-05-31T05:46:31.372Z\",\n    \"name\": \"string\",\n    \"summary\": \"string\"\n  },\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 1003\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1842fdf1-5da2-410d-afc4-7e0f605c79f8",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "news",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "news.fields",
+                      "value": "category,cluster_posts_results,contexts,disclaimer,hook,id,keywords,name,summary,updated_at"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The ID of the news story."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 346,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.x.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "0d985c6b-b7a8-40cd-946f-7f49864ad8a5",
+    "name": "X API v2 Account Activity News API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "X API v2 available endpoints\n\nContact Support:\n Name: X Developers",
+      "type": "text/plain"
+    }
+  }
+}

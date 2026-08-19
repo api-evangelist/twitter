@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity Trends API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Trends",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Get Trends by WOEID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/trends/by/woeid/:woeid",
+            "params": [
+              {
+                "name": "woeid",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The WOEID of the place to lookup a trend for."
+              },
+              {
+                "name": "max_trends",
+                "value": "42",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "trend.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Trend fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves trending topics for a specific location identified by its WOEID."
+        },
+        {
+          "info": {
+            "name": "X Get Personalized Trends",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/personalized_trends",
+            "params": [
+              {
+                "name": "personalized_trend.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of PersonalizedTrend fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves personalized trending topics for the authenticated user."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

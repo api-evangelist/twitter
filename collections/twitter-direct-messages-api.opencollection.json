@@ -1,0 +1,463 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity Direct Messages API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Direct Messages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Create DM Conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/dm_conversations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Initiates a new direct message conversation with specified participants."
+        },
+        {
+          "info": {
+            "name": "X Download DM Media",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/dm_conversations/media/:dm_id/:media_id/:resource_id",
+            "params": [
+              {
+                "name": "dm_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The unique identifier of the Direct Message event containing the media."
+              },
+              {
+                "name": "media_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The unique identifier of the media attached to the Direct Message."
+              },
+              {
+                "name": "resource_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The resource identifier of the media file, including file extension (e.g. 'hVJQTwig.jpg')."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Downloads media attached to a legacy Direct Message. The requesting user must be a participant in the conversation containing the specified DM event. The response body contains raw binary bytes."
+        },
+        {
+          "info": {
+            "name": "X Get DM Events for a DM Conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/dm_conversations/with/:participant_id/dm_events",
+            "params": [
+              {
+                "name": "participant_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the participant user for the One to One DM conversation."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "event_types",
+                "value": "MessageCreate,ParticipantsLeave",
+                "type": "query",
+                "description": "The set of event_types to include in the results."
+              },
+              {
+                "name": "dm_event.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of DmEvent fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves direct message events for a specific conversation."
+        },
+        {
+          "info": {
+            "name": "X Create DM Message by Participant ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/dm_conversations/with/:participant_id/messages",
+            "params": [
+              {
+                "name": "participant_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the recipient user that will receive the DM."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sends a new direct message to a specific participant by their ID."
+        },
+        {
+          "info": {
+            "name": "X Create DM Message by Conversation ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/dm_conversations/:dm_conversation_id/messages",
+            "params": [
+              {
+                "name": "dm_conversation_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The DM Conversation ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Sends a new direct message to a specific conversation by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get DM Events for a DM Conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/dm_conversations/:id/dm_events",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The DM conversation ID."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "event_types",
+                "value": "MessageCreate,ParticipantsLeave",
+                "type": "query",
+                "description": "The set of event_types to include in the results."
+              },
+              {
+                "name": "dm_event.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of DmEvent fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves direct message events for a specific conversation."
+        },
+        {
+          "info": {
+            "name": "X Get DM Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/dm_events",
+            "params": [
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "event_types",
+                "value": "MessageCreate,ParticipantsLeave",
+                "type": "query",
+                "description": "The set of event_types to include in the results."
+              },
+              {
+                "name": "dm_event.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of DmEvent fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of recent direct message events across all conversations."
+        },
+        {
+          "info": {
+            "name": "X Get DM Event by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/dm_events/:event_id",
+            "params": [
+              {
+                "name": "event_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "dm event id."
+              },
+              {
+                "name": "dm_event.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of DmEvent fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves details of a specific direct message event by its ID."
+        },
+        {
+          "info": {
+            "name": "X Delete DM Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/dm_events/:event_id",
+            "params": [
+              {
+                "name": "event_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the direct-message event to delete."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Deletes a specific direct message event by its ID, if owned by the authenticated user."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

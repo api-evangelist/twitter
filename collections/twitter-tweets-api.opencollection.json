@@ -1,0 +1,2392 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity Tweets API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tweets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Get 28-hour Post Insights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/insights/28hr",
+            "params": [
+              {
+                "name": "tweet_ids",
+                "value": "20",
+                "type": "query",
+                "description": "List of PostIds for 28hr metrics."
+              },
+              {
+                "name": "granularity",
+                "value": "Total",
+                "type": "query",
+                "description": "granularity of metrics response."
+              },
+              {
+                "name": "requested_metrics",
+                "value": "AppInstallAttempts",
+                "type": "query",
+                "description": "request metrics for historical request."
+              },
+              {
+                "name": "engagement.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Engagement fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves engagement metrics for specified Posts over the last 28 hours."
+        },
+        {
+          "info": {
+            "name": "X Get Historical Post Insights",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/insights/historical",
+            "params": [
+              {
+                "name": "tweet_ids",
+                "value": "20",
+                "type": "query",
+                "description": "List of PostIds for historical metrics."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The UTC timestamp representing the end of the time range."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The UTC timestamp representing the start of the time range."
+              },
+              {
+                "name": "granularity",
+                "value": "Total",
+                "type": "query",
+                "description": "granularity of metrics response."
+              },
+              {
+                "name": "requested_metrics",
+                "value": "AppInstallAttempts",
+                "type": "query",
+                "description": "request metrics for historical request."
+              },
+              {
+                "name": "engagement.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Engagement fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves historical engagement metrics for specified Posts within a defined time range."
+        },
+        {
+          "info": {
+            "name": "X Get List Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/lists/:id/tweets",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the List."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Posts associated with a specific List by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Space Ticket Buyers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/spaces/:id/buyers",
+            "params": [
+              {
+                "name": "id",
+                "value": "1YqKDqWqdPLsV",
+                "type": "path",
+                "description": "The ID of the Space to be retrieved."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Users who purchased tickets to a specific Space by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Space Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/spaces/:id/tweets",
+            "params": [
+              {
+                "name": "id",
+                "value": "1YqKDqWqdPLsV",
+                "type": "path",
+                "description": "The ID of the Space to be retrieved."
+              },
+              {
+                "name": "max_results",
+                "value": "25",
+                "type": "query",
+                "description": "The number of Posts to fetch from the provided space. If not provided, the value will default to the maximum of 100."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Posts shared in a specific Space by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Posts by IDs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets",
+            "params": [
+              {
+                "name": "ids",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Post IDs. Up to 100 are allowed in a single request."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves details of multiple Posts by their IDs."
+        },
+        {
+          "info": {
+            "name": "X Create or Edit Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/tweets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Creates a new Post for the authenticated user, or edits an existing Post when edit_options are provided. Supports paid partnership disclosure via the paid_partnership field."
+        },
+        {
+          "info": {
+            "name": "X Get Post Analytics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/analytics",
+            "params": [
+              {
+                "name": "ids",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Post IDs. Up to 100 are allowed in a single request."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The UTC timestamp representing the end of the time range."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The UTC timestamp representing the start of the time range."
+              },
+              {
+                "name": "granularity",
+                "value": "hourly",
+                "type": "query",
+                "description": "The granularity for the search counts results."
+              },
+              {
+                "name": "analytics.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Analytics fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves analytics data for specified Posts within a defined time range."
+        },
+        {
+          "info": {
+            "name": "X Get Count of All Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/counts/all",
+            "params": [
+              {
+                "name": "query",
+                "value": "(from:TwitterDev OR from:TwitterAPI) has:media -is:retweet",
+                "type": "query",
+                "description": "One query/rule/filter for matching Posts. Refer to https://t.co/rulelength to identify the max query length."
+              },
+              {
+                "name": "start_time",
+                "value": "2026-04-17T12:00:00Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The oldest UTC timestamp from which the Posts will be provided. Timestamp is in second granularity and is inclusive (i.e. 12:00:01 includes the first second of the minute)."
+              },
+              {
+                "name": "end_time",
+                "value": "2026-04-17T12:00:00Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The newest, most recent UTC timestamp to which the Posts will be provided. Timestamp is in second granularity and is exclusive (i.e. 12:00:01 excludes the first second of the minute)."
+              },
+              {
+                "name": "since_id",
+                "value": "1234567890",
+                "type": "query",
+                "description": "Returns results with a Post ID greater than (that is, more recent than) the specified ID."
+              },
+              {
+                "name": "until_id",
+                "value": "1234567890",
+                "type": "query",
+                "description": "Returns results with a Post ID less than (that is, older than) the specified ID."
+              },
+              {
+                "name": "next_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results. The value used with the parameter is pulled directly from the response provided by the API, and should not be modified."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results. The value used with the parameter is pulled directly from the response provided by the API, and should not be modified."
+              },
+              {
+                "name": "granularity",
+                "value": "minute",
+                "type": "query",
+                "description": "The granularity for the search counts results."
+              },
+              {
+                "name": "search_count.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of SearchCount fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves the count of Posts matching a search query from the full archive."
+        },
+        {
+          "info": {
+            "name": "X Get Count of Recent Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/counts/recent",
+            "params": [
+              {
+                "name": "query",
+                "value": "(from:TwitterDev OR from:TwitterAPI) has:media -is:retweet",
+                "type": "query",
+                "description": "One query/rule/filter for matching Posts. Refer to https://t.co/rulelength to identify the max query length."
+              },
+              {
+                "name": "start_time",
+                "value": "2026-04-17T12:00:00Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The oldest UTC timestamp (from most recent 7 days) from which the Posts will be provided. Timestamp is in second granularity and is inclusive (i.e. 12:00:01 includes the first second of the minute)."
+              },
+              {
+                "name": "end_time",
+                "value": "2026-04-17T12:00:00Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The newest, most recent UTC timestamp to which the Posts will be provided. Timestamp is in second granularity and is exclusive (i.e. 12:00:01 excludes the first second of the minute)."
+              },
+              {
+                "name": "since_id",
+                "value": "1234567890",
+                "type": "query",
+                "description": "Returns results with a Post ID greater than (that is, more recent than) the specified ID."
+              },
+              {
+                "name": "until_id",
+                "value": "1234567890",
+                "type": "query",
+                "description": "Returns results with a Post ID less than (that is, older than) the specified ID."
+              },
+              {
+                "name": "next_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results. The value used with the parameter is pulled directly from the response provided by the API, and should not be modified."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results. The value used with the parameter is pulled directly from the response provided by the API, and should not be modified."
+              },
+              {
+                "name": "granularity",
+                "value": "minute",
+                "type": "query",
+                "description": "The granularity for the search counts results."
+              },
+              {
+                "name": "search_count.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of SearchCount fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves the count of Posts from the last 7 days matching a search query."
+        },
+        {
+          "info": {
+            "name": "X Stream All Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/firehose/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all public Posts in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream English Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/firehose/stream/lang/en",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all public English-language Posts in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream Japanese Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/firehose/stream/lang/ja",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all public Japanese-language Posts in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream Korean Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/firehose/stream/lang/ko",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all public Korean-language Posts in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream Portuguese Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/firehose/stream/lang/pt",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams all public Portuguese-language Posts in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream Sampled Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/sample/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams a 1% sample of public Posts in real-time."
+        },
+        {
+          "info": {
+            "name": "X Stream 10% Sampled Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/sample10/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "partition",
+                "value": "42",
+                "type": "query",
+                "description": "The partition number."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams a 10% sample of public Posts in real-time."
+        },
+        {
+          "info": {
+            "name": "X Search All Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/search/all",
+            "params": [
+              {
+                "name": "query",
+                "value": "(from:TwitterDev OR from:TwitterAPI) has:media -is:retweet",
+                "type": "query",
+                "description": "One query/rule/filter for matching Posts. Refer to https://t.co/rulelength to identify the max query length."
+              },
+              {
+                "name": "start_time",
+                "value": "2026-04-17T12:00:00Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The oldest UTC timestamp from which the Posts will be provided. Timestamp is in second granularity and is inclusive (i.e. 12:00:01 includes the first second of the minute)."
+              },
+              {
+                "name": "end_time",
+                "value": "2026-04-17T12:00:00Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The newest, most recent UTC timestamp to which the Posts will be provided. Timestamp is in second granularity and is exclusive (i.e. 12:00:01 excludes the first second of the minute)."
+              },
+              {
+                "name": "since_id",
+                "value": "1234567890",
+                "type": "query",
+                "description": "Returns results with a Post ID greater than (that is, more recent than) the specified ID."
+              },
+              {
+                "name": "until_id",
+                "value": "1234567890",
+                "type": "query",
+                "description": "Returns results with a Post ID less than (that is, older than) the specified ID."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of search results to be returned by a request."
+              },
+              {
+                "name": "next_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results. The value used with the parameter is pulled directly from the response provided by the API, and should not be modified."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results. The value used with the parameter is pulled directly from the response provided by the API, and should not be modified."
+              },
+              {
+                "name": "sort_order",
+                "value": "recency",
+                "type": "query",
+                "description": "This order in which to return results."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves Posts from the full archive matching a search query."
+        },
+        {
+          "info": {
+            "name": "X Search Recent Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/search/recent",
+            "params": [
+              {
+                "name": "query",
+                "value": "(from:TwitterDev OR from:TwitterAPI) has:media -is:retweet",
+                "type": "query",
+                "description": "One query/rule/filter for matching Posts. Refer to https://t.co/rulelength to identify the max query length."
+              },
+              {
+                "name": "start_time",
+                "value": "2026-04-17T12:00:00Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The oldest UTC timestamp from which the Posts will be provided. Timestamp is in second granularity and is inclusive (i.e. 12:00:01 includes the first second of the minute)."
+              },
+              {
+                "name": "end_time",
+                "value": "2026-04-17T12:00:00Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The newest, most recent UTC timestamp to which the Posts will be provided. Timestamp is in second granularity and is exclusive (i.e. 12:00:01 excludes the first second of the minute)."
+              },
+              {
+                "name": "since_id",
+                "value": "1234567890",
+                "type": "query",
+                "description": "Returns results with a Post ID greater than (that is, more recent than) the specified ID."
+              },
+              {
+                "name": "until_id",
+                "value": "1234567890",
+                "type": "query",
+                "description": "Returns results with a Post ID less than (that is, older than) the specified ID."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of search results to be returned by a request."
+              },
+              {
+                "name": "next_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results. The value used with the parameter is pulled directly from the response provided by the API, and should not be modified."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results. The value used with the parameter is pulled directly from the response provided by the API, and should not be modified."
+              },
+              {
+                "name": "sort_order",
+                "value": "recency",
+                "type": "query",
+                "description": "This order in which to return results."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves Posts from the last 7 days matching a search query."
+        },
+        {
+          "info": {
+            "name": "X Stream Filtered Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/search/stream",
+            "params": [
+              {
+                "name": "backfill_minutes",
+                "value": "42",
+                "type": "query",
+                "description": "The number of minutes of backfill requested."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Posts will be provided."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Streams Posts in real-time matching the active rule set."
+        },
+        {
+          "info": {
+            "name": "X Get Stream Rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/search/stream/rules",
+            "params": [
+              {
+                "name": "ids",
+                "value": "",
+                "type": "query",
+                "description": "A comma-separated list of Rule IDs."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This value is populated by passing the 'next_token' returned in a request to paginate through results."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves the active rule set or a subset of rules for the filtered stream."
+        },
+        {
+          "info": {
+            "name": "X Update Stream Rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/tweets/search/stream/rules",
+            "params": [
+              {
+                "name": "dry_run",
+                "value": "true",
+                "type": "query",
+                "description": "Dry Run can be used with both the add and delete action, with the expected result given, but without actually taking any action in the system (meaning the end state will always be as it was when the request was submitted). This is particularly useful to validate rule changes."
+              },
+              {
+                "name": "delete_all",
+                "value": "true",
+                "type": "query",
+                "description": "Delete All can be used to delete all of the rules associated this client app, it should be specified with no other parameters. Once deleted, rules cannot be recovered."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Adds or deletes rules from the active rule set for the filtered stream."
+        },
+        {
+          "info": {
+            "name": "X Get Stream Rule Counts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/search/stream/rules/counts",
+            "params": [
+              {
+                "name": "rules_count.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of RulesCount fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves the count of rules in the active rule set for the filtered stream."
+        },
+        {
+          "info": {
+            "name": "X Get Post by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "A single Post ID."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves details of a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Delete Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/tweets/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the Post to be deleted."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Deletes a specific Post by its ID, if owned by the authenticated user."
+        },
+        {
+          "info": {
+            "name": "X Get Liking Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/:id/liking_users",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "A single Post ID."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Users who liked a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Quoted Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/:id/quote_tweets",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "A single Post ID."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results to be returned."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "exclude",
+                "value": "replies,retweets",
+                "type": "query",
+                "description": "The set of entities to exclude (e.g. 'replies' or 'retweets')."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Posts that quote a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Reposted by",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/:id/retweeted_by",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "A single Post ID."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Users who reposted a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Reposts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/tweets/:id/retweets",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "A single Post ID."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Posts that repost a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Hide Reply",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.x.com/2/tweets/:tweet_id/hidden",
+            "params": [
+              {
+                "name": "tweet_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the reply that you want to hide or unhide."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Hides or unhides a reply to a conversation owned by the authenticated user."
+        },
+        {
+          "info": {
+            "name": "X Get Liked Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/liked_tweets",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Posts liked by a specific User by their ID."
+        },
+        {
+          "info": {
+            "name": "X Like Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/users/:id/likes",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that is requesting to like the Post."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to Like a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Unlike Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/users/:id/likes/:tweet_id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that is requesting to unlike the Post."
+              },
+              {
+                "name": "tweet_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the Post that the User is requesting to unlike."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to Unlike a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Mentions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/mentions",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "since_id",
+                "value": "1234567890",
+                "type": "query",
+                "description": "The minimum Post ID to be included in the result set. This parameter takes precedence over start_time if both are specified."
+              },
+              {
+                "name": "until_id",
+                "value": "1346889436626259968",
+                "type": "query",
+                "description": "The maximum Post ID to be included in the result set. This parameter takes precedence over end_time if both are specified."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Posts will be provided. The since_id parameter takes precedence if it is also specified."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided. The until_id parameter takes precedence if it is also specified."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Posts that mention a specific User by their ID."
+        },
+        {
+          "info": {
+            "name": "X Repost Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/users/:id/retweets",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that is requesting to repost the Post."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to repost a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Unrepost Post",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/users/:id/retweets/:source_tweet_id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User that is requesting to repost the Post."
+              },
+              {
+                "name": "source_tweet_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the Post that the User is requesting to unretweet."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Causes the authenticated user to unrepost a specific Post by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Timeline",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/timelines/reverse_chronological",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the authenticated source User to list Reverse Chronological Timeline Posts of."
+              },
+              {
+                "name": "since_id",
+                "value": "791775337160081409",
+                "type": "query",
+                "description": "The minimum Post ID to be included in the result set. This parameter takes precedence over start_time if both are specified."
+              },
+              {
+                "name": "until_id",
+                "value": "1346889436626259968",
+                "type": "query",
+                "description": "The maximum Post ID to be included in the result set. This parameter takes precedence over end_time if both are specified."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "exclude",
+                "value": "replies,retweets",
+                "type": "query",
+                "description": "The set of entities to exclude (e.g. 'replies' or 'retweets')."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Posts will be provided. The since_id parameter takes precedence if it is also specified."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided. The until_id parameter takes precedence if it is also specified."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a reverse chronological list of Posts in the authenticated User’s Timeline."
+        },
+        {
+          "info": {
+            "name": "X Get Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/users/:id/tweets",
+            "params": [
+              {
+                "name": "id",
+                "value": "2244994945",
+                "type": "path",
+                "description": "The ID of the User to lookup."
+              },
+              {
+                "name": "since_id",
+                "value": "791775337160081409",
+                "type": "query",
+                "description": "The minimum Post ID to be included in the result set. This parameter takes precedence over start_time if both are specified."
+              },
+              {
+                "name": "until_id",
+                "value": "1346889436626259968",
+                "type": "query",
+                "description": "The maximum Post ID to be included in the result set. This parameter takes precedence over end_time if both are specified."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results."
+              },
+              {
+                "name": "exclude",
+                "value": "replies,retweets",
+                "type": "query",
+                "description": "The set of entities to exclude (e.g. 'replies' or 'retweets')."
+              },
+              {
+                "name": "start_time",
+                "value": "2021-02-01T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The earliest UTC timestamp from which the Posts will be provided. The since_id parameter takes precedence if it is also specified."
+              },
+              {
+                "name": "end_time",
+                "value": "2021-02-14T18:40:40.000Z",
+                "type": "query",
+                "description": "YYYY-MM-DDTHH:mm:ssZ. The latest UTC timestamp to which the Posts will be provided. The until_id parameter takes precedence if it is also specified."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of posts authored by a specific User by their ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

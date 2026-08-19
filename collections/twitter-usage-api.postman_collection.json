@@ -1,0 +1,198 @@
+{
+  "item": [
+    {
+      "id": "afe140b1-780d-4328-860d-c9301bd13015",
+      "name": "Usage",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "06bff866-6c9c-4cfb-af04-0cd9b999f397",
+          "name": "X Get Usage",
+          "request": {
+            "name": "X Get Usage",
+            "description": {
+              "content": "Retrieves usage statistics for Posts over a specified number of days.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "2",
+                "usage",
+                "tweets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "days",
+                  "value": "7",
+                  "description": "The number of days for which you need usage for."
+                },
+                {
+                  "disabled": false,
+                  "key": "usage.fields",
+                  "value": "<string>",
+                  "description": "A comma separated list of Usage fields to display."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c9f8e461-2730-4d07-9754-00dc7a0a5361",
+              "name": "The request has succeeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "usage",
+                    "tweets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "days",
+                      "value": "42"
+                    },
+                    {
+                      "key": "usage.fields",
+                      "value": "cap_reset_day,daily_client_app_usage,daily_project_usage,project_cap,project_id,project_usage"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"cap_reset_day\": 1387,\n    \"daily_client_app_usage\": [\n      {\n        \"client_app_id\": \"1234567890\",\n        \"usage_result_count\": 10\n      }\n    ],\n    \"daily_project_usage\": {\n      \"project_id\": 3999,\n      \"usage\": [\n        {\n          \"date\": \"2021-01-06T18:40:40.000Z\",\n          \"usage\": 2267\n        }\n      ]\n    },\n    \"project_cap\": 3756,\n    \"project_id\": \"string\",\n    \"project_usage\": 4748\n  },\n  \"errors\": [\n    {\n      \"type\": \"string\",\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"status\": 559\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2392770b-dcef-4aa8-abac-24fa7244a6db",
+              "name": "The request has failed.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "2",
+                    "usage",
+                    "tweets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "days",
+                      "value": "42"
+                    },
+                    {
+                      "key": "usage.fields",
+                      "value": "cap_reset_day,daily_client_app_usage,daily_project_usage,project_cap,project_id,project_usage"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 2136,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.x.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "11fbf593-77be-4a53-9c53-a6ab420be60f",
+    "name": "X API v2 Account Activity Usage API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "X API v2 available endpoints\n\nContact Support:\n Name: X Developers",
+      "type": "text/plain"
+    }
+  }
+}

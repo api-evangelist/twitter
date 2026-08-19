@@ -1,0 +1,100 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity Communities API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Communities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Search Communities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/communities/search",
+            "params": [
+              {
+                "name": "query",
+                "value": "Love",
+                "type": "query",
+                "description": "Query to search communities."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of search results to be returned by a request."
+              },
+              {
+                "name": "next_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results. The value used with the parameter is pulled directly from the response provided by the API, and should not be modified."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get the next 'page' of results. The value used with the parameter is pulled directly from the response provided by the API, and should not be modified."
+              },
+              {
+                "name": "community.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Community fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Communities matching the specified search query."
+        },
+        {
+          "info": {
+            "name": "X Get Community by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/communities/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The ID of the Community."
+              },
+              {
+                "name": "community.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Community fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves details of a specific Community by its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

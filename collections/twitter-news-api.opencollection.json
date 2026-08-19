@@ -1,0 +1,88 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity News API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "News",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Search News",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/news/search",
+            "params": [
+              {
+                "name": "query",
+                "value": "crypto",
+                "type": "query",
+                "description": "The search query."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The number of results to return."
+              },
+              {
+                "name": "max_age_hours",
+                "value": "42",
+                "type": "query",
+                "description": "The maximum age of the News story to search for."
+              },
+              {
+                "name": "news.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of News fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of News stories matching the specified search query."
+        },
+        {
+          "info": {
+            "name": "X Get News Stories by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/news/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "119929381293",
+                "type": "path",
+                "description": "The ID of the news story."
+              },
+              {
+                "name": "news.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of News fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves news story by its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

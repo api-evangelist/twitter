@@ -1,0 +1,182 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Account Activity",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Create Replay Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/account_activity/replay/webhooks/:webhook_id/subscriptions/all",
+            "params": [
+              {
+                "name": "webhook_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The unique identifier for the webhook configuration."
+              },
+              {
+                "name": "from_date",
+                "value": "202504242000",
+                "type": "query",
+                "description": "The oldest (starting) UTC timestamp (inclusive) from which events will be provided, in `yyyymmddhhmm` format."
+              },
+              {
+                "name": "to_date",
+                "value": "202504242200",
+                "type": "query",
+                "description": "The latest (ending) UTC timestamp (exclusive) up to which events will be provided, in `yyyymmddhhmm` format."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a replay job to retrieve activities from up to the past 5 days for all subscriptions associated with a given webhook."
+        },
+        {
+          "info": {
+            "name": "X Get Subscription Count",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/account_activity/subscriptions/count",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a count of currently active Account Activity subscriptions."
+        },
+        {
+          "info": {
+            "name": "X Validate Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/account_activity/webhooks/:webhook_id/subscriptions/all",
+            "params": [
+              {
+                "name": "webhook_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The webhook ID to check subscription against."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Checks a user’s Account Activity subscription for a given webhook."
+        },
+        {
+          "info": {
+            "name": "X Create Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.x.com/2/account_activity/webhooks/:webhook_id/subscriptions/all",
+            "params": [
+              {
+                "name": "webhook_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The webhook ID to check subscription against."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Creates an Account Activity subscription for the user and the given webhook."
+        },
+        {
+          "info": {
+            "name": "X Get Subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/account_activity/webhooks/:webhook_id/subscriptions/all/list",
+            "params": [
+              {
+                "name": "webhook_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The webhook ID to pull subscriptions for."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of all active subscriptions for a given webhook."
+        },
+        {
+          "info": {
+            "name": "X Delete Subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.x.com/2/account_activity/webhooks/:webhook_id/subscriptions/:user_id/all",
+            "params": [
+              {
+                "name": "webhook_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "The webhook ID to check subscription against."
+              },
+              {
+                "name": "user_id",
+                "value": "1234567890",
+                "type": "path",
+                "description": "User ID to unsubscribe from."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Deletes an Account Activity subscription for the given webhook and user ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,342 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "X API v2 Account Activity Spaces API",
+    "version": "2.161"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Spaces",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "X Get Spaces by IDs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/spaces",
+            "params": [
+              {
+                "name": "ids",
+                "value": "1SLjjRYNejbKM",
+                "type": "query",
+                "description": "The list of Space IDs to return."
+              },
+              {
+                "name": "space.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Space fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "topic.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Topic fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves details of multiple Spaces by their IDs."
+        },
+        {
+          "info": {
+            "name": "X Get Spaces by Creator IDs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/spaces/by/creator_ids",
+            "params": [
+              {
+                "name": "user_ids",
+                "value": "",
+                "type": "query",
+                "description": "The IDs of Users to search through."
+              },
+              {
+                "name": "space.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Space fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "topic.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Topic fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves details of Spaces created by specified User IDs."
+        },
+        {
+          "info": {
+            "name": "X Search Spaces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/spaces/search",
+            "params": [
+              {
+                "name": "query",
+                "value": "crypto",
+                "type": "query",
+                "description": "The search query."
+              },
+              {
+                "name": "state",
+                "value": "live",
+                "type": "query",
+                "description": "The state of Spaces to search for."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The number of results to return."
+              },
+              {
+                "name": "space.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Space fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "topic.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Topic fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Spaces matching the specified search query."
+        },
+        {
+          "info": {
+            "name": "X Get Space by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/spaces/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "1YqKDqWqdPLsV",
+                "type": "path",
+                "description": "The ID of the Space to be retrieved."
+              },
+              {
+                "name": "space.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Space fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "topic.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Topic fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves details of a specific space by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Space Ticket Buyers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/spaces/:id/buyers",
+            "params": [
+              {
+                "name": "id",
+                "value": "1YqKDqWqdPLsV",
+                "type": "path",
+                "description": "The ID of the Space to be retrieved."
+              },
+              {
+                "name": "pagination_token",
+                "value": "next_token_abc123",
+                "type": "query",
+                "description": "This parameter is used to get a specified 'page' of results."
+              },
+              {
+                "name": "max_results",
+                "value": "10",
+                "type": "query",
+                "description": "The maximum number of results."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              }
+            ],
+            "auth": {
+              "type": "oauth2",
+              "flow": "authorization_code",
+              "authorizationUrl": "https://api.x.com/2/oauth2/authorize",
+              "accessTokenUrl": "https://api.x.com/2/oauth2/token",
+              "credentials": {
+                "clientId": "{{clientId}}",
+                "clientSecret": "{{clientSecret}}"
+              }
+            }
+          },
+          "docs": "Retrieves a list of Users who purchased tickets to a specific Space by its ID."
+        },
+        {
+          "info": {
+            "name": "X Get Space Posts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.x.com/2/spaces/:id/tweets",
+            "params": [
+              {
+                "name": "id",
+                "value": "1YqKDqWqdPLsV",
+                "type": "path",
+                "description": "The ID of the Space to be retrieved."
+              },
+              {
+                "name": "max_results",
+                "value": "25",
+                "type": "query",
+                "description": "The number of Posts to fetch from the provided space. If not provided, the value will default to the maximum of 100."
+              },
+              {
+                "name": "tweet.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Tweet fields to display."
+              },
+              {
+                "name": "expansions",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of fields to expand."
+              },
+              {
+                "name": "media.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Media fields to display."
+              },
+              {
+                "name": "poll.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Poll fields to display."
+              },
+              {
+                "name": "user.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of User fields to display."
+              },
+              {
+                "name": "place.fields",
+                "value": "",
+                "type": "query",
+                "description": "A comma separated list of Place fields to display."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieves a list of Posts shared in a specific Space by its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
