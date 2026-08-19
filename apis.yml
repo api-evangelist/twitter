@@ -24,7 +24,7 @@ image: https://abs.twimg.com/favicons/twitter.ico
 url: https://raw.githubusercontent.com/api-evangelist/twitter/refs/heads/main/apis.yml
 created: '2025-07-29'
 modified: '2026-05-19'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 tags:
 - Social Media
 - Microblogging
