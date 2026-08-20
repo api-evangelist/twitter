@@ -26,6 +26,13 @@ created: '2025-07-29'
 modified: '2026-05-19'
 specificationVersion: '0.23'
 tags:
+- Social-Media
+- Microblogging
+- Real-Time Data
+- Streaming
+- Advertising
+- Content
+tags_raw:
 - Social Media
 - Microblogging
 - Real-Time Data
@@ -69,6 +76,12 @@ apis:
   - type: Documentation
     url: https://docs.x.com/x-activity-api
   tags:
+  - Activity
+  - Event
+  - Real-Time
+  - Streaming
+  - Webhook
+  tags_raw:
   - Activity
   - Events
   - Real-Time
@@ -313,7 +326,8 @@ apis:
   description: Miscellaneous endpoints for general API functionality
   humanURL: https://docs.x.com/x-api
   baseURL: https://api.x.com/2
-  tags:
+  tags: []
+  tags_raw:
   - General
   properties:
   - type: OpenAPI
@@ -366,6 +380,8 @@ apis:
   humanURL: https://docs.x.com/x-api
   baseURL: https://api.x.com/2
   tags:
+  - List
+  tags_raw:
   - Lists
   properties:
   - type: OpenAPI
@@ -574,6 +590,8 @@ apis:
   humanURL: https://docs.x.com/x-api
   baseURL: https://api.x.com/2
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -600,6 +618,8 @@ apis:
   humanURL: https://docs.x.com/x-api
   baseURL: https://api.x.com/2
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
