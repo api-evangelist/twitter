@@ -11,8 +11,11 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: xApi
-  url: ../openapi/x-api-openapi.json
+- name: tweetsApi
+  url: ../openapi/twitter-tweets-api-openapi.yml
+  type: openapi
+- name: usersApi
+  url: ../openapi/twitter-users-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: reply-to-latest-post

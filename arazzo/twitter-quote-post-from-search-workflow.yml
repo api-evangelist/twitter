@@ -10,8 +10,8 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: xApi
-  url: ../openapi/x-api-openapi.json
+- name: tweetsApi
+  url: ../openapi/twitter-tweets-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: quote-post-from-search
