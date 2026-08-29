@@ -7,6 +7,19 @@ description: X (formerly Twitter) is a social media platform providing APIs for 
   activity events. Available through pay-per-use credit-based pricing with enterprise
   options for high-volume access.
 type: Index
+deliveryModel:
+  model: unknown
+  open_source: unknown
+  commercial: true
+  callable_host: true
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - openapi
+  - pricing
+  - repository-unlicensed
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
@@ -641,6 +654,12 @@ apis:
   - type: GraphQL
     url: graphql/twitter-graphql.md
 common:
+- type: IssueTracker
+  url: https://github.com/xdevplatform/xdk-python/issues
+- type: Releases
+  url: https://github.com/xdevplatform/xdk-python/releases
+- type: CodeOfConduct
+  url: https://github.com/xdevplatform/.github/blob/main/code-of-conduct.md
 - type: AgenticAccess
   url: agentic-access/twitter-agentic-access.yml
 - type: Authentication
