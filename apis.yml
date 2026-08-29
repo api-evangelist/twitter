@@ -654,6 +654,9 @@ apis:
   - type: GraphQL
     url: graphql/twitter-graphql.md
 common:
+- type: CapabilityMap
+  url: capabilities/twitter-capability-edges.yml
+  name: X (Twitter) Business Capability Map
 - type: IssueTracker
   url: https://github.com/xdevplatform/xdk-python/issues
 - type: Releases

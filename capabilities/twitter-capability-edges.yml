@@ -1,0 +1,67 @@
+slug: twitter
+provider: X (Twitter)
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Media, Entertainment & Telecom Content
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 5
+edges:
+- tag: Webhooks
+  spec_file: twitter-webhooks-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.9
+  evidence: POST /2/webhooks createWebhooks 'X Create Webhook'; POST /2/webhooks/replay 'X Create Replay
+    Job for Webhook'; schema WebhookConfig
+  reason: Lifecycle of outbound webhook subscriptions and delivery replay — exactly Webhook & Event Subscription
+    Management on a developer platform.
+- tag: Account Activity
+  spec_file: twitter-account-activity-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.8
+  evidence: POST /2/account_activity/webhooks/{webhook_id}/subscriptions/all  createAccountActivitySubscription  X
+    Create Subscription; POST .../replay/webhooks/{webhook_id}/subscriptions/all  createAccountActivityReplayJob
+  reason: All six operations create, list, count, validate and delete webhook event subscriptions plus
+    a delivery replay job — outbound event subscription lifecycle for external developers, i.e. BC-4270.80.
+- tag: Usage
+  spec_file: twitter-usage-api-openapi.yml
+  capability_id: BC-4270.50
+  capability_id_l1: BC-4270
+  capability_name: API Consumption Governance
+  confidence: 0.72
+  evidence: GET /2/usage/tweets getUsage 'X Get Usage'; schemas ClientAppUsage, UsageFields
+  reason: Reports API consumption/usage for the developer's client app against plan limits — API consumption
+    governance on a developer platform, not a business capability of the buyer.
+- tag: Activity
+  spec_file: twitter-activity-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.7
+  evidence: 'POST /2/activity/subscriptions  createActivitySubscription  X Create X Activity Subscription;
+    schemas: ActivitySubscriptionFilter, ActivityStreamingResponse, WebhookConfigId'
+  reason: CRUD over event subscriptions with filters, tied to WebhookConfigId, plus an activity stream
+    — event subscription and delivery management on the developer platform. Slightly lower confidence
+    because part of the surface is a streaming read rather than webhook delivery.
+- tag: Media
+  spec_file: twitter-media-api-openapi.yml
+  capability_id: BC-3710
+  capability_id_l1: BC-3710
+  capability_name: Media Asset Management
+  confidence: 0.7
+  evidence: POST /2/media/upload 'X Upload Media'; 'X Initialize Media Upload'; 'X Create Media Metadata';
+    'X Create Media Subtitles'; schemas `MediaCategorySubtitles`, `MetadataCreateRequest`
+  reason: Operations onboard media files via chunked upload (initialize/append/finalize), attach descriptive
+    metadata and subtitle tracks, and retrieve media by media key — ingest, cataloguing and identifier
+    handling of media assets. Mapped at L1 because the surface spans ingest, metadata and subtitling rather
+    than naming one sub-capability.
