@@ -39,14 +39,15 @@ created: '2025-07-29'
 modified: '2026-05-19'
 specificationVersion: '0.23'
 tags:
+- X / Twitter
 - Social-Media
 - Microblogging
 - Real-Time Data
 - Streaming
 - Advertising
 - Content
-- X / Twitter
 tags_raw:
+- X / Twitter
 - Social Media
 - Microblogging
 - Real-Time Data
@@ -72,6 +73,12 @@ apis:
   - type: RateLimits
     url: https://docs.x.com/x-ads-api/fundamentals/rate-limiting
   tags:
+  - Advertising
+  - Campaigns
+  - Analytics
+  - Audiences
+  - Creative
+  tags_raw:
   - Advertising
   - Campaigns
   - Analytics
@@ -474,6 +481,8 @@ apis:
   humanURL: https://docs.x.com/x-api
   baseURL: https://api.x.com/2
   tags:
+  - Space
+  tags_raw:
   - Spaces
   properties:
   - type: OpenAPI
